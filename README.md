@@ -8,6 +8,8 @@ Diseñada bajo el sistema visual **Academic Flow 2.0** (inspirado en Framer, Kir
 
 📝 **Registro de cambios del fork:** ver [`docs/CAMBIOS.md`](docs/CAMBIOS.md) (qué cambió, por qué y cómo comprobarlo).
 
+🎬 **Guion para presentar la demo:** ver [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md).
+
 ---
 
 ## 1. Experiencia de Usuario "Academic Flow 2.0"
