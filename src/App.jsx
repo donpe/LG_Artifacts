@@ -11,6 +11,7 @@ import Phase0Modal from './features/phase0/Phase0Modal.jsx';
 import TutorReviewModal from './features/review/TutorReviewModal.jsx';
 import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
+import { getStageActions } from './domain/stageMachine.js';
 
 /**
  * App — Contenedor Principal de la Plataforma de Seguimiento Académico
@@ -68,6 +69,15 @@ export default function App() {
     return validateGate0(currentProject.gate0Items);
   }, [currentProject.gate0Items]);
 
+  // Acciones permitidas sobre la etapa activa según rol y reglas de negocio (stageMachine.js).
+  // Se usa tanto para habilitar botones como para validar en los manejadores.
+  const stageActions = useMemo(() => getStageActions({
+    stages: currentProject.stages,
+    stageId: activeStage.id,
+    role,
+    isGate0Compliant: gate0Analysis.isFullyCompliant
+  }), [currentProject.stages, activeStage.id, role, gate0Analysis.isFullyCompliant]);
+
   // Conteo de proyectos pendientes de revisión para el tutor
   const pendingReviewCount = useMemo(() => {
     return projects.filter(p => p.stages.some(s => s.status === 'en_revision' || s.status === 'observado')).length;
@@ -122,6 +132,10 @@ export default function App() {
 
   // Manejador: Entrega de evidencia por el estudiante
   const handleStudentUploadEvidence = () => {
+    if (!stageActions.upload.allowed) {
+      showToast(stageActions.upload.reason);
+      return;
+    }
     const today = new Date().toISOString().split('T')[0];
     const newVersion = `v1.${(currentProject.evidences || []).length + 1}`;
     const newFilename = `Evidencia_Etapa_${activeStage.id}_${newVersion}.pdf`;
@@ -166,6 +180,10 @@ export default function App() {
 
   // Manejador: Registro formal de observaciones del tutor
   const handleTutorRequestChanges = ({ notes, milestone, deadline }) => {
+    if (!stageActions.requestChanges.allowed) {
+      showToast(stageActions.requestChanges.reason);
+      return;
+    }
     const newLog = {
       id: Date.now(),
       timestamp: new Date().toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' }),
@@ -196,8 +214,9 @@ export default function App() {
 
   // Manejador: Aprobación formal de etapa por el tutor
   const handleTutorApproveStage = ({ notes, milestone, deadline }) => {
-    if (activeStage.id === 1 && !gate0Analysis.isFullyCompliant) {
-      showToast('⚠️ No se puede aprobar la Etapa 1: Los 14 criterios de Gate 0 deben estar conformes.');
+    // Incluye Gate 0 (etapa 1), no saltar etapas y que exista una entrega.
+    if (!stageActions.approve.allowed) {
+      showToast(stageActions.approve.reason);
       return;
     }
 
@@ -308,6 +327,7 @@ export default function App() {
               onSelectStage={setActiveStageId}
               onOpenDrawer={handleOpenDrawer}
               onUploadEvidence={handleStudentUploadEvidence}
+              stageActions={stageActions}
             />
           )}
 
@@ -321,6 +341,7 @@ export default function App() {
               onToggleGateItem={handleToggleGateItem}
               onOpenDrawer={handleOpenDrawer}
               tutorName={currentProject.tutor}
+              stageActions={stageActions}
             />
           )}
 
@@ -365,6 +386,7 @@ export default function App() {
         onTutorRequestChanges={handleTutorRequestChanges}
         onTutorApproveStage={handleTutorApproveStage}
         onOpenDrawer={handleOpenDrawer}
+        stageActions={stageActions}
       />
 
       {/* 4. Modales de Apoyo Directo (Opcionales o lanzados por accesos directos) */}

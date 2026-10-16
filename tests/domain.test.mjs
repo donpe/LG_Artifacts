@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { calculateProgress, calculateRiskLevel } from '../src/domain/progressCalculator.js';
-import { canTransition, STAGE_STATUS } from '../src/domain/stageMachine.js';
+import { canTransition, getStageActions, STAGE_STATUS } from '../src/domain/stageMachine.js';
 import { validateGate0 } from '../src/domain/gate0Validator.js';
 import { sanitizeCSVValue, exportProjectToCSV } from '../src/domain/csvExporter.js';
 import { PILOT_PROJECTS } from '../src/data/pilotData.js';
@@ -95,6 +95,21 @@ const observeWithoutNote = canTransition({
 });
 assert.equal(observeWithoutNote.allowed, false, 'Observación no puede estar vacía');
 console.log('     ✓ Restricciones de autorización y precondiciones validadas.');
+
+// getStageActions: reglas aplicadas en la interfaz (Fase 1)
+const mkStages = (...st) => st.map((status, i) => ({ id: i + 1, status }));
+const pend6 = mkStages('aprobado', 'en_revision', 'pendiente', 'pendiente', 'pendiente', 'pendiente');
+assert.equal(getStageActions({ stages: pend6, stageId: 4, role: 'estudiante' }).upload.allowed, false, 'Estudiante no puede entregar saltando etapas');
+assert.equal(getStageActions({ stages: pend6, stageId: 2, role: 'estudiante' }).upload.allowed, true, 'Estudiante puede reemplazar entrega en revisión');
+assert.equal(getStageActions({ stages: pend6, stageId: 1, role: 'estudiante' }).upload.allowed, false, 'No se entrega sobre etapa aprobada');
+assert.equal(getStageActions({ stages: pend6, stageId: 2, role: 'tutor' }).approve.allowed, true, 'Tutor aprueba etapa en revisión con previa aprobada');
+assert.equal(getStageActions({ stages: pend6, stageId: 3, role: 'tutor' }).approve.allowed, false, 'Tutor no aprueba etapa sin entrega');
+const skip = mkStages('en_revision', 'en_revision', 'pendiente', 'pendiente', 'pendiente', 'pendiente');
+assert.equal(getStageActions({ stages: skip, stageId: 2, role: 'tutor' }).approve.allowed, false, 'Tutor no aprueba etapa 2 sin etapa 1 aprobada');
+assert.equal(getStageActions({ stages: skip, stageId: 1, role: 'tutor', isGate0Compliant: false }).approve.allowed, false, 'Gate 0 incompleto bloquea etapa 1');
+assert.equal(getStageActions({ stages: skip, stageId: 1, role: 'tutor' }).requestChanges.allowed, true, 'Tutor puede observar entrega en revisión');
+assert.equal(getStageActions({ stages: pend6, stageId: 2, role: 'estudiante' }).approve.allowed, false, 'Estudiante nunca aprueba');
+console.log('     ✓ Acciones de etapa en la interfaz (getStageActions) validadas.');
 
 // --- 3. Auditoría Gate 0 (14 Criterios y No Auto-aprobación) ---
 console.log('  3. Verificando validador de Gate 0...');

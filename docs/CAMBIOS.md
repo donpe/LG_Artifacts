@@ -59,3 +59,35 @@ Rama de integración: `fase-1/victorias-tempranas`
 
 **Cómo comprobarlo.** Entrar como *Tutor*, seleccionar cualquier proyecto y abrir la pestaña
 *Criterios*: cada casilla muestra su código (G0-01…G0-14), el criterio y la verificación sugerida.
+
+### 1.2 Aplicar las reglas de etapas en la interfaz — `feat/aplicar-reglas-de-transicion-de-etapas`
+
+**Problema.** `src/domain/stageMachine.js` ya tenía las reglas del flujo académico (`canTransition`),
+pero solo las usaban los tests. En la interfaz se podía:
+- entregar evidencia en una etapa futura (por ejemplo la 4 sin tener aprobada la 3);
+- aprobar una etapa sin que la anterior estuviera aprobada;
+- aprobar o solicitar cambios sobre una etapa sin entrega.
+
+**Cambio.**
+- Nueva función `getStageActions()` en `stageMachine.js`. Para la etapa activa y el rol actual responde
+  si se puede **entregar**, **aprobar** o **solicitar cambios**, y por qué no cuando está bloqueado.
+  Reutiliza `canTransition`, así que las reglas siguen en un solo lugar.
+- `App.jsx` calcula `stageActions` una vez y lo pasa a las vistas. Los manejadores también lo validan
+  (si algo llega por otra vía, se muestra el motivo en un aviso y no se cambia el estado).
+- Tutor: *Aprobar etapa* y *Solicitar cambios* se deshabilitan cuando no aplican y se muestra el motivo.
+- Estudiante: en una etapa bloqueada, el botón de entrega se reemplaza por el motivo.
+- Panel lateral: el formulario de aprobación explica cualquier bloqueo, no solo el de Gate 0.
+- Mensajes de las reglas corregidos con tildes.
+- Nuevas pruebas en `tests/domain.test.mjs` para `getStageActions`.
+
+**Decisión.** Mientras una etapa está *en revisión*, el estudiante puede subir una nueva versión
+(reemplaza la entrega sin perder las anteriores). Las reglas originales no contemplaban este caso.
+
+**Archivos.** `src/domain/stageMachine.js`, `src/App.jsx`, `src/features/tutor/TutorWorkspace.jsx`,
+`src/features/student/StudentWorkspace.jsx`, `src/components/layout/AdaptiveContextPanel.jsx`,
+`tests/domain.test.mjs`.
+
+**Cómo comprobarlo.**
+1. Rol *Tutor*, proyecto de Mateo R. (Gate 0 en 12/14): *Aprobar etapa* está deshabilitado y explica que faltan criterios.
+2. Rol *Estudiante*, clic en *Etapa 4*: en lugar del botón de entrega aparece "No se puede habilitar una etapa si la anterior no está aprobada."
+3. `npm test` incluye los casos nuevos.

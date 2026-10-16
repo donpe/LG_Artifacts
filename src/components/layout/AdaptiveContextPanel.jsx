@@ -19,7 +19,8 @@ export default function AdaptiveContextPanel({
   onTogglePhase0Step,
   onStudentUploadEvidence,
   onTutorRequestChanges,
-  onTutorApproveStage
+  onTutorApproveStage,
+  stageActions
 }) {
   const panelRef = useRef(null);
 
@@ -85,7 +86,7 @@ export default function AdaptiveContextPanel({
             <p className="text-xs text-[#57534E]">No hay observaciones registradas para esta etapa.</p>
           )}
 
-          {role === 'estudiante' && activeStage.status !== 'aprobado' && (
+          {stageActions?.upload.allowed && (
             <button
               type="button"
               onClick={() => {
@@ -317,11 +318,15 @@ export default function AdaptiveContextPanel({
     // 6. Formulario de Aprobar Etapa (Tutor)
     if (title.includes('Aprobar etapa') || title.includes('Confirmar aprobación')) {
       const isGate0Blocked = activeStage.id === 1 && !gate0Analysis.isFullyCompliant;
+      // Otras reglas (no saltar etapas, etapa sin entrega o ya aprobada) vienen de stageMachine.js.
+      const approveBlockedReason = !isGate0Blocked && stageActions && !stageActions.approve.allowed
+        ? stageActions.approve.reason
+        : null;
       return (
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (isGate0Blocked) return;
+            if (isGate0Blocked || approveBlockedReason) return;
             onTutorApproveStage({
               notes: e.target.notes.value.trim(),
               milestone: activeStage.id < 6 ? `Inicio de Etapa ${activeStage.id + 1}` : 'Culminación de Trabajo de Grado',
@@ -337,6 +342,11 @@ export default function AdaptiveContextPanel({
               <p className="text-[11px] text-[#57534E]">
                 Actualmente hay <strong>{gate0Analysis.completedCount} de 14</strong> criterios conformes. Debe certificar el 100% de Gate 0 antes de aprobar la Etapa 1.
               </p>
+            </div>
+          ) : approveBlockedReason ? (
+            <div className="p-3.5 bg-[#FEF2F2] rounded-xl border border-[#FCA5A5] text-[11px] text-[#B42318]">
+              <strong className="block font-bold">No se puede aprobar esta etapa</strong>
+              {approveBlockedReason}
             </div>
           ) : (
             <div className="p-3 bg-[#EDF7F2] rounded-xl border border-[#9CD5BE] text-[11px] text-[#146C4F]">
@@ -370,9 +380,9 @@ export default function AdaptiveContextPanel({
 
           <button
             type="submit"
-            disabled={isGate0Blocked}
+            disabled={isGate0Blocked || !!approveBlockedReason}
             className={`w-full py-2.5 px-4 font-bold rounded-xl transition-colors shadow-xs ${
-              isGate0Blocked
+              isGate0Blocked || approveBlockedReason
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-[#146C4F] text-white hover:bg-[#0E523C]'
             }`}
@@ -390,7 +400,7 @@ export default function AdaptiveContextPanel({
         <div className="space-y-4 text-xs">
           <div className="flex justify-between items-center text-xs pb-2 border-b border-[#E8E1D5]">
             <strong className="text-[#1C1917]">Versiones Entregadas ({evidences.length})</strong>
-            {role === 'estudiante' && activeStage.status !== 'aprobado' && (
+            {stageActions?.upload.allowed && (
               <button
                 type="button"
                 onClick={() => {
