@@ -418,3 +418,29 @@ vuelve a mostrarla.
 
 **Cómo comprobarlo.** Rol *Tutor*: pasar el cursor sobre "Gate 0" en *Auditoría Gate 0*. Pasar el cursor
 sobre cualquier pastilla ("En revisión", "Riesgo Alto"). Barra lateral → *Ayuda contextual* → glosario.
+
+### 3.3 Mensajes claros según el estado de la etapa — `fix/mensajes-claros-segun-estado-de-la-etapa`
+
+**Problema.** En la vista del estudiante:
+- Al hacer clic en una etapa futura, la tarjeta decía "Entrega la evidencia formal de la Etapa #4" aunque
+  estaba bloqueada, y el riel la marcaba como "En curso" solo por estar seleccionada.
+- El riel mostraba "Pendiente" para todo lo que no estuviera aprobado, sin distinguir entre la etapa
+  que sigue y las que aún están lejos.
+- En celular, el texto de cambios solicitados mostraba literalmente `&bull;`.
+- Algunos textos eran rebuscados ("Has culminado con éxito esta etapa académica", "dictamen").
+
+**Cambio.**
+- El riel muestra el estado real de cada etapa: *Aprobada*, *En revisión*, *Cambios solicitados*,
+  *Por entregar* (la siguiente habilitada) o *Bloqueada*. La que se está mirando se marca "· viendo".
+- La tarjeta *Tu siguiente paso* explica cada caso en lenguaje simple:
+  - **Bloqueada**: "La Etapa 4 aún no está habilitada. Se habilita cuando el tutor apruebe la Etapa 3.
+    Por ahora tu trabajo está en la Etapa 1", con el botón **Ir a mi etapa actual**.
+  - **Aprobada**: "La Etapa N ya está aprobada… No necesitas hacer nada más", con el mismo botón.
+  - **En revisión**: explica que el tutor está revisando y que se puede subir una nueva versión
+    (botón *Subir nueva versión*).
+- Corregido el `&bull;` literal en la vista móvil.
+
+**Archivos.** `src/features/student/StudentWorkspace.jsx`.
+
+**Cómo comprobarlo.** Rol *Estudiante* (Mateo Restrepo) → clic en la Etapa 4: el riel dice "Bloqueada · viendo"
+y la tarjeta explica por qué, con *Ir a mi etapa actual (Etapa 1)*.

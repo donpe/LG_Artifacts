@@ -2,6 +2,7 @@ import React from 'react';
 import { FileText, Clock, Layers, ChevronRight, Download, Upload } from 'lucide-react';
 import Term from '../../components/Term.jsx';
 import StatusBadge from '../../components/StatusBadge.jsx';
+import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
  * StudentWorkspace — Espacio de Trabajo del Estudiante (Academic Flow 2.0)
@@ -32,6 +33,20 @@ export default function StudentWorkspace({
       date: '12 oct. 2026',
       size: '2.4 MB'
     };
+
+  // Etapa en la que realmente va el proyecto (puede ser distinta de la que el estudiante está mirando).
+  const currentStage = getCurrentStage(project.stages || []);
+  const isViewingOtherStage = currentStage && currentStage.id !== activeStage.id;
+  const isLocked = activeStage.status === 'pendiente' && !stageActions?.upload.allowed;
+
+  // Texto corto del estado de cada etapa en el riel (Fase 3: mensajes claros).
+  const railLabel = (st) => {
+    if (st.status === 'aprobado') return 'Aprobada';
+    if (st.status === 'en_revision') return 'En revisión';
+    if (st.status === 'observado') return 'Cambios solicitados';
+    const prev = project.stages.find(x => x.id === st.id - 1);
+    return !prev || prev.status === 'aprobado' ? 'Por entregar' : 'Bloqueada';
+  };
 
   // Next commitment
   const pendingCommitment = (project.commitments || []).find(c => c.status === 'pendiente');
@@ -125,7 +140,7 @@ export default function StudentWorkspace({
                     Etapa {st.id}: {st.name.split('(')[0]}
                   </span>
                   <span className="block text-[10px] text-(--light)">
-                    {isApproved ? 'Aprobado' : isCurrent ? (st.status === 'observado' ? 'Observado' : 'En curso') : 'Pendiente'}
+                    {railLabel(st)}{isCurrent ? ' · viendo' : ''}
                   </span>
                 </div>
               </button>
@@ -140,10 +155,8 @@ export default function StudentWorkspace({
           </strong>
           <small className="block text-[11px] text-(--muted)">
             {activeStage.status === 'observado'
-              ? 'Cambios solicitados &bull; revisa las observaciones del tutor'
-              : activeStage.status === 'aprobado'
-              ? 'Etapa aprobada formalmente'
-              : 'En desarrollo'}
+              ? 'Cambios solicitados • revisa las observaciones del tutor'
+              : railLabel(activeStage)}
           </small>
         </div>
 
@@ -179,19 +192,23 @@ export default function StudentWorkspace({
                 {activeStage.status === 'observado'
                   ? 'Revisa las observaciones y prepara una nueva versión'
                   : activeStage.status === 'en_revision'
-                  ? 'Tu evidencia está en proceso de revisión por el tutor'
+                  ? 'Tu entrega está en revisión del tutor'
                   : activeStage.status === 'aprobado'
-                  ? 'Has culminado con éxito esta etapa académica'
-                  : `Entrega la evidencia formal de la Etapa #${activeStage.id}`}
+                  ? `La Etapa ${activeStage.id} ya está aprobada`
+                  : isLocked
+                  ? `La Etapa ${activeStage.id} aún no está habilitada`
+                  : `Entrega la evidencia de la Etapa ${activeStage.id}`}
               </h2>
               <p className="text-xs text-(--muted) leading-relaxed">
                 {activeStage.status === 'observado'
                   ? 'El tutor solicitó ajustes en el documento. Consulta sus comentarios detallados antes de entregar la versión corregida.'
                   : activeStage.status === 'en_revision'
-                  ? 'El documento fue recibido y el tutor está verificando los criterios metodológicos e institucionales.'
+                  ? 'El tutor recibió tu documento y está revisando los criterios de la etapa. Si necesitas corregir algo antes de su respuesta, puedes subir una nueva versión.'
                   : activeStage.status === 'aprobado'
-                  ? 'El dictamen ha sido registrado en la bitácora. Puedes continuar con la siguiente etapa en el ciclo de 6 pasos.'
-                  : 'Adjunta el documento en formato PDF cumpliendo con los lineamientos metodológicos establecidos.'}
+                  ? 'La aprobación quedó registrada en la bitácora. No necesitas hacer nada más en esta etapa.'
+                  : isLocked
+                  ? `Se habilita cuando el tutor apruebe la Etapa ${activeStage.id - 1}. Por ahora tu trabajo está en la Etapa ${currentStage.id}.`
+                  : 'Sube el documento de la etapa (PDF) para que el tutor lo revise.'}
               </p>
 
               <div className="flex flex-wrap gap-2 pt-2">
@@ -211,7 +228,16 @@ export default function StudentWorkspace({
                     className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-(--radius) hover:bg-(--brand-hover) transition-colors flex items-center gap-1.5"
                   >
                     <Upload className="w-4 h-4" />
-                    <span>Subir nueva evidencia</span>
+                    <span>{activeStage.status === 'en_revision' ? 'Subir nueva versión' : 'Subir evidencia'}</span>
+                  </button>
+                ) : isViewingOtherStage ? (
+                  // Etapa aprobada o bloqueada: la acción útil es volver a la etapa en curso.
+                  <button
+                    type="button"
+                    onClick={() => onSelectStage(currentStage.id)}
+                    className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-(--radius) hover:bg-(--brand-hover) transition-colors"
+                  >
+                    Ir a mi etapa actual (Etapa {currentStage.id})
                   </button>
                 ) : (
                   // Bloqueado por reglas de etapa (stageMachine.js): se explica en lugar de ocultar.
