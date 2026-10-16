@@ -6,9 +6,6 @@ import AdaptiveContextPanel from './components/layout/AdaptiveContextPanel.jsx';
 import StudentWorkspace from './features/student/StudentWorkspace.jsx';
 import TutorWorkspace from './features/tutor/TutorWorkspace.jsx';
 import AdminWorkspace from './features/admin/AdminWorkspace.jsx';
-import Gate0Modal from './features/gate0/Gate0Modal.jsx';
-import Phase0Modal from './features/phase0/Phase0Modal.jsx';
-import TutorReviewModal from './features/review/TutorReviewModal.jsx';
 import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
 import { getStageActions } from './domain/stageMachine.js';
@@ -52,12 +49,9 @@ export default function App() {
     [projects, demoTutorId]
   );
 
-  // 3. Panel contextual adaptable (Drawer) y diálogos
+  // 3. Panel contextual adaptable (Drawer) y avisos
   const [isContextPanelOpen, setIsContextPanelOpen] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Observaciones del tutor');
-  const [isGate0ModalOpen, setIsGate0ModalOpen] = useState(false);
-  const [isPhase0ModalOpen, setIsPhase0ModalOpen] = useState(false);
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
   // Helper para notificaciones Toast
@@ -433,34 +427,6 @@ export default function App() {
         onTutorApproveStage={handleTutorApproveStage}
         onOpenDrawer={handleOpenDrawer}
         stageActions={stageActions}
-      />
-
-      {/* 4. Modales de Apoyo Directo (Opcionales o lanzados por accesos directos) */}
-      <Gate0Modal
-        isOpen={isGate0ModalOpen}
-        onClose={() => setIsGate0ModalOpen(false)}
-        gate0Items={currentProject.gate0Items}
-        onToggleItem={handleToggleGateItem}
-        role={role}
-        onShowToast={showToast}
-      />
-
-      <Phase0Modal
-        isOpen={isPhase0ModalOpen}
-        onClose={() => setIsPhase0ModalOpen(false)}
-        phase0Steps={currentProject.phase0Steps}
-        onToggleStep={handleTogglePhase0Step}
-      />
-
-      <TutorReviewModal
-        isOpen={isReviewModalOpen}
-        onClose={() => setIsReviewModalOpen(false)}
-        activeStage={activeStage}
-        isGate0Compliant={gate0Analysis.isFullyCompliant}
-        gate0CompletedCount={gate0Analysis.completedCount}
-        onApproveStage={handleTutorApproveStage}
-        onRequestChanges={handleTutorRequestChanges}
-        tutorName={currentProject.tutor}
       />
     </div>
   );

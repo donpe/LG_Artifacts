@@ -30,7 +30,7 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 
 | Fase | Objetivo | Estado |
 |------|----------|--------|
-| 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | En curso |
+| 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
 | 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Pendiente |
 | 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Pendiente |
 | 4 · Funcionalidad con valor | Compromisos, carga de archivos, tablero de coordinación, exportación por cohorte | Pendiente |
@@ -208,3 +208,57 @@ sigue ahí. Luego ↺ *Reiniciar demo*: vuelve el estado original.
 **Cómo comprobarlo.** Rol *Administrador*: la tabla muestra los cuatro niveles de riesgo y los proyectos
 completados aparecen en "Etapa 6 · Documento Final". Rol *Tutor* → *Ver como: Dra. Elena Ramos* →
 proyecto de Diego Morales: Gate 0 en 14/14 y *Aprobar etapa* habilitado.
+
+### 1.7 Eliminar componentes sin uso — `chore/eliminar-componentes-sin-uso`
+
+**Problema.** Tras los rediseños anteriores quedaron archivos que ninguna parte de la app importaba
+(entre ellos el prototipo original `FichaProyecto.jsx`, de 982 líneas). Además, tres modales se
+montaban en `App.jsx`, pero ningún botón los abría. Confundían al leer el código y se seguían
+"manteniendo" sin efecto, como pasó con el arreglo de la sección 1.1 en `Gate0Modal.jsx`.
+
+**Cambio.** Se eliminan:
+
+| Archivo | Motivo |
+|---------|--------|
+| `src/FichaProyecto.jsx` | Prototipo monolítico original, reemplazado por las vistas por rol |
+| `src/components/ContextDrawer.jsx`, `src/components/NextStepBanner.jsx` | Versiones anteriores del panel lateral y de la tarjeta "siguiente paso" |
+| `src/features/navigation/TopNav.jsx`, `DemoNoticeBanner.jsx` | Reemplazados por `TopbarCompact` |
+| `src/features/portfolio/ProjectPortfolio.jsx`, `projects/ProjectHeader.jsx` | Reemplazados por `AdminWorkspace` y `TutorWorkspace` |
+| `src/features/stages/StageStepper.jsx`, `StageDetail.jsx` | Reemplazados por el riel de etapas de `StudentWorkspace` |
+| `src/features/bitacora/BitacoraSection.jsx`, `evidence/EvidenceManager.jsx` | Reemplazados por el panel lateral |
+| `src/features/gate0/Gate0Modal.jsx`, `phase0/Phase0Modal.jsx`, `review/TutorReviewModal.jsx` | Se montaban, pero nunca se abrían; su función ya está en el panel lateral |
+| `src/App.css`, `src/assets/*` | Restos de la plantilla inicial de Vite, sin referencias |
+
+También se actualizó el `README.md`: estructura de carpetas, las pruebas usan `node:assert` (no Vitest)
+y enlace a este registro.
+
+**Resultado.** Mismo comportamiento con 18 archivos menos; el paquete de JavaScript bajó de ~339 kB a ~326 kB.
+
+**Cómo comprobarlo.** `npm run lint`, `npm test` y `npm run build` pasan; las vistas de Estudiante,
+Tutor y Administrador cargan sin errores en consola.
+
+---
+
+### Resumen de la Fase 1
+
+| # | Cambio | PR en el fork |
+|---|--------|---------------|
+| 1.1 | Criterios de Gate 0 visibles | [#1](https://github.com/donpe/LG_Artifacts/pull/1) |
+| 1.2 | Reglas de etapas aplicadas en la interfaz | [#2](https://github.com/donpe/LG_Artifacts/pull/2) |
+| 1.3 | Cada tutor ve solo sus proyectos | [#3](https://github.com/donpe/LG_Artifacts/pull/3) |
+| 1.4 | Semáforo de riesgo automático | [#4](https://github.com/donpe/LG_Artifacts/pull/4) |
+| 1.5 | La demo recuerda los cambios | [#5](https://github.com/donpe/LG_Artifacts/pull/5) |
+| 1.6 | Datos variados con contexto EAFIT | [#6](https://github.com/donpe/LG_Artifacts/pull/6) |
+| 1.7 | Eliminación de código sin uso | [#7](https://github.com/donpe/LG_Artifacts/pull/7) |
+
+**Verificación.** Lint sin errores, pruebas de dominio en verde (con casos nuevos para reglas de etapa,
+riesgo y datos) y build correcto. Revisión manual de los tres roles en el navegador.
+La suite E2E (`node verify-app.mjs`) no se ejecutó: necesita descargar el navegador de Playwright
+(`npx playwright install chromium`).
+
+**Pendiente para fases siguientes** (observado durante la Fase 1):
+- Estudiante: al hacer clic en una etapa futura, la tarjeta dice "Entrega la evidencia formal de la
+  Etapa #4" y el riel la marca "En curso", aunque está bloqueada (Fase 3: mensajes claros).
+- Al aprobar una etapa, la siguiente pasa directo a "En revisión" sin entrega del estudiante; así lo
+  define la regla original de negocio, pero conviene revisarlo con el dueño del producto.
+- Los compromisos no se pueden crear ni cerrar desde la interfaz (Fase 4).
