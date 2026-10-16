@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, Info, Download, ChevronDown } from 'lucide-react';
+import { Menu, Info, Download, ChevronDown, RotateCcw } from 'lucide-react';
 
 /**
  * TopbarCompact — Cabecera de control minimalista (Academic Flow 2.0)
@@ -11,7 +11,8 @@ export default function TopbarCompact({
   onRoleChange,
   onToggleMobileMenu,
   onOpenProjectInfo,
-  onExportCSV
+  onExportCSV,
+  onResetDemo
 }) {
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -61,6 +62,19 @@ export default function TopbarCompact({
           <span className="hidden md:inline">Modo demostración</span>
           <span className="md:hidden">Demo</span>
         </span>
+
+        {/* Reiniciar demo: vuelve a los datos semilla (los cambios se guardan en el navegador) */}
+        {onResetDemo && (
+          <button
+            type="button"
+            onClick={onResetDemo}
+            className="w-8 h-8 rounded-lg border border-transparent hover:border-[#E8E1D5] hover:bg-[#F5F1EA] text-[#6D5B50] grid place-items-center transition-colors"
+            title="Reiniciar demo (volver a los datos originales)"
+            aria-label="Reiniciar demo"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
+        )}
 
         {/* Project Info Trigger */}
         <button

@@ -141,3 +141,26 @@ del tutor.
 **Cómo comprobarlo.** Rol *Administrador*: la tabla muestra el riesgo de cada proyecto (el de Jorge
 Benavides aparece en *Medio*). Rol *Tutor*: al solicitar cambios en un proyecto, su riesgo pasa a *Medio*.
 Con los datos variados de la sección 1.6 aparecen también casos *Alto* y *Completado*.
+
+### 1.5 La demo recuerda los cambios — `feat/guardar-demo-en-navegador`
+
+**Problema.** Todo vivía en memoria (`useState`): al recargar la página se perdían las entregas,
+observaciones y aprobaciones hechas durante una demostración.
+
+**Cambio.**
+- Nuevo módulo `src/data/demoStorage.js` que guarda los proyectos en `localStorage` del navegador
+  y los recupera al abrir la app. Si el navegador bloquea el almacenamiento, la demo sigue funcionando
+  sin recordar cambios.
+- `App.jsx` carga lo guardado al iniciar y guarda en cada cambio.
+- Botón **Reiniciar demo** (ícono ↺ junto a "Modo demostración"): pide confirmación y vuelve a los
+  datos semilla de `pilotData.js`.
+- `DEMO_DATA_VERSION`: si se cambian los datos semilla, se sube este número y los navegadores
+  descartan lo guardado con la versión anterior.
+
+**Nota.** No es una base de datos: los cambios quedan solo en el navegador de quien usa la demo y no
+se comparten con nadie. La persistencia real será Supabase (Fase 4).
+
+**Archivos.** `src/data/demoStorage.js` (nuevo), `src/App.jsx`, `src/components/layout/TopbarCompact.jsx`.
+
+**Cómo comprobarlo.** Rol *Estudiante* → *Subir nueva evidencia* → recargar la página: la entrega
+sigue ahí. Luego ↺ *Reiniciar demo*: vuelve el estado original.
