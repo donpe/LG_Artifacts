@@ -17,7 +17,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Títulos: Inter de alto peso, como en eafit.edu.co (antes era serif Georgia).
+/* Títulos: Inter de alto peso, de estilo institucional (antes era serif Georgia).
    Se conserva el nombre de la clase para no tocar todos los componentes. */
 .font-editorial {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;

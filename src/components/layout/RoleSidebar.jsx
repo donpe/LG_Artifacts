@@ -3,7 +3,7 @@ import { Home, Layers, FileText, Clock, Inbox, Users, BarChart3, HelpCircle, Com
 
 /**
  * RoleSidebar — Barra lateral fija / off-canvas por rol.
- * Fase 2: fondo azul marino (--brand) con indicador cian en la opción activa, como eafit.edu.co.
+ * Fase 2: fondo azul marino (--brand) con indicador cian en la opción activa.
  * Navegación especializada para Estudiante, Tutor y Administrador.
  */
 export default function RoleSidebar({

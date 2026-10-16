@@ -1,7 +1,7 @@
 /* ==========================================================================
-   TOKENS DE DISEÑO — IDENTIDAD INSPIRADA EN EAFIT (Fase 2)
-   Referencia visual: eafit.edu.co — azul marino institucional, azul vivo,
-   blanco y negro, tipografía Inter de alto peso y esquinas casi rectas.
+   TOKENS DE DISEÑO — IDENTIDAD VISUAL (Fase 2)
+   Estilo institucional: azul marino, azul vivo, blanco y negro,
+   tipografía Inter de alto peso y esquinas casi rectas.
 
    Todos los colores de la interfaz salen de aquí: los componentes usan
    clases como `bg-(--brand)` o `text-(--muted)`. Para cambiar la identidad
@@ -55,7 +55,7 @@
   --info-bg: #EFF6FF;
   --info-line: #93C5FD;
 
-  /* Pie de página oscuro, como el sitio institucional */
+  /* Pie de página oscuro */
   --footer-bg: #1D1D1D;
   --footer-ink: #D4D4D4;
 
