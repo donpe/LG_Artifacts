@@ -93,14 +93,14 @@ export default function Gate0Modal({
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[10px] font-bold text-[#6E432F] bg-[#F5F1EA] px-1.5 py-0.2 rounded">
-                    {item.code}
+                    {item.id}
                   </span>
                   <span className="font-bold text-[#1C1917] text-xs">
-                    {item.title}
+                    {item.label}
                   </span>
                 </div>
                 <p className="text-[#57534E] text-[11px] leading-relaxed">
-                  {item.description}
+                  {item.suggestedCheck}
                 </p>
               </div>
             </div>

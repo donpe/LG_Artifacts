@@ -277,6 +277,7 @@ export default function TutorWorkspace({
                     </div>
 
                     <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
+                      {/* Campos según src/data/gate0Catalog.js: id, label, suggestedCheck (ver docs/CAMBIOS.md, Fase 1) */}
                       {(selectedProject.gate0Items || []).map((item) => (
                         <label
                           key={item.id}
@@ -293,11 +294,11 @@ export default function TutorWorkspace({
                           <div className="space-y-0.5">
                             <div className="flex items-center gap-1.5">
                               <span className="font-mono text-[10px] font-bold text-[#6E432F] bg-[#F5F1EA] px-1 rounded">
-                                {item.code}
+                                {item.id}
                               </span>
-                              <strong className="text-xs text-[#1C1917]">{item.title}</strong>
+                              <strong className="text-xs text-[#1C1917]">{item.label}</strong>
                             </div>
-                            <small className="text-[11px] text-[#6A625B] block leading-tight">{item.description}</small>
+                            <small className="text-[11px] text-[#6A625B] block leading-tight">{item.suggestedCheck}</small>
                           </div>
                         </label>
                       ))}
