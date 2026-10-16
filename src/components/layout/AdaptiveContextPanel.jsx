@@ -68,7 +68,7 @@ export default function AdaptiveContextPanel({
           </div>
 
           {latest ? (
-            <div className="p-4 bg-(--surface-subtle) rounded-xl border border-(--line2) space-y-2">
+            <div className="p-4 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <strong className="text-(--ink)">{latest.author}</strong>
                 <span className="text-[11px] font-mono text-(--light)">{latest.timestamp}</span>
@@ -93,7 +93,7 @@ export default function AdaptiveContextPanel({
                 onStudentUploadEvidence();
                 onClose();
               }}
-              className="w-full py-2.5 px-4 bg-(--brand) text-white text-xs font-bold rounded-xl hover:bg-(--brand-hover) transition-colors shadow-xs"
+              className="w-full py-2.5 px-4 bg-(--brand) text-white text-xs font-bold rounded-(--radius) hover:bg-(--brand-hover) transition-colors"
             >
               Preparar y Entregar Nueva Versión
             </button>
@@ -107,7 +107,7 @@ export default function AdaptiveContextPanel({
       const completedCount = (project.gate0Items || []).filter(i => i.checked).length;
       return (
         <div className="space-y-4">
-          <div className="bg-(--surface-subtle) p-4 rounded-xl border border-(--line2) space-y-2">
+          <div className="bg-(--surface-subtle) p-4 rounded-(--radius) border border-(--line2) space-y-2">
             <div className="flex items-center justify-between text-xs">
               <strong className="text-(--ink)">Avance de Criterios</strong>
               <span className={`font-mono font-bold px-2 py-0.5 rounded-full text-[11px] ${
@@ -131,7 +131,7 @@ export default function AdaptiveContextPanel({
             {(project.gate0Items || []).map((item) => (
               <label
                 key={item.id}
-                className={`p-3 rounded-xl border flex items-start gap-2.5 transition-all ${
+                className={`p-3 rounded-(--radius) border flex items-start gap-2.5 transition-all ${
                   role === 'tutor' ? 'cursor-pointer hover:bg-(--surface-subtle)' : 'cursor-default'
                 } ${
                   item.checked ? 'bg-(--green-bg)/40 border-(--green-line)' : 'bg-white border-(--line)'
@@ -165,7 +165,7 @@ export default function AdaptiveContextPanel({
       const completedCount = (project.phase0Steps || []).filter(s => s.completed).length;
       return (
         <div className="space-y-4">
-          <div className="bg-(--surface-subtle) p-4 rounded-xl border border-(--line2) space-y-2">
+          <div className="bg-(--surface-subtle) p-4 rounded-(--radius) border border-(--line2) space-y-2">
             <div className="flex items-center justify-between text-xs">
               <strong className="text-(--ink)">17 Actividades Metodológicas</strong>
               <span className="font-mono font-bold px-2 py-0.5 rounded-full text-[11px] bg-(--sand) text-(--brand)">
@@ -184,7 +184,7 @@ export default function AdaptiveContextPanel({
             {(project.phase0Steps || []).map((step) => (
               <label
                 key={step.number}
-                className={`p-3 rounded-xl border flex items-start gap-2.5 transition-all cursor-pointer ${
+                className={`p-3 rounded-(--radius) border flex items-start gap-2.5 transition-all cursor-pointer ${
                   step.completed ? 'bg-(--green-bg)/40 border-(--green-line)' : 'bg-white border-(--line) hover:bg-(--surface-subtle)'
                 }`}
               >
@@ -209,7 +209,7 @@ export default function AdaptiveContextPanel({
     if (title.includes('Ficha')) {
       return (
         <div className="space-y-4 text-xs">
-          <div className="p-4 bg-(--surface-subtle) rounded-xl border border-(--line2) space-y-2.5">
+          <div className="p-4 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) space-y-2.5">
             <span className="font-bold text-[10px] uppercase tracking-wider text-(--brand)">
               Estándar Dublin Core
             </span>
@@ -278,7 +278,7 @@ export default function AdaptiveContextPanel({
           }}
           className="space-y-4 text-xs"
         >
-          <div className="p-3 bg-(--red-bg) rounded-xl border border-(--red-line) text-[11px] text-(--red)">
+          <div className="p-3 bg-(--red-bg) rounded-(--radius) border border-(--red-line) text-[11px] text-(--red)">
             Al emitir observaciones, el estado de la etapa pasa a <strong>'Cambios solicitados'</strong> y se notifica formalmente al estudiante.
           </div>
 
@@ -291,7 +291,7 @@ export default function AdaptiveContextPanel({
               required
               rows={5}
               placeholder="Describe de forma concreta las correcciones solicitadas en el documento..."
-              className="w-full p-3 rounded-xl border border-(--line2) bg-(--bg) text-(--ink) focus:bg-white focus:outline-hidden leading-relaxed text-xs"
+              className="w-full p-3 rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink) focus:bg-white focus:outline-hidden leading-relaxed text-xs"
             />
           </div>
 
@@ -303,13 +303,13 @@ export default function AdaptiveContextPanel({
               type="date"
               name="deadline"
               defaultValue={defaultDeadline10}
-              className="w-full p-2.5 rounded-xl border border-(--line2) bg-(--bg) text-(--ink)"
+              className="w-full p-2.5 rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink)"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-2.5 px-4 bg-(--red) text-white font-bold rounded-xl hover:bg-(--red-hover) transition-colors shadow-xs"
+            className="w-full py-2.5 px-4 bg-(--red) text-white font-bold rounded-(--radius) hover:bg-(--red-hover) transition-colors"
           >
             Emitir y Registrar Observación
           </button>
@@ -339,19 +339,19 @@ export default function AdaptiveContextPanel({
           className="space-y-4 text-xs"
         >
           {isGate0Blocked ? (
-            <div className="p-3.5 bg-(--red-bg) rounded-xl border border-(--red-line) text-(--red) space-y-1">
+            <div className="p-3.5 bg-(--red-bg) rounded-(--radius) border border-(--red-line) text-(--red) space-y-1">
               <strong className="block font-bold">⛔ Bloqueo de Regla de Negocio: Gate 0 Incompleto</strong>
               <p className="text-[11px] text-(--muted)">
                 Actualmente hay <strong>{gate0Analysis.completedCount} de 14</strong> criterios conformes. Debe certificar el 100% de Gate 0 antes de aprobar la Etapa 1.
               </p>
             </div>
           ) : approveBlockedReason ? (
-            <div className="p-3.5 bg-(--red-bg) rounded-xl border border-(--red-line) text-[11px] text-(--red)">
+            <div className="p-3.5 bg-(--red-bg) rounded-(--radius) border border-(--red-line) text-[11px] text-(--red)">
               <strong className="block font-bold">No se puede aprobar esta etapa</strong>
               {approveBlockedReason}
             </div>
           ) : (
-            <div className="p-3 bg-(--green-bg) rounded-xl border border-(--green-line) text-[11px] text-(--green)">
+            <div className="p-3 bg-(--green-bg) rounded-(--radius) border border-(--green-line) text-[11px] text-(--green)">
               La aprobación formal registrará la fecha actual, habilitará la siguiente etapa del ciclo académico e insertará el registro en la bitácora inmutable.
             </div>
           )}
@@ -364,7 +364,7 @@ export default function AdaptiveContextPanel({
               name="notes"
               rows={4}
               defaultValue={`Se dictamina la aprobación formal de la etapa ${activeStage.name}. Requisitos y evidencias validadas.`}
-              className="w-full p-3 rounded-xl border border-(--line2) bg-(--bg) text-(--ink) focus:bg-white focus:outline-hidden leading-relaxed text-xs"
+              className="w-full p-3 rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink) focus:bg-white focus:outline-hidden leading-relaxed text-xs"
             />
           </div>
 
@@ -376,14 +376,14 @@ export default function AdaptiveContextPanel({
               type="date"
               name="deadline"
               defaultValue={defaultDeadline14}
-              className="w-full p-2.5 rounded-xl border border-(--line2) bg-(--bg) text-(--ink)"
+              className="w-full p-2.5 rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink)"
             />
           </div>
 
           <button
             type="submit"
             disabled={isGate0Blocked || !!approveBlockedReason}
-            className={`w-full py-2.5 px-4 font-bold rounded-xl transition-colors shadow-xs ${
+            className={`w-full py-2.5 px-4 font-bold rounded-(--radius) transition-colors ${
               isGate0Blocked || approveBlockedReason
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-(--green) text-white hover:bg-(--green-hover)'
@@ -418,7 +418,7 @@ export default function AdaptiveContextPanel({
 
           <div className="space-y-2">
             {evidences.map((ev) => (
-              <div key={ev.id} className="p-3 bg-(--bg) rounded-xl border border-(--line) space-y-1">
+              <div key={ev.id} className="p-3 bg-(--bg) rounded-(--radius) border border-(--line) space-y-1">
                 <div className="flex items-center justify-between">
                   <strong className="text-xs text-(--ink)">{ev.filename}</strong>
                   <span className="font-mono text-[10px] bg-(--brand) text-white px-1.5 py-0.2 rounded">
@@ -447,12 +447,12 @@ export default function AdaptiveContextPanel({
 
           <div className="space-y-2">
             {logs.map((log) => (
-              <div key={log.id} className="p-3 bg-(--bg) rounded-xl border border-(--line) space-y-1">
+              <div key={log.id} className="p-3 bg-(--bg) rounded-(--radius) border border-(--line) space-y-1">
                 <div className="flex items-center justify-between text-xs">
                   <strong className="text-(--ink)">{log.action}</strong>
                   <span className="font-mono text-[10px] text-(--light)">{log.timestamp}</span>
                 </div>
-                <p className="text-[11px] text-(--muted) leading-relaxed bg-white p-2 rounded-lg border border-(--line)">
+                <p className="text-[11px] text-(--muted) leading-relaxed bg-white p-2 rounded-(--radius) border border-(--line)">
                   {log.notes}
                 </p>
                 <div className="text-[10px] text-(--light)">Autor: {log.author}</div>
@@ -470,7 +470,7 @@ export default function AdaptiveContextPanel({
         <p>
           Este panel contextual permite consultar especificaciones, bitácoras y realizar acciones de decisión académica sin perder de vista la evidencia central.
         </p>
-        <div className="p-3 bg-(--surface-subtle) rounded-xl border border-(--line2) space-y-1">
+        <div className="p-3 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) space-y-1">
           <strong className="text-(--ink) block">Reglas Académicas Preservadas:</strong>
           <ul className="list-disc list-inside space-y-0.5 text-[11px]">
             <li>6 etapas académicas estrictas.</li>
@@ -504,7 +504,7 @@ export default function AdaptiveContextPanel({
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 rounded-lg text-(--muted) hover:bg-(--sand) hover:text-(--ink) transition-colors"
+              className="p-1.5 rounded-(--radius) text-(--muted) hover:bg-(--sand) hover:text-(--ink) transition-colors"
               aria-label="Cerrar panel contextual"
             >
               <X className="w-5 h-5" />

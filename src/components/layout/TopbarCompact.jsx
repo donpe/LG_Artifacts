@@ -42,13 +42,13 @@ export default function TopbarCompact({
         <button
           type="button"
           onClick={onToggleMobileMenu}
-          className="md:hidden p-1.5 rounded-lg text-(--muted) hover:bg-(--sand) transition-colors"
+          className="md:hidden p-1.5 rounded-(--radius) text-(--muted) hover:bg-(--sand) transition-colors"
           aria-label="Abrir menú de navegación"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <span className="font-semibold text-(--ink) shrink-0">LG Artifacts</span>
+        <span className="font-semibold text-(--ink) shrink-0 max-sm:hidden">LG Artifacts</span>
         <span className="text-(--line2) max-sm:hidden">/</span>
         <span className="font-bold text-(--brand) max-sm:hidden max-w-[120px] lg:max-w-xs truncate">
           {activeNav}
@@ -69,7 +69,7 @@ export default function TopbarCompact({
           <button
             type="button"
             onClick={onResetDemo}
-            className="w-8 h-8 rounded-lg border border-transparent hover:border-(--line) hover:bg-(--sand) text-(--light) grid place-items-center transition-colors"
+            className="w-8 h-8 rounded-(--radius) border border-transparent hover:border-(--line) hover:bg-(--sand) text-(--light) grid place-items-center transition-colors"
             title="Reiniciar demo (volver a los datos originales)"
             aria-label="Reiniciar demo"
           >
@@ -81,7 +81,7 @@ export default function TopbarCompact({
         <button
           type="button"
           onClick={onOpenProjectInfo}
-          className="w-8 h-8 rounded-lg border border-transparent hover:border-(--line) hover:bg-(--sand) text-(--light) grid place-items-center transition-colors"
+          className="w-8 h-8 rounded-(--radius) border border-transparent hover:border-(--line) hover:bg-(--sand) text-(--light) grid place-items-center transition-colors"
           title="Ver ficha académica del proyecto"
           aria-label="Ver ficha académica del proyecto"
         >
@@ -92,7 +92,7 @@ export default function TopbarCompact({
         <button
           type="button"
           onClick={onExportCSV}
-          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-(--green) bg-(--green-bg) hover:bg-(--green-line) border border-(--green-line) transition-colors shadow-xs"
+          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-(--radius) text-xs font-semibold text-(--green) bg-(--green-bg) hover:bg-(--green-line) border border-(--green-line) transition-colors"
           title="Exportar reporte en formato CSV compatible con Excel"
         >
           <Download className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ export default function TopbarCompact({
           <button
             type="button"
             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-(--line2) bg-white text-xs font-semibold text-(--ink) hover:bg-(--sand) transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-(--radius) border border-(--line2) bg-white text-xs font-semibold text-(--ink) hover:bg-(--sand) transition-colors"
             aria-expanded={isRoleDropdownOpen}
             aria-label="Seleccionar rol de demostración"
           >
@@ -113,7 +113,7 @@ export default function TopbarCompact({
           </button>
 
           {isRoleDropdownOpen && (
-            <div className="absolute right-0 top-10 w-44 bg-white border border-(--line) rounded-xl shadow-xl p-1.5 z-50 animate-fade-in-slide">
+            <div className="absolute right-0 top-10 w-44 bg-white border border-(--line) rounded-(--radius) shadow-xl p-1.5 z-50 animate-fade-in-slide">
               <span className="block px-2.5 py-1 text-[10px] font-bold text-(--light) uppercase tracking-wider">
                 Cambiar Rol Simulado
               </span>
@@ -123,7 +123,7 @@ export default function TopbarCompact({
                   onRoleChange('estudiante');
                   setIsRoleDropdownOpen(false);
                 }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                className={`w-full text-left px-2.5 py-1.5 rounded-(--radius) text-xs font-semibold transition-colors ${
                   role === 'estudiante'
                     ? 'bg-(--accent-soft) text-(--brand)'
                     : 'text-(--muted) hover:bg-(--sand)'
@@ -137,7 +137,7 @@ export default function TopbarCompact({
                   onRoleChange('tutor');
                   setIsRoleDropdownOpen(false);
                 }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                className={`w-full text-left px-2.5 py-1.5 rounded-(--radius) text-xs font-semibold transition-colors ${
                   role === 'tutor'
                     ? 'bg-(--accent-soft) text-(--brand)'
                     : 'text-(--muted) hover:bg-(--sand)'
@@ -151,7 +151,7 @@ export default function TopbarCompact({
                   onRoleChange('admin');
                   setIsRoleDropdownOpen(false);
                 }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                className={`w-full text-left px-2.5 py-1.5 rounded-(--radius) text-xs font-semibold transition-colors ${
                   role === 'admin'
                     ? 'bg-(--accent-soft) text-(--brand)'
                     : 'text-(--muted) hover:bg-(--sand)'

@@ -31,7 +31,7 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 | Fase | Objetivo | Estado |
 |------|----------|--------|
 | 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
-| 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | En curso |
+| 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Lista para revisión |
 | 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Pendiente |
 | 4 · Funcionalidad con valor | Compromisos, carga de archivos, tablero de coordinación, exportación por cohorte | Pendiente |
 
@@ -324,3 +324,42 @@ decisión del dueño del proyecto; no se debe usar el logo de EAFIT sin aprobaci
 
 **Cómo comprobarlo.** `npm run dev`: barra lateral azul marino con la opción activa marcada en cian,
 cabecera blanca con línea azul y pie oscuro.
+
+### 2.3 Títulos, tarjetas y botones — `feat/titulos-tarjetas-y-botones-estilo-eafit`
+
+**Problema.** Las tarjetas y botones tenían esquinas muy redondeadas (12–16 px) y sombras suaves, con un
+aire de aplicación genérica. Los títulos de página eran pequeños para el estilo institucional, que usa
+titulares grandes y contundentes.
+
+**Cambio.**
+- Esquinas casi rectas: `rounded-xl`, `rounded-2xl` y `rounded-lg` pasan a `rounded-(--radius)` (6 px,
+  definido en `tokens.css`), en 75 lugares. Las pastillas de estado y los avatares siguen redondos.
+- Sin sombras decorativas en tarjetas y botones (26 lugares): el diseño queda plano, con bordes.
+- Títulos de página (*Mi proyecto*, *Pendientes de revisión*, *Proyectos de grado*) más grandes
+  (`text-4xl`) y en azul marino.
+- Cabecera móvil: el texto "LG Artifacts" se oculta en pantallas pequeñas porque se montaba sobre el
+  chip "Demo" (el nombre ya aparece en el menú lateral).
+
+**Archivos.** Todos los `.jsx` de `src/` (solo clases de forma), `src/components/layout/TopbarCompact.jsx`.
+
+**Cómo comprobarlo.** `npm run dev` en escritorio y en ancho de celular (375 px): tarjetas planas con
+esquinas casi rectas, títulos grandes en azul marino y sin desbordamiento horizontal.
+
+---
+
+### Resumen de la Fase 2
+
+| # | Cambio | PR en el fork |
+|---|--------|---------------|
+| 2.1 | Paleta y tipografía con tokens centralizados | [#8](https://github.com/donpe/LG_Artifacts/pull/8) |
+| 2.2 | Barra lateral, cabecera y pie | [#9](https://github.com/donpe/LG_Artifacts/pull/9) |
+| 2.3 | Títulos, tarjetas y botones | [#10](https://github.com/donpe/LG_Artifacts/pull/10) |
+
+**Verificación.** Lint y pruebas en verde, build correcto y revisión visual de Estudiante, Tutor y
+Administrador en escritorio y en 375 px (sin desbordamiento horizontal).
+
+**Decisiones abiertas para el dueño del proyecto.**
+- Nombre y emblema de la plataforma ("LG · Academic Flow").
+- Si se pide permiso para usar la marca EAFIT. Mientras tanto, solo inspiración visual.
+- Las capturas de `screenshots/` y de la raíz son del diseño anterior. Se regeneran con
+  `node verify-app.mjs` (requiere `npx playwright install chromium`).
