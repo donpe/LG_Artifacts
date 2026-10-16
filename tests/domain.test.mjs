@@ -6,6 +6,7 @@ import { sanitizeCSVValue, exportProjectToCSV } from '../src/domain/csvExporter.
 import { PILOT_PROJECTS } from '../src/data/pilotData.js';
 import { getLatestEvidence } from '../src/domain/evidence.js';
 import { parseHash, buildHash } from '../src/routing/hashRoute.js';
+import { getStageLog, listPendingCommitments } from '../src/domain/projectLog.js';
 
 console.log('🧪 Iniciando pruebas unitarias de lógica de dominio (Academic Tracking)...');
 
@@ -175,5 +176,21 @@ assert.equal(buildHash(r2), '#/coordinacion/proyecto/bitacora?proyecto=PRJ-07', 
 assert.equal(parseHash('#/desconocido').role, 'tutor', 'Una dirección inválida vuelve a la ruta por defecto');
 assert.equal(parseHash('#/estudiante/etapas?etapa=9').stageId, undefined, 'Etapas fuera de 1..6 se ignoran');
 console.log('     ✓ Las direcciones se leen y se reconstruyen correctamente.');
+
+// --- 8. Bitácora por etapa y compromisos (Fase 4) ---
+console.log('  8. Verificando bitácora por etapa y compromisos...');
+const logProject = {
+  decisionLog: [
+    { id: 1, action: 'Observación Registrada: Metodología' },
+    { id: 2, action: 'Aprobación Formal: Marco Teórico' },
+    { id: 3, action: 'Entrega de Evidencia', stageId: 3 }
+  ]
+};
+assert.deepEqual(getStageLog(logProject, { id: 3, name: 'Metodología' }).map(l => l.id), [1, 3], 'Bitácora filtrada por etapa');
+const cm = listPendingCommitments([
+  { commitments: [{ status: 'pendiente', dueDate: '2026-10-01' }, { status: 'pendiente', dueDate: '2026-10-20' }, { status: 'cumplido', dueDate: '2026-09-01' }] }
+], '2026-10-16');
+assert.deepEqual(cm.map(c => c.timing), ['vencido', 'proximo'], 'Compromisos pendientes ordenados y clasificados');
+console.log('     ✓ Bitácora por etapa y compromisos validados.');
 
 console.log('✅ TODAS LAS PRUEBAS UNITARIAS DE DOMINIO PASARON SATISFACTORIAMENTE (100% OK).\n');

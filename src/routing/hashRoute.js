@@ -23,7 +23,7 @@ const SLUG_TO_ROLE = { estudiante: 'estudiante', tutor: 'tutor', coordinacion: '
 export const DEFAULT_SECTION = {
   estudiante: 'mi-proyecto',
   tutor: 'por-revisar',
-  admin: 'proyectos'
+  admin: 'panorama'
 };
 
 export const DEFAULT_ROUTE = {

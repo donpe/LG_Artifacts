@@ -15,7 +15,8 @@ export default function StudentWorkspace({
   onSelectStage,
   onOpenDrawer,
   onUploadEvidence,
-  stageActions
+  stageActions,
+  onNavigate
 }) {
   const approvedCount = (project.stages || []).filter(s => s.status === 'aprobado').length;
   const progressPct = Math.round((approvedCount / 6) * 100);
@@ -211,7 +212,7 @@ export default function StudentWorkspace({
                 {activeStage.status === 'observado' ? (
                   <button
                     type="button"
-                    onClick={() => onOpenDrawer('Observaciones del tutor')}
+                    onClick={() => onNavigate('etapas', activeStage.id)}
                     className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-(--radius) hover:bg-(--brand-hover) transition-colors flex items-center gap-1.5"
                   >
                     <FileText className="w-4 h-4" />
@@ -245,7 +246,7 @@ export default function StudentWorkspace({
                 {activeStage.id === 1 && (
                   <button
                     type="button"
-                    onClick={() => onOpenDrawer('Criterios Gate 0 (14)')}
+                    onClick={() => onNavigate('etapas', 1)}
                     className="px-3.5 py-2 bg-white text-(--brand) border border-(--line2) text-xs font-bold rounded-(--radius) hover:bg-(--surface-subtle) transition-colors"
                   >
                     Ver criterios Gate 0
@@ -263,7 +264,7 @@ export default function StudentWorkspace({
               </h3>
               <button
                 type="button"
-                onClick={() => onOpenDrawer('Todas las evidencias')}
+                onClick={() => onNavigate('entregas')}
                 className="text-xs font-bold text-(--brand) hover:underline"
               >
                 Ver versiones &rarr;
@@ -294,7 +295,7 @@ export default function StudentWorkspace({
                 <StatusBadge type="stage" value={activeStage.status} />
                 <button
                   type="button"
-                  onClick={() => onOpenDrawer('Todas las evidencias')}
+                  onClick={() => onNavigate('entregas')}
                   className="p-1.5 rounded-(--radius) border border-(--line2) hover:bg-(--sand) text-(--brand) transition-colors"
                   title="Descargar copia de la evidencia"
                 >
@@ -339,7 +340,7 @@ export default function StudentWorkspace({
                   </p>
                   <button
                     type="button"
-                    onClick={() => onOpenDrawer('Observaciones del tutor')}
+                    onClick={() => onNavigate('etapas', activeStage.id)}
                     className="text-xs font-bold text-(--brand) hover:underline mt-2 inline-block"
                   >
                     Leer comentario completo &rarr;
@@ -359,7 +360,7 @@ export default function StudentWorkspace({
 
             <button
               type="button"
-              onClick={() => onOpenDrawer('Detalle de etapa')}
+              onClick={() => onNavigate('etapas', activeStage.id)}
               className="w-full flex items-center justify-between py-2 text-xs font-semibold text-(--ink) hover:text-(--brand) border-b border-(--line) text-left transition-colors"
             >
               <div className="flex items-center gap-2">
@@ -383,7 +384,7 @@ export default function StudentWorkspace({
 
             <button
               type="button"
-              onClick={() => onOpenDrawer('Bitácora del proyecto')}
+              onClick={() => onNavigate('bitacora')}
               className="w-full flex items-center justify-between py-2 text-xs font-semibold text-(--ink) hover:text-(--brand) text-left transition-colors"
             >
               <div className="flex items-center gap-2">

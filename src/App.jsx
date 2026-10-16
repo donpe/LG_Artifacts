@@ -6,6 +6,14 @@ import AdaptiveContextPanel from './components/layout/AdaptiveContextPanel.jsx';
 import StudentWorkspace from './features/student/StudentWorkspace.jsx';
 import TutorWorkspace from './features/tutor/TutorWorkspace.jsx';
 import AdminWorkspace from './features/admin/AdminWorkspace.jsx';
+import PageHeader from './components/PageHeader.jsx';
+import StagesView from './features/projects/StagesView.jsx';
+import EvidenceList from './features/projects/EvidenceList.jsx';
+import ProjectLogView from './features/projects/ProjectLogView.jsx';
+import ProjectTable from './features/projects/ProjectTable.jsx';
+import PanoramaPage from './features/coordination/PanoramaPage.jsx';
+import TutorsPage from './features/coordination/TutorsPage.jsx';
+import CommitmentsPage from './features/tutor/CommitmentsPage.jsx';
 import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
 import { getStageActions } from './domain/stageMachine.js';
@@ -14,7 +22,7 @@ import { loadDemoProjects, saveDemoProjects, clearDemoProjects, hasSeen, markSee
 import WelcomeScreen from './features/onboarding/WelcomeScreen.jsx';
 import GuidedTour from './features/onboarding/GuidedTour.jsx';
 import { useHashRoute, DEFAULT_SECTION } from './routing/hashRoute.js';
-import { getSectionLabel } from './routing/navigation.js';
+import { getSectionLabel, NAV_ITEMS } from './routing/navigation.js';
 
 /**
  * App — Contenedor Principal de la Plataforma de Seguimiento Académico
@@ -95,12 +103,14 @@ export default function App() {
   // Completa la dirección con los valores efectivos (tutor y proyecto) sin crear historial,
   // para que siempre se pueda copiar y compartir tal cual.
   useEffect(() => {
+    const validSection = NAV_ITEMS[role].some(item => item.id === route.section);
     const normalized = {
       ...route,
+      section: validSection ? route.section : DEFAULT_SECTION[role],
       tutorId: role === 'tutor' ? demoTutorId : undefined,
       projectId: selectedProjectId
     };
-    if (normalized.tutorId !== route.tutorId || normalized.projectId !== route.projectId) {
+    if (normalized.tutorId !== route.tutorId || normalized.projectId !== route.projectId || !validSection) {
       navigate(normalized, { replace: true });
     }
   }, [route, role, demoTutorId, selectedProjectId, navigate]);
@@ -137,7 +147,8 @@ export default function App() {
 
   // Conteo de proyectos pendientes de revisión para el tutor
   const pendingReviewCount = useMemo(() => {
-    return tutorProjects.filter(p => p.stages.some(s => s.status === 'en_revision' || s.status === 'observado')).length;
+    // "Por revisar": proyectos con una entrega esperando la decisión del tutor.
+    return tutorProjects.filter(p => p.stages.some(s => s.status === 'en_revision')).length;
   }, [tutorProjects]);
 
   // Manejador: Selección de proyecto (se abre en su etapa en curso)
@@ -342,16 +353,51 @@ export default function App() {
     showToast('Ficha y bitácora exportadas exitosamente en formato CSV (.csv).');
   };
 
-  // Manejador de navegación desde la barra lateral: cada opción es una sección con su dirección.
+  // Manejador de navegación desde la barra lateral: cada opción abre su propia pantalla (Fase 4).
   const handleSidebarNavigate = (section) => {
     navigate({ ...route, section, tab: undefined });
-    if (section === 'entregas') {
-      handleOpenDrawer('Evidencias del proyecto');
-    } else if (section === 'bitacora') {
-      handleOpenDrawer('Bitácora y compromisos');
-    } else if (section === 'seguimiento' || section === 'seguimiento-general') {
-      handleOpenDrawer('Ficha académica completa');
-    }
+    setIsMobileNavOpen(false);
+    window.scrollTo(0, 0);
+  };
+
+  // Acciones sobre una etapa pedidas desde las páginas (subir, aprobar, solicitar cambios).
+  const handleStageAction = (kind) => {
+    if (kind === 'upload') handleStudentUploadEvidence();
+    else if (kind === 'approve') handleOpenDrawer('Confirmar aprobación');
+    else if (kind === 'request-changes') handleOpenDrawer('Solicitar cambios');
+  };
+
+  // Abrir un proyecto: por ahora en la bandeja del tutor (la ficha como página llega en 4.6).
+  const openProjectForTutor = (projectId) => {
+    navigate({ ...route, section: 'por-revisar', projectId, stageId: undefined });
+  };
+
+  // Usuario simulado según el rol: el tutor elige qué tutor es y el estudiante qué proyecto es el suyo.
+  const identity = role === 'tutor'
+    ? {
+        label: 'Tutor',
+        value: demoTutorId,
+        options: TUTORS.map(t => ({ value: t.id, label: t.name })),
+        onChange: handleDemoTutorChange
+      }
+    : role === 'estudiante'
+      ? {
+          label: 'Estudiante',
+          value: currentProject.id,
+          options: projects.map(p => ({ value: p.id, label: p.student })),
+          onChange: handleSelectProject
+        }
+      : null;
+
+  const stageViewProps = {
+    project: currentProject,
+    activeStage,
+    onSelectStage: setActiveStageId,
+    role,
+    stageActions,
+    gate0Analysis,
+    onToggleGateItem: handleToggleGateItem,
+    onAction: handleStageAction
   };
 
   if (showWelcome) {
@@ -385,6 +431,8 @@ export default function App() {
         onShowWelcome={() => setShowWelcome(true)}
         onStartTour={() => setTourRole(role)}
         pendingReviewCount={pendingReviewCount}
+        onRoleChange={handleRoleChange}
+        identity={identity}
         profileName={role === 'tutor' ? demoTutor.name : role === 'estudiante' ? currentProject.student : undefined}
       />
 
@@ -394,7 +442,6 @@ export default function App() {
         <TopbarCompact
           activeNav={getSectionLabel(role, activeNav)}
           role={role}
-          onRoleChange={handleRoleChange}
           onToggleMobileMenu={() => setIsMobileNavOpen(!isMobileNavOpen)}
           onOpenProjectInfo={() => handleOpenDrawer('Ficha académica completa')}
           onExportCSV={handleExportCSV}
@@ -403,7 +450,8 @@ export default function App() {
 
         {/* Lienzo de Trabajo Dinámico según Rol */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {role === 'estudiante' && (
+          {/* Estudiante: una pantalla por opción del menú */}
+          {role === 'estudiante' && activeNav === 'mi-proyecto' && (
             <StudentWorkspace
               project={currentProject}
               activeStage={activeStage}
@@ -411,15 +459,32 @@ export default function App() {
               onOpenDrawer={handleOpenDrawer}
               onUploadEvidence={handleStudentUploadEvidence}
               stageActions={stageActions}
+              onNavigate={(section, stageId) => navigate({ ...route, section, stageId: stageId ?? route.stageId })}
             />
           )}
+          {role === 'estudiante' && activeNav === 'etapas' && (
+            <div className="space-y-6">
+              <PageHeader eyebrow={`Estudiante · ${currentProject.student}`} title="Etapas" description="El detalle de cada etapa: entregas, criterios y observaciones del tutor." />
+              <StagesView {...stageViewProps} />
+            </div>
+          )}
+          {role === 'estudiante' && activeNav === 'entregas' && (
+            <div className="space-y-6">
+              <PageHeader eyebrow={`Estudiante · ${currentProject.student}`} title="Entregas" description="Todas las versiones que has entregado, por etapa. Ninguna se borra." />
+              <EvidenceList project={currentProject} onOpenStage={(stageId) => navigate({ ...route, section: 'etapas', stageId })} />
+            </div>
+          )}
+          {role === 'estudiante' && activeNav === 'bitacora' && (
+            <div className="space-y-6">
+              <PageHeader eyebrow={`Estudiante · ${currentProject.student}`} title="Bitácora" description="Compromisos acordados y el historial de entregas, observaciones y aprobaciones." />
+              <ProjectLogView project={currentProject} />
+            </div>
+          )}
 
-          {role === 'tutor' && (
+          {/* Tutor */}
+          {role === 'tutor' && activeNav === 'por-revisar' && (
             <TutorWorkspace
               projects={tutorProjects}
-              tutors={TUTORS}
-              demoTutorId={demoTutorId}
-              onDemoTutorChange={handleDemoTutorChange}
               selectedProjectId={selectedProjectId}
               onSelectProject={handleSelectProject}
               activeStageId={activeStageId}
@@ -430,16 +495,44 @@ export default function App() {
               stageActions={stageActions}
             />
           )}
+          {role === 'tutor' && activeNav === 'proyectos' && (
+            <div className="space-y-6">
+              <PageHeader eyebrow={`Tutor · ${demoTutor.name}`} title="Mis proyectos" description="Todos los trabajos de grado que acompañas, con su etapa, estado y riesgo." />
+              <ProjectTable projects={tutorProjects} showTutor={false} onOpen={openProjectForTutor} />
+            </div>
+          )}
+          {role === 'tutor' && activeNav === 'compromisos' && (
+            <CommitmentsPage tutorName={demoTutor.name} projects={tutorProjects} onOpenProject={openProjectForTutor} />
+          )}
 
-          {role === 'admin' && (
+          {/* Coordinación */}
+          {role === 'admin' && activeNav === 'panorama' && (
+            <PanoramaPage
+              projects={projects}
+              tutorsCount={TUTORS.length}
+              onOpenProject={(projectId) => {
+                navigate({ ...route, section: 'proyectos', projectId });
+                handleOpenDrawer('Ficha académica completa');
+              }}
+              onGoToProjects={() => handleSidebarNavigate('proyectos')}
+            />
+          )}
+          {role === 'admin' && activeNav === 'proyectos' && (
             <AdminWorkspace
               projects={projects}
               onSelectProject={(projId) => {
                 handleSelectProject(projId);
                 handleOpenDrawer('Ficha académica completa');
               }}
-              onOpenDrawer={handleOpenDrawer}
+              onOpenPanorama={() => handleSidebarNavigate('panorama')}
               onExportCSV={handleExportCSV}
+            />
+          )}
+          {role === 'admin' && activeNav === 'tutores' && (
+            <TutorsPage
+              tutors={TUTORS}
+              projects={projects}
+              onOpenTutorProjects={(tutorId) => navigate({ role: 'tutor', section: 'por-revisar', tutorId })}
             />
           )}
         </main>

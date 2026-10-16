@@ -1,6 +1,6 @@
 import React from 'react';
 import { HelpCircle, Compass, Route } from 'lucide-react';
-import { NAV_ITEMS } from '../../routing/navigation.js';
+import { NAV_ITEMS, ROLE_LABELS } from '../../routing/navigation.js';
 
 /**
  * RoleSidebar — Barra lateral fija / off-canvas por rol.
@@ -17,7 +17,9 @@ export default function RoleSidebar({
   onShowWelcome,
   onStartTour,
   pendingReviewCount = 3,
-  profileName
+  profileName,
+  onRoleChange,
+  identity
 }) {
   const currentNav = (NAV_ITEMS[role] || NAV_ITEMS.estudiante).map(item => ({
     ...item,
@@ -41,7 +43,7 @@ export default function RoleSidebar({
       <aside
         id="sidebar"
         aria-label="Navegación por rol"
-        className={`w-[236px] bg-(--brand) text-(--on-brand) flex-none flex flex-col h-screen sticky top-0 z-40 transition-transform duration-200 ease-out ${
+        className={`w-[236px] bg-(--brand) text-(--on-brand) flex-none flex flex-col h-screen overflow-y-auto sticky top-0 z-40 transition-transform duration-200 ease-out ${
           isMobileOpen
             ? 'fixed inset-y-0 left-0 translate-x-0 shadow-2xl z-50'
             : 'max-md:-translate-x-full max-md:fixed max-md:inset-y-0 max-md:left-0'
@@ -68,7 +70,7 @@ export default function RoleSidebar({
         </div>
 
         {/* Navigation Items */}
-        <nav className="px-3 flex flex-col gap-1 flex-1">
+        <nav data-tour="menu" className="px-3 flex flex-col gap-1 flex-1">
           {currentNav.map((item) => {
             const Icon = item.icon;
             const isActive = activeNav === item.id;
@@ -137,7 +139,7 @@ export default function RoleSidebar({
             className="flex items-center gap-3 w-full text-left rounded-(--radius) px-3.5 py-2 text-xs font-semibold text-white/80 hover:bg-white/8 hover:text-(--on-brand) transition-colors"
           >
             <HelpCircle className="w-4 h-4 text-white/70" />
-            <span>Ayuda contextual</span>
+            <span>Ayuda y glosario</span>
           </button>
 
           <div className="flex items-center gap-2.5 pt-2 border-t border-white/15 px-1">
@@ -153,6 +155,41 @@ export default function RoleSidebar({
               </small>
             </div>
           </div>
+
+          {/* Modo demo: elegir rol y usuario simulado (Fase 4; antes estaba escondido en la cabecera) */}
+          {onRoleChange && (
+            <div data-tour="selector-rol" className="space-y-1.5 px-1 pt-1">
+              <label className="block text-[10px] uppercase tracking-wider font-bold text-white/60">
+                Ver la demo como
+                <select
+                  value={role}
+                  onChange={(e) => {
+                    onRoleChange(e.target.value);
+                    onCloseMobile();
+                  }}
+                  className="mt-1 w-full px-2 py-1.5 rounded-(--radius) bg-white/10 border border-white/20 text-xs font-semibold text-white normal-case tracking-normal"
+                >
+                  {Object.entries(ROLE_LABELS).map(([value, label]) => (
+                    <option key={value} value={value} className="text-(--ink)">{label}</option>
+                  ))}
+                </select>
+              </label>
+              {identity && (
+                <label data-tour="identidad" className="block text-[10px] uppercase tracking-wider font-bold text-white/60">
+                  {identity.label}
+                  <select
+                    value={identity.value}
+                    onChange={(e) => identity.onChange(e.target.value)}
+                    className="mt-1 w-full px-2 py-1.5 rounded-(--radius) bg-white/10 border border-white/20 text-xs font-semibold text-white normal-case tracking-normal"
+                  >
+                    {identity.options.map(o => (
+                      <option key={o.value} value={o.value} className="text-(--ink)">{o.label}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
+          )}
         </div>
       </aside>
 

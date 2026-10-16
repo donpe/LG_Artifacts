@@ -21,9 +21,9 @@ export const TOUR_STEPS = {
       text: 'Las fechas acordadas con tu tutor y su última observación. Si un compromiso vence, el proyecto pasa a riesgo alto.'
     },
     {
-      target: 'selector-rol',
-      title: 'Cambiar de rol',
-      text: 'En esta demo puedes ver la plataforma como tutor o coordinación desde aquí.'
+      target: 'menu',
+      title: 'Todo tu proyecto en el menú',
+      text: 'Etapas (detalle de cada una), Entregas (todas tus versiones) y Bitácora (compromisos e historial). Abajo puedes cambiar el rol de la demo.'
     }
   ],
   tutor: [
@@ -33,9 +33,9 @@ export const TOUR_STEPS = {
       text: 'Los proyectos que tienes asignados, con su etapa y estado. Los que tienen alertas muestran su nivel de riesgo.'
     },
     {
-      target: 'ver-como',
+      target: 'identidad',
       title: 'Simular otro tutor',
-      text: 'En la demo puedes ver la bandeja de cada uno de los 3 tutores del piloto.'
+      text: 'En la demo puedes elegir aquí cuál de los 3 tutores del piloto eres. Cada uno ve solo sus proyectos.'
     },
     {
       target: 'pestanas',
@@ -52,17 +52,17 @@ export const TOUR_STEPS = {
     {
       target: 'indicadores',
       title: 'La cohorte de un vistazo',
-      text: 'Número de proyectos, tutores y avance promedio del piloto.'
+      text: 'Proyectos del piloto, tutores, avance promedio y proyectos completados.'
     },
     {
-      target: 'filtros',
-      title: 'Buscar y filtrar',
-      text: 'Busca por proyecto, estudiante o tutor, filtra por etapa o riesgo y exporta la información a Excel.'
+      target: 'atencion',
+      title: 'Lo que requiere atención',
+      text: 'Proyectos con compromisos vencidos o con cambios solicitados, con el motivo de cada alerta.'
     },
     {
-      target: 'tabla',
-      title: 'Estado de cada proyecto',
-      text: 'Etapa actual, tutor, estado y semáforo de riesgo de cada trabajo de grado. Pasa el cursor sobre el riesgo para ver el motivo.'
+      target: 'menu',
+      title: 'Más detalle',
+      text: 'En Proyectos está la tabla completa con búsqueda, filtros y exportación; en Tutores, la carga y las alertas de cada tutor.'
     }
   ]
 };
