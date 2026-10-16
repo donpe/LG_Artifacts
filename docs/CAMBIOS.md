@@ -564,3 +564,20 @@ estilo institucional, no la de una marca concreta.
 
 **Límite.** Los mensajes de *merge* ya publicados en el historial de git conservan los nombres de rama
 anteriores; reescribir el historial rompería las ramas de las fases 3 y 4, así que no se tocó.
+
+### 4.3 Evidencia de otra etapa — `fix/evidencia-de-otra-etapa`
+
+**Problema.** Si la etapa que se estaba viendo no tenía entregas, la tarjeta *Evidencia actual* mostraba la
+primera evidencia del proyecto, aunque fuera de otra etapa (por ejemplo, el protocolo de la etapa 1 en la
+etapa 6), o un archivo inventado.
+
+**Cambio.**
+- Nuevo `src/domain/evidence.js` con `getStageEvidences()` y `getLatestEvidence()`: solo entregas de la
+  etapa indicada, de la más reciente a la más antigua; `null` si no hay ninguna.
+- Estudiante y tutor muestran "Aún no hay entregas en esta etapa" cuando corresponde.
+- Prueba nueva en `tests/domain.test.mjs`.
+
+**Archivos.** `src/domain/evidence.js` (nuevo), `src/features/student/StudentWorkspace.jsx`,
+`src/features/tutor/TutorWorkspace.jsx`, `tests/domain.test.mjs`.
+
+**Cómo comprobarlo.** Rol *Estudiante* → clic en la Etapa 6: *Evidencia actual* dice que aún no hay entregas.

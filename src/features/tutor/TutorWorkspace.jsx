@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Search, Download } from 'lucide-react';
 import StatusBadge from '../../components/StatusBadge.jsx';
 import Term from '../../components/Term.jsx';
+import { getLatestEvidence } from '../../domain/evidence.js';
 import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
@@ -43,13 +44,8 @@ export default function TutorWorkspace({
   }, [projects, searchTerm]);
 
   // Current evidence
-  const currentEvidence = (selectedProject.evidences || []).find(e => e.stageId === activeStage.id) ||
-    selectedProject.evidences?.[0] || {
-      filename: `Evidencia_Etapa_${activeStage.id}_v1.2.pdf`,
-      version: 'v1.2',
-      date: '12 oct. 2026',
-      size: '2.4 MB'
-    };
+  // Solo entregas de la etapa que se está revisando (null si no hay ninguna).
+  const currentEvidence = getLatestEvidence(selectedProject.evidences, activeStage.id);
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -186,7 +182,7 @@ export default function TutorWorkspace({
                 {selectedProject.title}
               </h2>
               <div className="text-xs text-(--muted)">
-                Etapa {activeStage.id} &bull; {activeStage.name} &bull; Versión {currentEvidence.version}
+                Etapa {activeStage.id} &bull; {activeStage.name}{currentEvidence ? ` • Versión ${currentEvidence.version}` : ''}
               </div>
             </div>
 
@@ -225,6 +221,11 @@ export default function TutorWorkspace({
             {/* TAB 1: EVIDENCIA */}
             {activeTab === 'Evidencia' && (
               <div className="space-y-4">
+                {!currentEvidence ? (
+                  <p className="p-4 rounded-(--radius) border border-dashed border-(--line2) text-xs text-(--muted)">
+                    El estudiante aún no ha entregado nada en esta etapa.
+                  </p>
+                ) : (
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-(--radius) border border-(--line) bg-(--surface-subtle)">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-10 h-10 rounded-(--radius) bg-(--accent-soft) text-(--accent) font-bold text-xs grid place-items-center shrink-0">
@@ -258,6 +259,7 @@ export default function TutorWorkspace({
                     </button>
                   </div>
                 </div>
+                )}
 
                 <div className="p-4 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) space-y-1">
                   <h4 className="font-bold text-xs text-(--ink)">Revisión de la evidencia</h4>

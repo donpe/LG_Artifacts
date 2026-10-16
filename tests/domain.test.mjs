@@ -4,6 +4,7 @@ import { canTransition, getStageActions, STAGE_STATUS } from '../src/domain/stag
 import { validateGate0 } from '../src/domain/gate0Validator.js';
 import { sanitizeCSVValue, exportProjectToCSV } from '../src/domain/csvExporter.js';
 import { PILOT_PROJECTS } from '../src/data/pilotData.js';
+import { getLatestEvidence } from '../src/domain/evidence.js';
 
 console.log('🧪 Iniciando pruebas unitarias de lógica de dominio (Academic Tracking)...');
 
@@ -151,5 +152,16 @@ const levels = new Set(PILOT_PROJECTS.map(p => calculateRiskLevel(p)));
 ['Alto', 'Medio', 'Bajo', 'Completado'].forEach(l => assert.ok(levels.has(l), `Hay al menos un proyecto con riesgo ${l}`));
 ['TUT-01', 'TUT-02', 'TUT-03'].forEach(t => assert.equal(PILOT_PROJECTS.filter(p => p.tutorId === t).length, 5, `${t} tiene 5 proyectos`));
 console.log('     ✓ Datos con riesgos Alto, Medio, Bajo y Completado, 5 proyectos por tutor.');
+
+// --- 6. Evidencias por etapa (Fase 4) ---
+console.log('  6. Verificando evidencias por etapa...');
+const evs = [
+  { id: 'a', stageId: 1, date: '2026-10-01' },
+  { id: 'b', stageId: 1, date: '2026-10-10' },
+  { id: 'c', stageId: 2, date: '2026-10-05' }
+];
+assert.equal(getLatestEvidence(evs, 1).id, 'b', 'Devuelve la entrega más reciente de la etapa');
+assert.equal(getLatestEvidence(evs, 6), null, 'Una etapa sin entregas no muestra evidencias de otra etapa');
+console.log('     ✓ Cada etapa muestra solo sus propias entregas.');
 
 console.log('✅ TODAS LAS PRUEBAS UNITARIAS DE DOMINIO PASARON SATISFACTORIAMENTE (100% OK).\n');

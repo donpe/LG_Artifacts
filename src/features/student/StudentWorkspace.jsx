@@ -2,6 +2,7 @@ import React from 'react';
 import { FileText, Clock, Layers, ChevronRight, Download, Upload } from 'lucide-react';
 import Term from '../../components/Term.jsx';
 import StatusBadge from '../../components/StatusBadge.jsx';
+import { getLatestEvidence } from '../../domain/evidence.js';
 import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
@@ -26,13 +27,8 @@ export default function StudentWorkspace({
   const latestObservation = observations[0];
 
   // Latest evidence for active stage
-  const currentEvidence = (project.evidences || []).find(e => e.stageId === activeStage.id) ||
-    project.evidences?.[0] || {
-      filename: `Evidencia_Etapa_${activeStage.id}_v1.0.pdf`,
-      version: 'v1.0',
-      date: '12 oct. 2026',
-      size: '2.4 MB'
-    };
+  // Solo entregas de la etapa que se está viendo (null si no hay ninguna).
+  const currentEvidence = getLatestEvidence(project.evidences, activeStage.id);
 
   // Etapa en la que realmente va el proyecto (puede ser distinta de la que el estudiante está mirando).
   const currentStage = getCurrentStage(project.stages || []);
@@ -274,6 +270,11 @@ export default function StudentWorkspace({
               </button>
             </div>
 
+            {!currentEvidence ? (
+              <p className="p-4 rounded-(--radius) border border-dashed border-(--line2) text-xs text-(--muted)">
+                Aún no hay entregas en esta etapa.
+              </p>
+            ) : (
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-(--radius) border border-(--line) bg-(--surface-subtle)">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-10 h-10 rounded-(--radius) bg-(--accent-soft) text-(--accent) font-bold text-xs grid place-items-center shrink-0">
@@ -301,6 +302,7 @@ export default function StudentWorkspace({
                 </button>
               </div>
             </div>
+            )}
           </section>
         </div>
 
