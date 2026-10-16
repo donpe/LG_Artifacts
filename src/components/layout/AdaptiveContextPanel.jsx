@@ -146,11 +146,11 @@ export default function AdaptiveContextPanel({
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-1.5">
                     <span className="font-mono text-[10px] font-bold text-[#6E432F] bg-[#F5F1EA] px-1.5 py-0.2 rounded">
-                      {item.code}
+                      {item.id}
                     </span>
-                    <strong className="text-xs text-[#1C1917]">{item.title}</strong>
+                    <strong className="text-xs text-[#1C1917]">{item.label}</strong>
                   </div>
-                  <small className="text-[11px] text-[#6A625B] block leading-snug">{item.description}</small>
+                  <small className="text-[11px] text-[#6A625B] block leading-snug">{item.suggestedCheck}</small>
                 </div>
               </label>
             ))}
