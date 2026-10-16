@@ -34,8 +34,9 @@ export default function TopbarCompact({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Fase 2: cabecera blanca y sólida con línea inferior azul marino.
   return (
-    <header className="h-[61px] max-md:h-[56px] bg-white/80 backdrop-blur-md border-b border-(--line) sticky top-0 z-30 flex items-center justify-between px-6 max-md:px-4 gap-4">
+    <header className="h-[61px] max-md:h-[56px] bg-white border-b-2 border-(--brand) sticky top-0 z-30 flex items-center justify-between px-6 max-md:px-4 gap-4">
       {/* Left: Mobile Menu Trigger + Breadcrumb */}
       <div className="flex items-center gap-3 text-xs sm:text-sm text-(--light)">
         <button
