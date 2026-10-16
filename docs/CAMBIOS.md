@@ -614,3 +614,21 @@ y el proyecto abierto (siempre volvía a *Tutor*).
 **Cómo comprobarlo.** Abrir `#/tutor/por-revisar?tutor=TUT-02&proyecto=PRJ-05`: aparece la Dra. Elena Ramos
 con el proyecto de Diego. Cambiar a *Estudiante*, hacer clic en una etapa y usar *Atrás* del navegador:
 se vuelve paso a paso. Recargar en cualquier punto mantiene la pantalla.
+
+### 4.5 Menú con una pantalla por opción — `feat/menu-con-pantalla-por-opcion`
+
+**Problema.** La mayoría de las opciones del menú no cambiaba la pantalla, y el rol se elegía en un desplegable escondido en la cabecera.
+
+**Cambio.**
+- Menú nuevo (`src/routing/navigation.js`), con una pantalla real por opción:
+  - **Estudiante:** Mi proyecto · Etapas · Entregas · Bitácora.
+  - **Tutor:** Por revisar · Mis proyectos · Compromisos.
+  - **Coordinación:** Panorama (nueva pantalla de inicio) · Proyectos · Tutores.
+- Componentes nuevos: `StagesView` (riel y detalle de cada etapa: entregas, Gate 0 y observaciones de esa etapa, acciones según el rol), `EvidenceList`, `ProjectLogView`, `ProjectTable`, `PanoramaPage`, `TutorsPage`, `CommitmentsPage` y `PageHeader`.
+- `src/domain/projectLog.js`: bitácora por etapa y compromisos clasificados como vencidos, próximos o a tiempo (con pruebas).
+- **El rol y el usuario simulado se eligen en la barra lateral** ("Ver la demo como"). La cabecera solo muestra la ubicación.
+- Los accesos del estudiante llevan a las pantallas en lugar de abrir el panel lateral. Los recorridos guiados se ajustaron.
+
+**Pendiente (siguientes cambios de la Fase 4).** La ficha del proyecto como página con pestañas, las decisiones en ventana de confirmación y la simplificación del panel lateral.
+
+**Cómo comprobarlo.** En cada rol, recorrer todas las opciones del menú: cada una abre su pantalla con su propia dirección.

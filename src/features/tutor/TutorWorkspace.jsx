@@ -18,10 +18,7 @@ export default function TutorWorkspace({
   onToggleGateItem,
   onOpenDrawer,
   tutorName = 'Carlos G.',
-  stageActions,
-  tutors = [],
-  demoTutorId,
-  onDemoTutorChange
+  stageActions
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('Evidencia'); // 'Evidencia' | 'Criterios' | 'Observaciones' | 'Historial'
@@ -64,21 +61,6 @@ export default function TutorWorkspace({
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
-            {/* Modo demo: elegir qué tutor se simula. Cada tutor solo ve sus proyectos asignados. */}
-            {tutors.length > 0 && (
-              <label data-tour="ver-como" className="flex items-center gap-1.5 text-xs text-(--muted)">
-                <span>Ver como:</span>
-                <select
-                  value={demoTutorId}
-                  onChange={(e) => onDemoTutorChange(e.target.value)}
-                  className="px-2 py-1 rounded-(--radius) border border-(--line2) bg-white text-xs font-semibold text-(--ink)"
-                >
-                  {tutors.map(t => (
-                    <option key={t.id} value={t.id}>{t.name}</option>
-                  ))}
-                </select>
-              </label>
-            )}
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-(--amber-bg) text-(--amber) border border-(--amber-line)/60">
               <span>{projects.length} tesis asignadas</span>
             </span>

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Download, ArrowRight, BarChart3 } from 'lucide-react';
-import StatusBadge from '../../components/StatusBadge.jsx';
+import { Search, Filter, Download, BarChart3 } from 'lucide-react';
+import ProjectTable from '../projects/ProjectTable.jsx';
 import Term from '../../components/Term.jsx';
 import { getCurrentStage } from '../../domain/progressCalculator.js';
 
@@ -11,7 +11,7 @@ import { getCurrentStage } from '../../domain/progressCalculator.js';
 export default function AdminWorkspace({
   projects,
   onSelectProject,
-  onOpenDrawer,
+  onOpenPanorama,
   onExportCSV
 }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -59,17 +59,17 @@ export default function AdminWorkspace({
           </div>
           <button
             type="button"
-            onClick={() => onOpenDrawer('Indicadores de seguimiento')}
+            onClick={onOpenPanorama}
             className="text-xs font-bold text-(--brand) hover:underline self-start sm:self-auto flex items-center gap-1.5"
           >
             <BarChart3 className="w-4 h-4 text-(--brand)" />
-            <span>Ver indicadores &rarr;</span>
+            <span>Ver panorama &rarr;</span>
           </button>
         </div>
       </div>
 
       {/* Overview Strip */}
-      <div data-tour="indicadores" className="flex flex-wrap gap-2.5 items-center">
+      <div className="flex flex-wrap gap-2.5 items-center">
         <div className="px-3.5 py-2 bg-white border border-(--line) rounded-(--radius) text-xs text-(--light)">
           <strong className="font-editorial font-bold text-sm text-(--brand) mr-1">{totalProjects}</strong>
           proyectos del piloto
@@ -157,73 +157,11 @@ export default function AdminWorkspace({
         </div>
       )}
 
-      {/* Projects Table Card */}
-      <section data-tour="tabla" className="bg-white rounded-(--radius) border border-(--line) overflow-hidden">
-        {/* Table Header */}
-        <div className="hidden lg:grid grid-cols-12 gap-3 p-3.5 px-5 bg-(--surface-subtle) border-b border-(--line) text-[11px] font-bold text-(--light) uppercase tracking-wider">
-          <span className="col-span-5">Proyecto / Estudiante</span>
-          <span className="col-span-3">Etapa Activa</span>
-          <span className="col-span-2">Tutor Asignado</span>
-          <span className="col-span-2 text-right">Estado</span>
-        </div>
-
-        {/* Table Rows */}
-        <div className="divide-y divide-(--line)">
-          {filteredProjects.map((p) => {
-            const activeSt = getCurrentStage(p.stages);
-            return (
-              <div
-                key={p.id}
-                onClick={() => onSelectProject(p.id)}
-                className="p-4 sm:px-5 hover:bg-(--surface-subtle) transition-colors cursor-pointer flex flex-col lg:grid lg:grid-cols-12 lg:items-center gap-2 lg:gap-3 text-xs"
-              >
-                {/* Column 1: Project & Student */}
-                <div className="lg:col-span-5 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-[10px] font-bold text-(--brand) bg-(--sand) px-1.5 py-0.2 rounded border border-(--line2)">
-                      {p.institutionalId}
-                    </span>
-                    <strong className="font-editorial text-sm text-(--ink) truncate leading-tight">
-                      {p.title}
-                    </strong>
-                  </div>
-                  <small className="text-[11px] text-(--light) block mt-0.5">
-                    {p.student} &bull; {p.thematicLine}
-                  </small>
-                </div>
-
-                {/* Column 2: Active Stage */}
-                <div className="lg:col-span-3 text-(--muted) text-xs">
-                  <span className="lg:hidden font-bold text-[11px] text-(--light) mr-1">Etapa:</span>
-                  <span>Etapa {activeSt.id} &bull; {activeSt.name.split('(')[0]}</span>
-                </div>
-
-                {/* Column 3: Tutor */}
-                <div className="lg:col-span-2 text-(--muted) text-xs">
-                  <span className="lg:hidden font-bold text-[11px] text-(--light) mr-1">Tutor:</span>
-                  <span>{p.tutor}</span>
-                </div>
-
-                {/* Column 4: Status Badge & Chevron */}
-                <div className="lg:col-span-2 flex flex-wrap items-center justify-between lg:justify-end gap-2 pt-1 lg:pt-0">
-                  <StatusBadge type="stage" value={activeSt.status} />
-                  {/* Semáforo calculado en App.jsx con describeRisk(); el motivo aparece al pasar el cursor */}
-                  <span title={p.riskReason}>
-                    <StatusBadge type="risk" value={p.riskLevel} />
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-(--light) shrink-0" />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {filteredProjects.length === 0 && (
-          <div className="p-10 text-center text-xs text-(--muted)">
-            No se encontraron proyectos coincidentes con los filtros aplicados.
-          </div>
-        )}
-      </section>
+      <ProjectTable
+        projects={filteredProjects}
+        onOpen={onSelectProject}
+        emptyText="No se encontraron proyectos con los filtros aplicados."
+      />
 
       <p className="text-[11px] text-(--light)">
         Datos ficticios para supervisión y demostración académica. No equivalen al seguimiento real de la cohorte.

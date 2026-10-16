@@ -1,39 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Menu, Info, Download, ChevronDown, RotateCcw } from 'lucide-react';
+import React from 'react';
+import { Menu, Info, Download, RotateCcw } from 'lucide-react';
+import { ROLE_LABELS } from '../../routing/navigation.js';
 
 /**
- * TopbarCompact — Cabecera de control minimalista (Academic Flow 2.0)
- * Breadcrumb de ubicación, selector de rol simulado y acciones globales.
+ * TopbarCompact — Cabecera: ruta de ubicación (rol / sección) y acciones globales.
+ * Desde la Fase 4 el rol se elige en la barra lateral.
  */
 export default function TopbarCompact({
   activeNav,
   role,
-  onRoleChange,
   onToggleMobileMenu,
   onOpenProjectInfo,
   onExportCSV,
   onResetDemo
 }) {
-  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const roleLabels = {
-    estudiante: 'Estudiante',
-    tutor: 'Tutor',
-    admin: 'Administrador'
-  };
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsRoleDropdownOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   // Fase 2: cabecera blanca y sólida con línea inferior azul marino.
   return (
     <header className="h-[61px] max-md:h-[56px] bg-white border-b-2 border-(--brand) sticky top-0 z-30 flex items-center justify-between px-6 max-md:px-4 gap-4">
@@ -50,7 +30,10 @@ export default function TopbarCompact({
 
         <span className="font-semibold text-(--ink) shrink-0 max-sm:hidden">LG Artifacts</span>
         <span className="text-(--line2) max-sm:hidden">/</span>
-        <span className="font-bold text-(--brand) max-sm:hidden max-w-[120px] lg:max-w-xs truncate">
+        {/* El rol se cambia desde la barra lateral (Fase 4); aquí solo se muestra */}
+        <span className="font-semibold text-(--muted) shrink-0 max-sm:hidden">{ROLE_LABELS[role]}</span>
+        <span className="text-(--line2) max-sm:hidden">/</span>
+        <span className="font-bold text-(--brand) max-w-[160px] lg:max-w-xs truncate">
           {activeNav}
         </span>
       </div>
@@ -99,69 +82,6 @@ export default function TopbarCompact({
           <span>CSV</span>
         </button>
 
-        {/* Role Selector Dropdown */}
-        <div className="relative" ref={dropdownRef} data-tour="selector-rol">
-          <button
-            type="button"
-            onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-(--radius) border border-(--line2) bg-white text-xs font-semibold text-(--ink) hover:bg-(--sand) transition-colors"
-            aria-expanded={isRoleDropdownOpen}
-            aria-label="Seleccionar rol de demostración"
-          >
-            <span>{roleLabels[role] || 'Rol'}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-(--muted)" />
-          </button>
-
-          {isRoleDropdownOpen && (
-            <div className="absolute right-0 top-10 w-44 bg-white border border-(--line) rounded-(--radius) shadow-xl p-1.5 z-50 animate-fade-in-slide">
-              <span className="block px-2.5 py-1 text-[10px] font-bold text-(--light) uppercase tracking-wider">
-                Cambiar Rol Simulado
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  onRoleChange('estudiante');
-                  setIsRoleDropdownOpen(false);
-                }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-(--radius) text-xs font-semibold transition-colors ${
-                  role === 'estudiante'
-                    ? 'bg-(--accent-soft) text-(--brand)'
-                    : 'text-(--muted) hover:bg-(--sand)'
-                }`}
-              >
-                Estudiante
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  onRoleChange('tutor');
-                  setIsRoleDropdownOpen(false);
-                }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-(--radius) text-xs font-semibold transition-colors ${
-                  role === 'tutor'
-                    ? 'bg-(--accent-soft) text-(--brand)'
-                    : 'text-(--muted) hover:bg-(--sand)'
-                }`}
-              >
-                Tutor
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  onRoleChange('admin');
-                  setIsRoleDropdownOpen(false);
-                }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-(--radius) text-xs font-semibold transition-colors ${
-                  role === 'admin'
-                    ? 'bg-(--accent-soft) text-(--brand)'
-                    : 'text-(--muted) hover:bg-(--sand)'
-                }`}
-              >
-                Administrador
-              </button>
-            </div>
-          )}
-        </div>
       </div>
     </header>
   );
