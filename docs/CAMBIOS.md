@@ -31,7 +31,7 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 | Fase | Objetivo | Estado |
 |------|----------|--------|
 | 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
-| 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Pendiente |
+| 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | En curso |
 | 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Pendiente |
 | 4 · Funcionalidad con valor | Compromisos, carga de archivos, tablero de coordinación, exportación por cohorte | Pendiente |
 
@@ -262,3 +262,43 @@ La suite E2E (`node verify-app.mjs`) no se ejecutó: necesita descargar el naveg
 - Al aprobar una etapa, la siguiente pasa directo a "En revisión" sin entrega del estudiante; así lo
   define la regla original de negocio, pero conviene revisarlo con el dueño del producto.
 - Los compromisos no se pueden crear ni cerrar desde la interfaz (Fase 4).
+
+---
+
+## Fase 2 · Identidad visual inspirada en EAFIT
+
+Rama de integración: `fase-2/identidad-visual-eafit` (parte de `fase-1/victorias-tempranas`).
+
+**Referencia.** eafit.edu.co: azul marino `#000066`, azul vivo `#146AEF`, cian `#00A9E0`, mucho blanco y
+negro, tipografía **Inter** con títulos de peso alto, bloques sólidos de color, esquinas casi rectas y pie
+de página oscuro. Es una *inspiración*: no se usa el logo oficial ni se presenta como sitio de la
+universidad. Usar la marca requiere aprobación institucional.
+
+### 2.1 Paleta y tipografía — `feat/paleta-y-tipografia-inspiradas-en-eafit`
+
+**Problema.** La interfaz tenía una estética cálida (crema, café, títulos serif Georgia) que no se
+relaciona con EAFIT. Además, los colores estaban escritos a mano en cada componente: **80 tonos distintos**
+en 484 clases como `bg-[#6E432F]`, así que cambiar la identidad obligaba a tocar todos los archivos.
+
+**Cambio.**
+- `src/styles/tokens.css` reescrito con la paleta nueva y comentarios de uso. Es la **única fuente de colores**.
+- Los 484 colores fijos de los componentes se reemplazaron por variables (`bg-(--brand)`, `text-(--muted)`…).
+  Los 80 tonos se agruparon en 30 variables:
+
+  | Antes (tonos cálidos) | Variable | Ahora |
+  |---|---|---|
+  | Café `#6E432F` y similares | `--brand` | Azul marino `#000066` |
+  | Terracota `#8E4928` | `--accent` | Azul `#146AEF` |
+  | Crema `#FBF9F5` y 12 variantes | `--bg` / `--surface-subtle` | Grises fríos `#F4F5F7` / `#F8F9FA` |
+  | Arena `#E8E1D5` y similares | `--line` / `--line2` | Grises `#E3E5E8` / `#C9CDD3` |
+  | Carbón cálido `#1C1917`… | `--ink` / `--muted` / `--light` | Negros y grises neutros |
+  | Verde, ámbar, rojo de estados | `--green`, `--amber`, `--red`… | Sin cambio (ya cumplían contraste AA) |
+- Fuente **Inter** cargada desde Google Fonts en `index.html` (antes se pedía, pero no se cargaba).
+- Los títulos (`.font-editorial` en `src/index.css`) pasan de serif Georgia a Inter 800.
+- El contorno de foco del teclado usa el azul `--accent`.
+
+**Archivos.** `src/styles/tokens.css`, `src/index.css`, `index.html` y todos los `.jsx` de `src/`
+(solo cambian los colores; la estructura queda igual).
+
+**Cómo comprobarlo.** `npm run dev`: la app se ve en azul marino, blanco y grises, con títulos en Inter.
+Para probar otra paleta basta con editar `src/styles/tokens.css`.

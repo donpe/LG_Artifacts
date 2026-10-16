@@ -1,71 +1,68 @@
 /* ==========================================================================
-   TOKENS DE DISEÑO INSTITUCIONAL — ACADEMIC FLOW (LG_ARTIFACTS 2.0)
-   Inspiración: Framer (artesanía editorial) + Kira (guía activa) + Gumloop (ergonomía)
+   TOKENS DE DISEÑO — IDENTIDAD INSPIRADA EN EAFIT (Fase 2)
+   Referencia visual: eafit.edu.co — azul marino institucional, azul vivo,
+   blanco y negro, tipografía Inter de alto peso y esquinas casi rectas.
+
+   Todos los colores de la interfaz salen de aquí: los componentes usan
+   clases como `bg-(--brand)` o `text-(--muted)`. Para cambiar la identidad
+   basta con editar este archivo. Ver docs/CAMBIOS.md, Fase 2.
    ========================================================================== */
 
 :root {
-  /* Lienzo y Superficies de Trabajo */
-  --bg: #FBF9F5;
+  /* Marca */
+  --brand: #000066;          /* Azul marino institucional (botones, barra lateral, títulos) */
+  --brand-hover: #00004D;
+  --accent: #146AEF;         /* Azul vivo para enlaces, foco y detalles */
+  --accent-soft: #E8F0FE;    /* Fondo suave para resaltar elementos de marca */
+  --cyan: #00A9E0;           /* Acento decorativo (no usar para texto pequeño) */
+  --on-brand: #FFFFFF;
+
+  /* Lienzo y superficies */
+  --bg: #F4F5F7;
   --surface: #FFFFFF;
-  --sand: #F5F1EA;
-  --hover: #EFE9DF;
-  --surface-subtle: #F7F4EE;
+  --surface-subtle: #F8F9FA;
+  --sand: #EEF1F6;
+  --hover: #E2E8F2;
 
-  /* Compatibilidad con variables previas */
-  --color-app-bg: #FBF9F5;
-  --color-canvas: #FBF9F5;
-  --color-surface: #FFFFFF;
-  --color-surface-muted: #F5F1EA;
-  --color-surface-hover: #EFE9DF;
+  /* Texto (contraste AA sobre blanco y sobre --bg) */
+  --ink: #1D1D1D;
+  --muted: #4B4B4B;
+  --light: #616161;
 
-  /* Tinta y Textos (Warm Charcoal / Piedra Natural) */
-  --ink: #1C1917;
-  --muted: #57534E;
-  --light: #6A625B;
-  --color-text: #1C1917;
-  --color-ink-primary: #1C1917;
-  --color-ink-secondary: #57534E;
-  --color-ink-muted: #6A625B;
+  /* Bordes */
+  --line: #E3E5E8;
+  --line2: #C9CDD3;
 
-  /* Identidad Institucional y Acentos */
-  --brand: #6E432F;
-  --brand-hover: #553323;
-  --accent: #8E4928;
-  --color-primary: #6E432F;
-  --color-primary-hover: #553323;
-  --color-accent: #8E4928;
-
-  /* Líneas y Bordes Orgánicos */
-  --line: #E8E1D5;
-  --line2: #D8CEBF;
-  --color-border: #D8CEBF;
-  --color-border-subtle: #E8E1D5;
-
-  /* Semántica Académica (Contrastes WCAG 2.2 AA Auditados) */
+  /* Semántica académica (contrastes WCAG 2.2 AA) */
   --green: #146C4F;
+  --green-hover: #0E523C;
   --green-bg: #EDF7F2;
-  --color-success: #146C4F;
-  --color-success-bg: #EDF7F2;
+  --green-line: #9CD5BE;
 
   --amber: #8A4B08;
   --amber-bg: #FFFBEB;
-  --color-warning: #8A4B08;
-  --color-warning-bg: #FFFBEB;
+  --amber-line: #FCD34D;
 
   --red: #B42318;
+  --red-hover: #991B1B;
   --red-bg: #FEF2F2;
-  --color-danger: #B42318;
-  --color-danger-bg: #FEF2F2;
+  --red-line: #FCA5A5;
 
   --pending: #475569;
-  --pending-bg: #F1EFEA;
-  --color-locked: #475569;
-  --color-locked-bg: #F1EFEA;
+  --pending-bg: #F1F3F6;
 
-  /* Medidas de Maquetación */
+  --info: #1D4ED8;
+  --info-bg: #EFF6FF;
+  --info-line: #93C5FD;
+
+  /* Pie de página oscuro, como el sitio institucional */
+  --footer-bg: #1D1D1D;
+  --footer-ink: #D4D4D4;
+
+  /* Medidas de maquetación */
   --sidebar-w: 236px;
   --sidebar-collapsed-w: 68px;
   --topbar-h: 61px;
-  --shadow: 0 8px 32px rgba(28, 25, 23, 0.035);
-  --shadow-editorial: 0 1px 3px rgba(28, 25, 23, 0.05), 0 4px 12px rgba(28, 25, 23, 0.03);
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(0, 0, 51, 0.06);
 }

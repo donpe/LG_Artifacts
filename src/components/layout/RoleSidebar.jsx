@@ -53,7 +53,7 @@ export default function RoleSidebar({
       <aside
         id="sidebar"
         aria-label="Navegación por rol"
-        className={`w-[236px] bg-[#F7F3ED] border-r border-[#E8E1D5] flex-none flex flex-col h-screen sticky top-0 z-40 transition-transform duration-200 ease-out ${
+        className={`w-[236px] bg-(--surface-subtle) border-r border-(--line) flex-none flex flex-col h-screen sticky top-0 z-40 transition-transform duration-200 ease-out ${
           isMobileOpen
             ? 'fixed inset-y-0 left-0 translate-x-0 shadow-2xl z-50'
             : 'max-md:-translate-x-full max-md:fixed max-md:inset-y-0 max-md:left-0'
@@ -61,21 +61,21 @@ export default function RoleSidebar({
       >
         {/* Brand Emblem & Academic Title */}
         <div className="flex items-center gap-3 p-6 pb-5">
-          <div className="h-10 w-10 border-[1.5px] border-[#6E432F] rounded-xl text-[#6E432F] grid place-items-center font-editorial font-bold text-xl bg-[#FEFCF8] shadow-xs select-none">
+          <div className="h-10 w-10 border-[1.5px] border-(--brand) rounded-xl text-(--brand) grid place-items-center font-editorial font-bold text-xl bg-(--surface-subtle) shadow-xs select-none">
             LG
           </div>
           <div>
-            <div className="font-editorial font-bold text-lg text-[#36241C] tracking-tight leading-none">
+            <div className="font-editorial font-bold text-lg text-(--ink) tracking-tight leading-none">
               Academic Flow
             </div>
-            <div className="text-[10px] text-[#73675D] tracking-wider uppercase font-semibold mt-1">
+            <div className="text-[10px] text-(--light) tracking-wider uppercase font-semibold mt-1">
               SEGUIMIENTO DE TESIS
             </div>
           </div>
         </div>
 
         {/* Section Label */}
-        <div className="text-[10px] tracking-widest text-[#908378] font-bold px-6 pt-3 pb-2 uppercase">
+        <div className="text-[10px] tracking-widest text-(--light) font-bold px-6 pt-3 pb-2 uppercase">
           ESPACIO DE TRABAJO
         </div>
 
@@ -94,15 +94,15 @@ export default function RoleSidebar({
                 }}
                 className={`flex items-center gap-3 w-full text-left rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all min-h-[42px] ${
                   isActive
-                    ? 'bg-[#EDE2D6] text-[#6E432F] font-bold shadow-xs'
-                    : 'text-[#5E534D] hover:bg-[#EFE6DD] hover:text-[#1C1917]'
+                    ? 'bg-(--accent-soft) text-(--brand) font-bold shadow-xs'
+                    : 'text-(--muted) hover:bg-(--line) hover:text-(--ink)'
                 }`}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#6E432F]' : 'text-[#7C736C]'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-(--brand)' : 'text-(--light)'}`} />
                 <span className="truncate flex-1">{item.label}</span>
                 {item.count !== undefined && item.count > 0 && (
-                  <span className="ml-auto bg-white text-[#6E432F] text-[11px] font-extrabold rounded-full px-2 py-0.5 shadow-xs border border-[#E8E1D5]">
+                  <span className="ml-auto bg-white text-(--brand) text-[11px] font-extrabold rounded-full px-2 py-0.5 shadow-xs border border-(--line)">
                     {item.count}
                   </span>
                 )}
@@ -112,28 +112,28 @@ export default function RoleSidebar({
         </nav>
 
         {/* Bottom Bar: Help + Demo Profile */}
-        <div className="mt-auto border-t border-[#E8E1D5] p-3 space-y-2">
+        <div className="mt-auto border-t border-(--line) p-3 space-y-2">
           <button
             type="button"
             onClick={() => {
               onOpenDrawer('Ayuda contextual');
               onCloseMobile();
             }}
-            className="flex items-center gap-3 w-full text-left rounded-xl px-3.5 py-2 text-xs font-semibold text-[#5E534D] hover:bg-[#EFE6DD] hover:text-[#1C1917] transition-colors"
+            className="flex items-center gap-3 w-full text-left rounded-xl px-3.5 py-2 text-xs font-semibold text-(--muted) hover:bg-(--line) hover:text-(--ink) transition-colors"
           >
-            <HelpCircle className="w-4 h-4 text-[#7C736C]" />
+            <HelpCircle className="w-4 h-4 text-(--light)" />
             <span>Ayuda contextual</span>
           </button>
 
-          <div className="flex items-center gap-2.5 pt-2 border-t border-[#E8E1D5] px-1">
-            <span className="w-8 h-8 rounded-full bg-[#D5C2AF] text-[#5A3526] font-bold text-xs grid place-items-center shrink-0">
+          <div className="flex items-center gap-2.5 pt-2 border-t border-(--line) px-1">
+            <span className="w-8 h-8 rounded-full bg-(--line2) text-(--brand) font-bold text-xs grid place-items-center shrink-0">
               {profile.initial}
             </span>
             <div className="min-w-0 flex-1">
-              <strong className="block text-xs font-bold text-[#1C1917] truncate leading-tight">
+              <strong className="block text-xs font-bold text-(--ink) truncate leading-tight">
                 {profile.name}
               </strong>
-              <small className="block text-[11px] text-[#57534E] truncate">
+              <small className="block text-[11px] text-(--muted) truncate">
                 {profile.roleLabel}
               </small>
             </div>
