@@ -8,7 +8,7 @@
  * Si cambia la estructura o el contenido de src/data/pilotData.js, subir DEMO_DATA_VERSION
  * para que los navegadores descarten los datos guardados con la versión anterior.
  */
-export const DEMO_DATA_VERSION = 1;
+export const DEMO_DATA_VERSION = 2;
 const STORAGE_KEY = 'lg-artifacts:demo-projects';
 
 export function loadDemoProjects(fallback) {

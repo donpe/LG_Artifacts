@@ -164,3 +164,47 @@ se comparten con nadie. La persistencia real será Supabase (Fase 4).
 
 **Cómo comprobarlo.** Rol *Estudiante* → *Subir nueva evidencia* → recargar la página: la entrega
 sigue ahí. Luego ↺ *Reiniciar demo*: vuelve el estado original.
+
+### 1.6 Datos del piloto variados y con contexto EAFIT — `chore/datos-piloto-variados-contexto-eafit`
+
+**Problema.**
+- Los 15 proyectos estaban casi todos "En revisión": la demo no mostraba proyectos completados,
+  atrasados ni en riesgo.
+- El contexto era de otra universidad: correos `@universidad.edu.pe`, "Dirección de Grados y Títulos",
+  facultades que no existen en EAFIT y apellidos poco usuales en Colombia.
+- Las fechas estaban fijas en octubre de 2026: con el paso de los días todos los compromisos
+  quedarían vencidos y todo saldría en riesgo alto.
+- Las 6 etapas estaban definidas dos veces (en `pilotData.js` y en `stageMachine.js`), con textos distintos.
+- Un proyecto con las 6 etapas aprobadas se mostraba como "Etapa 1".
+
+**Cambio.**
+- `src/data/pilotData.js` reescrito:
+  - Tutores asociados a escuelas de EAFIT (Administración; Ciencias Aplicadas e Ingeniería;
+    Finanzas, Economía y Gobierno), estudiantes con nombres colombianos, cohorte `2026-1`,
+    códigos `MAE-2026-…` y coordinación "Coordinación de la Maestría".
+  - Correos con el dominio ficticio `@ejemplo.edu.co`, para no apuntar a buzones reales.
+  - Temas ajustados a las escuelas (los de salud se reemplazaron por finanzas, economía y gobierno).
+  - **Fechas relativas al día en que se abre la demo** (`isoDate(-4)`, `shortDate(8)`…), así el
+    semáforo se ve igual siempre.
+  - Casos cubiertos (el resumen está al inicio de la lista en el código):
+    | Caso | Proyectos |
+    |------|-----------|
+    | Riesgo alto (compromiso vencido) | PRJ-06, PRJ-07, PRJ-08 |
+    | Cambios solicitados (riesgo medio) | PRJ-03, PRJ-04, PRJ-11 |
+    | Completados (6/6) | PRJ-13, PRJ-15 |
+    | Listo para aprobar Etapa 1 (Gate 0 14/14) | PRJ-05 |
+    | Etapa 1 con Gate 0 incompleto | PRJ-01, PRJ-09 |
+  - Las etapas se construyen desde `STAGE_DEFINITIONS` de `stageMachine.js` (una sola definición).
+- Descripciones de las etapas con tildes en `stageMachine.js`.
+- Nueva `getCurrentStage()` en `progressCalculator.js`: si todo está aprobado, la etapa actual es la
+  última aprobada. La usan la coordinación, la bandeja del tutor y `App.jsx`.
+- `DEMO_DATA_VERSION` sube a 2 para descartar datos guardados con la semilla anterior.
+- Nueva prueba: los datos deben tener riesgos *Alto*, *Medio*, *Bajo* y *Completado*, y 5 proyectos por tutor.
+
+**Archivos.** `src/data/pilotData.js`, `src/data/demoStorage.js`, `src/domain/stageMachine.js`,
+`src/domain/progressCalculator.js`, `src/App.jsx`, `src/features/admin/AdminWorkspace.jsx`,
+`src/features/tutor/TutorWorkspace.jsx`, `tests/domain.test.mjs`.
+
+**Cómo comprobarlo.** Rol *Administrador*: la tabla muestra los cuatro niveles de riesgo y los proyectos
+completados aparecen en "Etapa 6 · Documento Final". Rol *Tutor* → *Ver como: Dra. Elena Ramos* →
+proyecto de Diego Morales: Gate 0 en 14/14 y *Aprobar etapa* habilitado.

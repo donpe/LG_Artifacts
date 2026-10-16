@@ -53,3 +53,14 @@ export function describeRisk(project = {}, today = new Date().toISOString().spli
 export function calculateRiskLevel(project = {}, today) {
   return describeRisk(project, today).level;
 }
+
+/**
+ * Etapa "actual" de un proyecto: la que está en revisión u observada; si todas están aprobadas,
+ * la última aprobada; si ninguna ha empezado, la primera.
+ * Antes, un proyecto completo se mostraba como "Etapa 1" (Fase 1, ver docs/CAMBIOS.md).
+ */
+export function getCurrentStage(stages = []) {
+  return stages.find(s => s.status === 'en_revision' || s.status === 'observado')
+    || [...stages].reverse().find(s => s.status === 'aprobado')
+    || stages[0];
+}

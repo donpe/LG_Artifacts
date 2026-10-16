@@ -7,37 +7,37 @@ export const STAGE_DEFINITIONS = [
   {
     id: 1,
     name: 'Propuesta / Protocolo (Gate 0)',
-    description: 'Definicion rigurosa del problema, 14 criterios del protocolo y viabilidad metodologica.',
+    description: 'Definición rigurosa del problema, 14 criterios del protocolo y viabilidad metodológica.',
     hasGate0Audit: true
   },
   {
     id: 2,
     name: 'Marco Teórico',
-    description: 'Revision sistematica de literatura y fundamentacion del estado del arte.',
+    description: 'Revisión sistemática de literatura y fundamentación del estado del arte.',
     hasGate0Audit: false
   },
   {
     id: 3,
     name: 'Metodología',
-    description: 'Diseno muestral, instrumentos validados y protocolo de recoleccion.',
+    description: 'Diseño muestral, instrumentos validados y protocolo de recolección.',
     hasGate0Audit: false
   },
   {
     id: 4,
     name: 'Recolección',
-    description: 'Levantamiento empirico de datos primarios o corpus documental.',
+    description: 'Levantamiento empírico de datos primarios o corpus documental.',
     hasGate0Audit: false
   },
   {
     id: 5,
     name: 'Análisis',
-    description: 'Procesamiento estadistico, cualitativo y triangulacion de hallazgos.',
+    description: 'Procesamiento estadístico, cualitativo y triangulación de hallazgos.',
     hasGate0Audit: false
   },
   {
     id: 6,
     name: 'Documento Final',
-    description: 'Redaccion academica integral, conclusiones y verificacion de originalidad.',
+    description: 'Redacción académica integral, conclusiones y verificación de originalidad.',
     hasGate0Audit: false
   }
 ];
