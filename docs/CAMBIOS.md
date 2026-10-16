@@ -32,7 +32,7 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 |------|----------|--------|
 | 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
 | 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Lista para revisión |
-| 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Pendiente |
+| 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | En curso |
 | 4 · Funcionalidad con valor | Compromisos, carga de archivos, tablero de coordinación, exportación por cohorte | Pendiente |
 
 ---
@@ -363,3 +363,37 @@ Administrador en escritorio y en 375 px (sin desbordamiento horizontal).
 - Si se pide permiso para usar la marca EAFIT. Mientras tanto, solo inspiración visual.
 - Las capturas de `screenshots/` y de la raíz son del diseño anterior. Se regeneran con
   `node verify-app.mjs` (requiere `npx playwright install chromium`).
+
+---
+
+## Fase 3 · Que se entienda sola
+
+Rama de integración: `fase-3/que-se-entienda-sola` (parte de `fase-2/identidad-visual-eafit`).
+
+**Objetivo.** Que alguien que nunca ha visto la plataforma (un tutor, la coordinación, el dueño del
+proyecto) entienda en pocos minutos para qué sirve y cómo se usa, sin que nadie se la explique.
+
+### 3.1 Pantalla "¿Cómo funciona?" — `feat/pantalla-de-bienvenida-como-funciona`
+
+**Problema.** La app abría directamente en la bandeja del tutor, sin contexto. No se explicaba qué
+problema resuelve, cómo avanza una etapa, qué es Gate 0 ni qué hace cada rol, y el cambio de rol estaba
+escondido en un desplegable.
+
+**Cambio.**
+- Nueva `src/features/onboarding/WelcomeScreen.jsx`, que se muestra **la primera vez** que se abre la demo:
+  1. Qué es: "Seguimiento de trabajos de grado", con una frase sobre el problema (reemplaza el Excel compartido).
+  2. **Así avanza cada etapa**: entrega → revisión → aprobación o cambios → siguiente etapa.
+  3. **Las 6 etapas** y la regla de **Gate 0** en lenguaje simple.
+  4. **¿Con qué rol quieres empezar?**: tres tarjetas (Estudiante, Tutor, Coordinación) con lo que puede
+     hacer cada rol y un botón *Entrar como…*.
+- Opción **¿Cómo funciona?** en la barra lateral para volver a verla.
+- *Reiniciar demo* (↺) también vuelve a mostrarla, útil antes de una presentación.
+- `demoStorage.js` incorpora `hasSeen` / `markSeen` / `clearSeenFlags` para recordar qué se ha visto
+  en este navegador.
+
+**Archivos.** `src/features/onboarding/WelcomeScreen.jsx` (nuevo), `src/App.jsx`,
+`src/components/layout/RoleSidebar.jsx`, `src/data/demoStorage.js`.
+
+**Cómo comprobarlo.** Abrir la demo en una ventana privada (o tras ↺ *Reiniciar demo*): aparece la
+pantalla de bienvenida. *Entrar como tutor* lleva a la bandeja. *¿Cómo funciona?* en la barra lateral
+vuelve a mostrarla.

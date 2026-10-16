@@ -10,7 +10,8 @@ import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
 import { getStageActions } from './domain/stageMachine.js';
 import { describeRisk, getCurrentStage } from './domain/progressCalculator.js';
-import { loadDemoProjects, saveDemoProjects, clearDemoProjects } from './data/demoStorage.js';
+import { loadDemoProjects, saveDemoProjects, clearDemoProjects, hasSeen, markSeen, clearSeenFlags } from './data/demoStorage.js';
+import WelcomeScreen from './features/onboarding/WelcomeScreen.jsx';
 
 /**
  * App — Contenedor Principal de la Plataforma de Seguimiento Académico
@@ -23,6 +24,9 @@ export default function App() {
   const [role, setRole] = useState('tutor'); // 'estudiante' | 'tutor' | 'admin'
   const [activeNav, setActiveNav] = useState('Pendientes de revisión');
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  // Pantalla "¿Cómo funciona?": se muestra la primera vez en cada navegador (Fase 3).
+  const [showWelcome, setShowWelcome] = useState(() => !hasSeen('bienvenida'));
 
   // 2. Estado de proyectos y selección
   // Se parte de lo guardado en el navegador (si existe) y se guarda cada cambio (demoStorage.js).
@@ -288,9 +292,19 @@ export default function App() {
   const handleResetDemo = () => {
     if (!window.confirm('¿Reiniciar la demo? Se perderán las entregas, observaciones y aprobaciones hechas en este navegador.')) return;
     clearDemoProjects();
+    clearSeenFlags();
     setProjects(PILOT_PROJECTS);
     handleSelectProject(role === 'tutor' ? (PILOT_PROJECTS.find(p => p.tutorId === demoTutorId)?.id || 'PRJ-01') : 'PRJ-01');
     showToast('Demo reiniciada con los datos originales.');
+    setShowWelcome(true);
+  };
+
+  // Manejador: elegir rol desde la pantalla de bienvenida
+  const handleEnterAs = (newRole) => {
+    handleRoleChange(newRole);
+    markSeen('bienvenida');
+    setShowWelcome(false);
+    window.scrollTo(0, 0);
   };
 
   // Manejador: Exportación a CSV
@@ -313,6 +327,10 @@ export default function App() {
       handleOpenDrawer('Ficha académica completa');
     }
   };
+
+  if (showWelcome) {
+    return <WelcomeScreen onEnterAs={handleEnterAs} />;
+  }
 
   return (
     <div className="min-h-screen bg-(--bg) text-(--ink) flex font-sans antialiased selection:bg-(--accent-soft) selection:text-(--brand) overflow-x-hidden">
@@ -338,6 +356,7 @@ export default function App() {
         isMobileOpen={isMobileNavOpen}
         onCloseMobile={() => setIsMobileNavOpen(false)}
         onOpenDrawer={handleOpenDrawer}
+        onShowWelcome={() => setShowWelcome(true)}
         pendingReviewCount={pendingReviewCount}
         profileName={role === 'tutor' ? demoTutor.name : role === 'estudiante' ? currentProject.student : undefined}
       />

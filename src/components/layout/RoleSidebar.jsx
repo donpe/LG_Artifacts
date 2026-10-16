@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Layers, FileText, Clock, Inbox, Users, BarChart3, HelpCircle } from 'lucide-react';
+import { Home, Layers, FileText, Clock, Inbox, Users, BarChart3, HelpCircle, Compass } from 'lucide-react';
 
 /**
  * RoleSidebar — Barra lateral fija / off-canvas por rol.
@@ -13,6 +13,7 @@ export default function RoleSidebar({
   isMobileOpen,
   onCloseMobile,
   onOpenDrawer,
+  onShowWelcome,
   pendingReviewCount = 3,
   profileName
 }) {
@@ -114,6 +115,20 @@ export default function RoleSidebar({
 
         {/* Bottom Bar: Help + Demo Profile */}
         <div className="mt-auto border-t border-white/15 p-3 space-y-2">
+          {/* Vuelve a la pantalla de bienvenida que explica la plataforma (Fase 3) */}
+          {onShowWelcome && (
+            <button
+              type="button"
+              onClick={() => {
+                onShowWelcome();
+                onCloseMobile();
+              }}
+              className="flex items-center gap-3 w-full text-left rounded-(--radius) px-3.5 py-2 text-xs font-semibold text-white/80 hover:bg-white/8 hover:text-(--on-brand) transition-colors"
+            >
+              <Compass className="w-4 h-4 text-white/70" />
+              <span>¿Cómo funciona?</span>
+            </button>
+          )}
           <button
             type="button"
             onClick={() => {

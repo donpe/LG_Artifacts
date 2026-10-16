@@ -42,3 +42,35 @@ export function clearDemoProjects() {
     // Nada que limpiar.
   }
 }
+
+/**
+ * Marcas simples de "ya visto" por navegador (pantalla de bienvenida, recorridos guiados).
+ * Fase 3 · ver docs/CAMBIOS.md.
+ */
+const FLAG_PREFIX = 'lg-artifacts:visto:';
+
+export function hasSeen(flag) {
+  try {
+    return window.localStorage.getItem(FLAG_PREFIX + flag) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function markSeen(flag) {
+  try {
+    window.localStorage.setItem(FLAG_PREFIX + flag, '1');
+  } catch {
+    // Sin almacenamiento: se volverá a mostrar la próxima vez, sin más efecto.
+  }
+}
+
+export function clearSeenFlags() {
+  try {
+    Object.keys(window.localStorage)
+      .filter(k => k.startsWith(FLAG_PREFIX))
+      .forEach(k => window.localStorage.removeItem(k));
+  } catch {
+    // Nada que limpiar.
+  }
+}
