@@ -15,7 +15,10 @@ export default function TutorWorkspace({
   onToggleGateItem,
   onOpenDrawer,
   tutorName = 'Carlos G.',
-  stageActions
+  stageActions,
+  tutors = [],
+  demoTutorId,
+  onDemoTutorChange
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('Evidencia'); // 'Evidencia' | 'Criterios' | 'Observaciones' | 'Historial'
@@ -62,9 +65,26 @@ export default function TutorWorkspace({
               Selecciona una entrega, revisa la evidencia y registra una decisión formal.
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FFFBEB] text-[#8A4B08] border border-[#FCD34D]/60 self-start sm:self-auto">
-            <span>{projects.length} tesis en seguimiento</span>
-          </span>
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            {/* Modo demo: elegir qué tutor se simula. Cada tutor solo ve sus proyectos asignados. */}
+            {tutors.length > 0 && (
+              <label className="flex items-center gap-1.5 text-xs text-[#57534E]">
+                <span>Ver como:</span>
+                <select
+                  value={demoTutorId}
+                  onChange={(e) => onDemoTutorChange(e.target.value)}
+                  className="px-2 py-1 rounded-lg border border-[#D8CEBF] bg-white text-xs font-semibold text-[#1C1917]"
+                >
+                  {tutors.map(t => (
+                    <option key={t.id} value={t.id}>{t.name}</option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FFFBEB] text-[#8A4B08] border border-[#FCD34D]/60">
+              <span>{projects.length} tesis asignadas</span>
+            </span>
+          </div>
         </div>
       </div>
 

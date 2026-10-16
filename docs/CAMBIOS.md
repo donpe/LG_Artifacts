@@ -91,3 +91,25 @@ pero solo las usaban los tests. En la interfaz se podía:
 1. Rol *Tutor*, proyecto de Mateo R. (Gate 0 en 12/14): *Aprobar etapa* está deshabilitado y explica que faltan criterios.
 2. Rol *Estudiante*, clic en *Etapa 4*: en lugar del botón de entrega aparece "No se puede habilitar una etapa si la anterior no está aprobada."
 3. `npm test` incluye los casos nuevos.
+
+### 1.3 Cada tutor ve solo sus proyectos — `feat/filtrar-proyectos-por-tutor`
+
+**Problema.** La bandeja del tutor mostraba los 15 proyectos de la cohorte. Además, el nombre del tutor
+en el encabezado cambiaba según el proyecto seleccionado y el perfil de la barra lateral decía siempre
+"Dra. Ana Martínez", que no existe en los datos.
+
+**Cambio.**
+- `App.jsx` guarda el **tutor simulado** (`demoTutorId`) y filtra `tutorProjects` por `tutorId`.
+- En el encabezado del tutor hay un selector **"Ver como:"** para cambiar de tutor en la demo.
+  Al cambiar, se abre el primer proyecto de su bandeja.
+- El contador de *Pendientes de revisión* cuenta solo los proyectos del tutor.
+- Al entrar al rol *Tutor*, si el proyecto abierto no es suyo, se abre el primero de su bandeja.
+- La barra lateral muestra el nombre real: el tutor simulado o el estudiante del proyecto abierto.
+
+**Nota.** Esto es solo una simulación para la demo. No es control de acceso: cuando exista login,
+el filtro debe venir de la base de datos (las políticas RLS de Supabase ya están pensadas para eso).
+
+**Archivos.** `src/App.jsx`, `src/features/tutor/TutorWorkspace.jsx`, `src/components/layout/RoleSidebar.jsx`.
+
+**Cómo comprobarlo.** Rol *Tutor* → *Ver como: Dra. Sofía Mendoza*: la bandeja muestra 5 proyectos y el
+perfil de la barra lateral dice "Dra. Sofía Mendoza".

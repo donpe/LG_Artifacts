@@ -12,7 +12,8 @@ export default function RoleSidebar({
   isMobileOpen,
   onCloseMobile,
   onOpenDrawer,
-  pendingReviewCount = 3
+  pendingReviewCount = 3,
+  profileName
 }) {
   const navConfigs = {
     estudiante: [
@@ -37,9 +38,15 @@ export default function RoleSidebar({
 
   const roleMeta = {
     estudiante: { initial: 'E', name: 'Estudiante demo', roleLabel: 'Modo demostración' },
-    tutor: { initial: 'T', name: 'Dra. Ana Martínez', roleLabel: 'Tutor asignado' },
+    tutor: { initial: 'T', name: 'Tutor demo', roleLabel: 'Tutor asignado' },
     admin: { initial: 'A', name: 'Administrador demo', roleLabel: 'Coordinación académica' }
   }[role] || { initial: 'U', name: 'Usuario demo', roleLabel: 'Modo demostración' };
+
+  // Nombre real del usuario simulado (tutor o estudiante del proyecto abierto) cuando se conoce.
+  const profile = profileName
+    ? { ...roleMeta, name: profileName, initial: profileName.replace(/^(Dr|Dra)\.\s*/, '')[0] }
+    : roleMeta;
+
 
   return (
     <>
@@ -120,14 +127,14 @@ export default function RoleSidebar({
 
           <div className="flex items-center gap-2.5 pt-2 border-t border-[#E8E1D5] px-1">
             <span className="w-8 h-8 rounded-full bg-[#D5C2AF] text-[#5A3526] font-bold text-xs grid place-items-center shrink-0">
-              {roleMeta.initial}
+              {profile.initial}
             </span>
             <div className="min-w-0 flex-1">
               <strong className="block text-xs font-bold text-[#1C1917] truncate leading-tight">
-                {roleMeta.name}
+                {profile.name}
               </strong>
               <small className="block text-[11px] text-[#57534E] truncate">
-                {roleMeta.roleLabel}
+                {profile.roleLabel}
               </small>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { PILOT_PROJECTS } from './data/pilotData.js';
+import { PILOT_PROJECTS, TUTORS } from './data/pilotData.js';
 import RoleSidebar from './components/layout/RoleSidebar.jsx';
 import TopbarCompact from './components/layout/TopbarCompact.jsx';
 import AdaptiveContextPanel from './components/layout/AdaptiveContextPanel.jsx';
@@ -30,6 +30,14 @@ export default function App() {
   const [selectedProjectId, setSelectedProjectId] = useState('PRJ-01');
   const [activeStageId, setActiveStageId] = useState(1);
 
+  // Tutor simulado en el modo demo: el tutor solo ve los proyectos que tiene asignados.
+  const [demoTutorId, setDemoTutorId] = useState(TUTORS[0].id);
+  const demoTutor = TUTORS.find(t => t.id === demoTutorId) || TUTORS[0];
+  const tutorProjects = useMemo(
+    () => projects.filter(p => p.tutorId === demoTutorId),
+    [projects, demoTutorId]
+  );
+
   // 3. Panel contextual adaptable (Drawer) y diálogos
   const [isContextPanelOpen, setIsContextPanelOpen] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Observaciones del tutor');
@@ -50,7 +58,13 @@ export default function App() {
   const handleRoleChange = (newRole) => {
     setRole(newRole);
     if (newRole === 'estudiante') setActiveNav('Mi proyecto');
-    else if (newRole === 'tutor') setActiveNav('Pendientes de revisión');
+    else if (newRole === 'tutor') {
+      setActiveNav('Pendientes de revisión');
+      // Si el proyecto abierto no es de este tutor, abrir el primero de su bandeja.
+      if (!tutorProjects.some(p => p.id === selectedProjectId) && tutorProjects[0]) {
+        handleSelectProject(tutorProjects[0].id);
+      }
+    }
     else if (newRole === 'admin') setActiveNav('Proyectos');
   };
 
@@ -80,8 +94,8 @@ export default function App() {
 
   // Conteo de proyectos pendientes de revisión para el tutor
   const pendingReviewCount = useMemo(() => {
-    return projects.filter(p => p.stages.some(s => s.status === 'en_revision' || s.status === 'observado')).length;
-  }, [projects]);
+    return tutorProjects.filter(p => p.stages.some(s => s.status === 'en_revision' || s.status === 'observado')).length;
+  }, [tutorProjects]);
 
   // Manejador: Selección de proyecto
   const handleSelectProject = (projectId) => {
@@ -91,6 +105,13 @@ export default function App() {
       const firstActive = proj.stages.find(s => s.status === 'en_revision' || s.status === 'observado');
       setActiveStageId(firstActive ? firstActive.id : 1);
     }
+  };
+
+  // Manejador: Cambio del tutor simulado (modo demo)
+  const handleDemoTutorChange = (tutorId) => {
+    setDemoTutorId(tutorId);
+    const first = projects.find(p => p.tutorId === tutorId);
+    if (first) handleSelectProject(first.id);
   };
 
   // Manejador: Apertura de cajón contextual
@@ -304,6 +325,7 @@ export default function App() {
         onCloseMobile={() => setIsMobileNavOpen(false)}
         onOpenDrawer={handleOpenDrawer}
         pendingReviewCount={pendingReviewCount}
+        profileName={role === 'tutor' ? demoTutor.name : role === 'estudiante' ? currentProject.student : undefined}
       />
 
       {/* 2. Área de Trabajo Principal */}
@@ -333,14 +355,17 @@ export default function App() {
 
           {role === 'tutor' && (
             <TutorWorkspace
-              projects={projects}
+              projects={tutorProjects}
+              tutors={TUTORS}
+              demoTutorId={demoTutorId}
+              onDemoTutorChange={handleDemoTutorChange}
               selectedProjectId={selectedProjectId}
               onSelectProject={handleSelectProject}
               activeStageId={activeStageId}
               gate0Analysis={gate0Analysis}
               onToggleGateItem={handleToggleGateItem}
               onOpenDrawer={handleOpenDrawer}
-              tutorName={currentProject.tutor}
+              tutorName={demoTutor.name}
               stageActions={stageActions}
             />
           )}
