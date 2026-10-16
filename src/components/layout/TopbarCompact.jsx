@@ -35,21 +35,21 @@ export default function TopbarCompact({
   }, []);
 
   return (
-    <header className="h-[61px] max-md:h-[56px] bg-white/80 backdrop-blur-md border-b border-[#E8E1D5] sticky top-0 z-30 flex items-center justify-between px-6 max-md:px-4 gap-4">
+    <header className="h-[61px] max-md:h-[56px] bg-white/80 backdrop-blur-md border-b border-(--line) sticky top-0 z-30 flex items-center justify-between px-6 max-md:px-4 gap-4">
       {/* Left: Mobile Menu Trigger + Breadcrumb */}
-      <div className="flex items-center gap-3 text-xs sm:text-sm text-[#746A63]">
+      <div className="flex items-center gap-3 text-xs sm:text-sm text-(--light)">
         <button
           type="button"
           onClick={onToggleMobileMenu}
-          className="md:hidden p-1.5 rounded-lg text-[#5E534D] hover:bg-[#F5F1EA] transition-colors"
+          className="md:hidden p-1.5 rounded-lg text-(--muted) hover:bg-(--sand) transition-colors"
           aria-label="Abrir menú de navegación"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <span className="font-semibold text-[#1C1917] shrink-0">LG Artifacts</span>
-        <span className="text-[#D8CEBF] max-sm:hidden">/</span>
-        <span className="font-bold text-[#6E432F] max-sm:hidden max-w-[120px] lg:max-w-xs truncate">
+        <span className="font-semibold text-(--ink) shrink-0">LG Artifacts</span>
+        <span className="text-(--line2) max-sm:hidden">/</span>
+        <span className="font-bold text-(--brand) max-sm:hidden max-w-[120px] lg:max-w-xs truncate">
           {activeNav}
         </span>
       </div>
@@ -57,8 +57,8 @@ export default function TopbarCompact({
       {/* Right: Actions, Demo Chip, Info & Role Selector */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {/* Demo Mode Chip */}
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-[#6E432F] bg-[#F6EDE8] border border-[#EAD7CA] select-none">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#8E4928] animate-pulse"></span>
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-(--brand) bg-(--accent-soft) border border-(--line) select-none">
+          <span className="w-1.5 h-1.5 rounded-full bg-(--accent) animate-pulse"></span>
           <span className="hidden md:inline">Modo demostración</span>
           <span className="md:hidden">Demo</span>
         </span>
@@ -68,7 +68,7 @@ export default function TopbarCompact({
           <button
             type="button"
             onClick={onResetDemo}
-            className="w-8 h-8 rounded-lg border border-transparent hover:border-[#E8E1D5] hover:bg-[#F5F1EA] text-[#6D5B50] grid place-items-center transition-colors"
+            className="w-8 h-8 rounded-lg border border-transparent hover:border-(--line) hover:bg-(--sand) text-(--light) grid place-items-center transition-colors"
             title="Reiniciar demo (volver a los datos originales)"
             aria-label="Reiniciar demo"
           >
@@ -80,7 +80,7 @@ export default function TopbarCompact({
         <button
           type="button"
           onClick={onOpenProjectInfo}
-          className="w-8 h-8 rounded-lg border border-transparent hover:border-[#E8E1D5] hover:bg-[#F5F1EA] text-[#6D5B50] grid place-items-center transition-colors"
+          className="w-8 h-8 rounded-lg border border-transparent hover:border-(--line) hover:bg-(--sand) text-(--light) grid place-items-center transition-colors"
           title="Ver ficha académica del proyecto"
           aria-label="Ver ficha académica del proyecto"
         >
@@ -91,7 +91,7 @@ export default function TopbarCompact({
         <button
           type="button"
           onClick={onExportCSV}
-          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-[#146C4F] bg-[#EDF7F2] hover:bg-[#d8ece3] border border-[#9CD5BE] transition-colors shadow-xs"
+          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-(--green) bg-(--green-bg) hover:bg-(--green-line) border border-(--green-line) transition-colors shadow-xs"
           title="Exportar reporte en formato CSV compatible con Excel"
         >
           <Download className="w-3.5 h-3.5" />
@@ -103,17 +103,17 @@ export default function TopbarCompact({
           <button
             type="button"
             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#D8CEBF] bg-white text-xs font-semibold text-[#1C1917] hover:bg-[#F5F1EA] transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-(--line2) bg-white text-xs font-semibold text-(--ink) hover:bg-(--sand) transition-colors shadow-xs"
             aria-expanded={isRoleDropdownOpen}
             aria-label="Seleccionar rol de demostración"
           >
             <span>{roleLabels[role] || 'Rol'}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#57534E]" />
+            <ChevronDown className="w-3.5 h-3.5 text-(--muted)" />
           </button>
 
           {isRoleDropdownOpen && (
-            <div className="absolute right-0 top-10 w-44 bg-white border border-[#E8E1D5] rounded-xl shadow-xl p-1.5 z-50 animate-fade-in-slide">
-              <span className="block px-2.5 py-1 text-[10px] font-bold text-[#8F8881] uppercase tracking-wider">
+            <div className="absolute right-0 top-10 w-44 bg-white border border-(--line) rounded-xl shadow-xl p-1.5 z-50 animate-fade-in-slide">
+              <span className="block px-2.5 py-1 text-[10px] font-bold text-(--light) uppercase tracking-wider">
                 Cambiar Rol Simulado
               </span>
               <button
@@ -124,8 +124,8 @@ export default function TopbarCompact({
                 }}
                 className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                   role === 'estudiante'
-                    ? 'bg-[#EDE2D6] text-[#6E432F]'
-                    : 'text-[#5E534D] hover:bg-[#F5F1EA]'
+                    ? 'bg-(--accent-soft) text-(--brand)'
+                    : 'text-(--muted) hover:bg-(--sand)'
                 }`}
               >
                 Estudiante
@@ -138,8 +138,8 @@ export default function TopbarCompact({
                 }}
                 className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                   role === 'tutor'
-                    ? 'bg-[#EDE2D6] text-[#6E432F]'
-                    : 'text-[#5E534D] hover:bg-[#F5F1EA]'
+                    ? 'bg-(--accent-soft) text-(--brand)'
+                    : 'text-(--muted) hover:bg-(--sand)'
                 }`}
               >
                 Tutor
@@ -152,8 +152,8 @@ export default function TopbarCompact({
                 }}
                 className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                   role === 'admin'
-                    ? 'bg-[#EDE2D6] text-[#6E432F]'
-                    : 'text-[#5E534D] hover:bg-[#F5F1EA]'
+                    ? 'bg-(--accent-soft) text-(--brand)'
+                    : 'text-(--muted) hover:bg-(--sand)'
                 }`}
               >
                 Administrador

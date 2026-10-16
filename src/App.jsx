@@ -315,15 +315,15 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBF9F5] text-[#1C1917] flex font-sans antialiased selection:bg-[#EDE2D6] selection:text-[#6E432F] overflow-x-hidden">
+    <div className="min-h-screen bg-(--bg) text-(--ink) flex font-sans antialiased selection:bg-(--accent-soft) selection:text-(--brand) overflow-x-hidden">
       {/* Toast Notification Container */}
       {toastMessage && (
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-6 right-6 z-50 max-w-md bg-[#1C1917] text-white px-4 py-3 rounded-2xl shadow-xl border border-[#443831] flex items-center gap-3 animate-fade-in-slide"
+          className="fixed bottom-6 right-6 z-50 max-w-md bg-(--ink) text-white px-4 py-3 rounded-2xl shadow-xl border border-(--ink) flex items-center gap-3 animate-fade-in-slide"
         >
-          <span className="w-5 h-5 rounded-full bg-[#146C4F] text-white flex items-center justify-center font-bold text-xs shrink-0">
+          <span className="w-5 h-5 rounded-full bg-(--green) text-white flex items-center justify-center font-bold text-xs shrink-0">
             ✓
           </span>
           <span className="text-xs sm:text-sm font-medium">{toastMessage}</span>
@@ -399,12 +399,12 @@ export default function App() {
         </main>
 
         {/* Pie de página institucional */}
-        <footer className="border-t border-[#E8E1D5] bg-white py-4 px-6 text-center text-xs text-[#73675D]">
+        <footer className="border-t border-(--line) bg-white py-4 px-6 text-center text-xs text-(--light)">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="font-editorial">
               Plataforma de Seguimiento Académico &bull; <strong>LG Artifacts</strong>
             </p>
-            <p className="text-[11px] text-[#8C8075]">
+            <p className="text-[11px] text-(--light)">
               Diseño Academic Flow 2.0 &bull; Gate 0 (14 Criterios) &bull; 6 Etapas Académicas &bull; Español nativo
             </p>
           </div>

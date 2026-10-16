@@ -17,9 +17,12 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Tipografía Serif para Títulos Editoriales */
+/* Títulos: Inter de alto peso, como en eafit.edu.co (antes era serif Georgia).
+   Se conserva el nombre de la clase para no tocar todos los componentes. */
 .font-editorial {
-  font-family: Georgia, "Times New Roman", Cambria, serif;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 /* Scrollbar estilizada y discreta */
@@ -45,7 +48,7 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2.5px solid #8E4928;
+  outline: 2.5px solid var(--accent);
   outline-offset: 2px;
 }
 
