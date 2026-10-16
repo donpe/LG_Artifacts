@@ -6,6 +6,8 @@ Diseñada bajo el sistema visual **Academic Flow 2.0** (inspirado en Framer, Kir
 
 🌐 **Demo Desplegada en Vivo:** [https://the-snitchlg.github.io/LG_Artifacts/](https://the-snitchlg.github.io/LG_Artifacts/)
 
+📝 **Registro de cambios del fork:** ver [`docs/CAMBIOS.md`](docs/CAMBIOS.md) (qué cambió, por qué y cómo comprobarlo).
+
 ---
 
 ## 1. Experiencia de Usuario "Academic Flow 2.0"
@@ -59,7 +61,7 @@ La plataforma proporciona espacios de trabajo especializados y adaptados a las r
 * **Estilos y Tokens:** Tailwind CSS 4.3.3 con variables de diseño institucional (`tokens.css`) inspiradas en papel de archivo, tipografía editorial (`Georgia`, `font-editorial`) y números tabulares (`tabular-nums`).
 * **Calidad y Linter:** Oxlint 1.81.0 con soporte de hooks de React y validaciones de pureza de React Compiler (**0 errores, 0 advertencias**).
 * **Pruebas de Calidad:**
-  * *Unitarias / Dominio:* Vitest (`npm test`) validando reglas de etapa, progreso, Gate 0 y sanitización CSV.
+  * *Unitarias / Dominio:* script de Node con `node:assert` (`npm test`) validando reglas de etapa, progreso, Gate 0 y sanitización CSV.
   * *End-to-End y Responsive:* Playwright 1.64.0 (`verify-app.mjs`) validando resoluciones en 1440px, 1024px, 768px y 390px sin desbordamiento horizontal y con 0 errores de consola.
 * **Persistencia y Backend:** Supabase / PostgreSQL 15+ (migraciones versionadas, 12 tablas relacionales, triggers de auditoría y RLS restrictivo).
 * **Despliegue Continuo:** GitHub Pages mediante GitHub Actions (`.github/workflows/deploy.yml`) con base relativa (`base: './'`).
@@ -119,14 +121,11 @@ node verify-app.mjs
 │   ├── features/             # Módulos por responsabilidad
 │   │   ├── admin/            # AdminWorkspace (Cohorte, métricas, filtros)
 │   │   ├── student/          # StudentWorkspace (Avance, siguiente paso, evidencias)
-│   │   ├── tutor/            # TutorWorkspace (Bandeja maestro-detalle, dictámenes)
-│   │   ├── gate0/            # Modales y validadores de Gate 0
-│   │   ├── phase0/           # Guía metodológica de Fase 0
-│   │   └── review/           # Modal de dictamen del tutor
+│   │   └── tutor/            # TutorWorkspace (Bandeja maestro-detalle, dictámenes)
 │   ├── styles/               # Tokens de diseño editorial y Tailwind CSS
 │   ├── App.jsx               # Orquestador del espacio de trabajo por rol
 │   └── main.jsx              # Punto de entrada de React
-├── tests/                    # Pruebas unitarias de dominio (Vitest)
+├── tests/                    # Pruebas unitarias de dominio (node:assert)
 ├── verify-app.mjs            # Suite de verificación Playwright E2E y multi-resolución
 └── package.json              # Configuración de dependencias y scripts
 ```
