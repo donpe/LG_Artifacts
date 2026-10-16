@@ -44,7 +44,7 @@ export default function StudentWorkspace({
         </p>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h1 className="font-editorial font-bold text-2xl sm:text-3xl text-(--ink) tracking-tight">
+            <h1 className="font-editorial text-3xl sm:text-4xl text-(--brand) tracking-tight">
               Mi proyecto
             </h1>
             <p className="text-xs text-(--muted) mt-0.5">
@@ -63,7 +63,7 @@ export default function StudentWorkspace({
       </div>
 
       {/* Project Bar & 6-Stage Track */}
-      <section className="bg-white rounded-2xl border border-(--line) p-5 sm:p-6 shadow-sm space-y-5">
+      <section className="bg-white rounded-(--radius) border border-(--line) p-5 sm:p-6 space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <h2 className="font-editorial font-bold text-xl sm:text-2xl text-(--ink) tracking-tight leading-snug">
             {project.title}
@@ -133,7 +133,7 @@ export default function StudentWorkspace({
         </div>
 
         {/* Mobile Stage Progress Banner */}
-        <div className="sm:hidden bg-(--surface-subtle) p-3 rounded-xl border border-(--line) space-y-1">
+        <div className="sm:hidden bg-(--surface-subtle) p-3 rounded-(--radius) border border-(--line) space-y-1">
           <strong className="block text-xs font-bold text-(--ink)">
             Etapa {activeStage.id} de 6 &bull; {activeStage.name.split('(')[0]}
           </strong>
@@ -166,8 +166,8 @@ export default function StudentWorkspace({
         {/* Left Column (7 cols): Action Card & Evidence */}
         <div className="lg:col-span-7 space-y-5">
           {/* Action Card: "Tu Siguiente Paso" */}
-          <section className="bg-gradient-to-br from-(--surface-subtle) to-(--surface-subtle) border border-(--line) rounded-2xl p-6 shadow-sm flex items-start gap-4">
-            <div className="w-11 h-11 rounded-xl bg-(--line) text-(--brand) grid place-items-center shrink-0">
+          <section className="bg-gradient-to-br from-(--surface-subtle) to-(--surface-subtle) border border-(--line) rounded-(--radius) p-6 flex items-start gap-4">
+            <div className="w-11 h-11 rounded-(--radius) bg-(--line) text-(--brand) grid place-items-center shrink-0">
               <FileText className="w-5 h-5" />
             </div>
             <div className="space-y-2 flex-1">
@@ -198,7 +198,7 @@ export default function StudentWorkspace({
                   <button
                     type="button"
                     onClick={() => onOpenDrawer('Observaciones del tutor')}
-                    className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-xl hover:bg-(--brand-hover) transition-colors shadow-xs flex items-center gap-1.5"
+                    className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-(--radius) hover:bg-(--brand-hover) transition-colors flex items-center gap-1.5"
                   >
                     <FileText className="w-4 h-4" />
                     <span>Revisar observaciones</span>
@@ -207,7 +207,7 @@ export default function StudentWorkspace({
                   <button
                     type="button"
                     onClick={onUploadEvidence}
-                    className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-xl hover:bg-(--brand-hover) transition-colors shadow-xs flex items-center gap-1.5"
+                    className="px-4 py-2 bg-(--brand) text-white text-xs font-bold rounded-(--radius) hover:bg-(--brand-hover) transition-colors flex items-center gap-1.5"
                   >
                     <Upload className="w-4 h-4" />
                     <span>Subir nueva evidencia</span>
@@ -223,7 +223,7 @@ export default function StudentWorkspace({
                   <button
                     type="button"
                     onClick={() => onOpenDrawer('Criterios Gate 0 (14)')}
-                    className="px-3.5 py-2 bg-white text-(--brand) border border-(--line2) text-xs font-bold rounded-xl hover:bg-(--surface-subtle) transition-colors shadow-xs"
+                    className="px-3.5 py-2 bg-white text-(--brand) border border-(--line2) text-xs font-bold rounded-(--radius) hover:bg-(--surface-subtle) transition-colors"
                   >
                     Ver criterios Gate 0
                   </button>
@@ -233,7 +233,7 @@ export default function StudentWorkspace({
           </section>
 
           {/* Current Evidence Surface */}
-          <section className="bg-white rounded-2xl border border-(--line) p-5 shadow-sm space-y-3">
+          <section className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-(--line)">
               <h3 className="font-editorial font-bold text-sm text-(--ink)">
                 Evidencia actual &bull; Etapa #{activeStage.id}
@@ -247,9 +247,9 @@ export default function StudentWorkspace({
               </button>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl border border-(--line) bg-(--surface-subtle)">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-(--radius) border border-(--line) bg-(--surface-subtle)">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-(--accent-soft) text-(--accent) font-bold text-xs grid place-items-center shrink-0">
+                <div className="w-10 h-10 rounded-(--radius) bg-(--accent-soft) text-(--accent) font-bold text-xs grid place-items-center shrink-0">
                   PDF
                 </div>
                 <div className="min-w-0">
@@ -267,7 +267,7 @@ export default function StudentWorkspace({
                 <button
                   type="button"
                   onClick={() => onOpenDrawer('Todas las evidencias')}
-                  className="p-1.5 rounded-lg border border-(--line2) hover:bg-(--sand) text-(--brand) transition-colors"
+                  className="p-1.5 rounded-(--radius) border border-(--line2) hover:bg-(--sand) text-(--brand) transition-colors"
                   title="Descargar copia de la evidencia"
                 >
                   <Download className="w-4 h-4" />
@@ -280,7 +280,7 @@ export default function StudentWorkspace({
         {/* Right Column (5 cols): Commitments & Context Links */}
         <div className="lg:col-span-5 space-y-5">
           {/* Commitments & Latest Observation Surface */}
-          <section className="bg-white rounded-2xl border border-(--line) p-5 shadow-sm space-y-3">
+          <section className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-(--line)">
               <h3 className="font-editorial font-bold text-sm text-(--ink)">
                 Próximo compromiso
@@ -323,7 +323,7 @@ export default function StudentWorkspace({
           </section>
 
           {/* Context Links Surface */}
-          <section className="bg-white rounded-2xl border border-(--line) p-5 shadow-sm space-y-2">
+          <section className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-2">
             <h3 className="font-editorial font-bold text-sm text-(--ink) pb-2 border-b border-(--line)">
               Consultar más
             </h3>

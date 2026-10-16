@@ -49,7 +49,7 @@ export default function AdminWorkspace({
         </p>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h1 className="font-editorial font-bold text-2xl sm:text-3xl text-(--ink) tracking-tight">
+            <h1 className="font-editorial text-3xl sm:text-4xl text-(--brand) tracking-tight">
               Proyectos de grado
             </h1>
             <p className="text-xs text-(--muted) mt-0.5">
@@ -69,18 +69,18 @@ export default function AdminWorkspace({
 
       {/* Overview Strip */}
       <div className="flex flex-wrap gap-2.5 items-center">
-        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-xl text-xs text-(--light) shadow-xs">
+        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-(--radius) text-xs text-(--light)">
           <strong className="font-editorial font-bold text-sm text-(--brand) mr-1">{totalProjects}</strong>
           proyectos del piloto
         </div>
-        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-xl text-xs text-(--light) shadow-xs">
+        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-(--radius) text-xs text-(--light)">
           <strong className="font-editorial font-bold text-sm text-(--brand) mr-1">3</strong>
           tutores asignados
         </div>
-        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-xl text-xs text-(--light) shadow-xs">
+        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-(--radius) text-xs text-(--light)">
           Cohorte <strong className="font-editorial font-bold text-sm text-(--brand) ml-1">2026-1</strong>
         </div>
-        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-xl text-xs text-(--light) shadow-xs">
+        <div className="px-3.5 py-2 bg-white border border-(--line) rounded-(--radius) text-xs text-(--light)">
           Avance promedio: <strong className="font-editorial font-bold text-sm text-(--green) ml-1">{avgProgress}%</strong>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function AdminWorkspace({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Buscar proyecto, estudiante o tutor..."
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-(--line2) bg-white text-(--ink) focus:outline-hidden"
+            className="w-full pl-9 pr-3 py-2 text-xs rounded-(--radius) border border-(--line2) bg-white text-(--ink) focus:outline-hidden"
           />
         </div>
 
@@ -102,7 +102,7 @@ export default function AdminWorkspace({
           <button
             type="button"
             onClick={() => setShowFilters(!showFilters)}
-            className="px-3.5 py-2 text-xs font-bold text-(--brand) bg-white border border-(--line2) hover:bg-(--sand) rounded-xl transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-3.5 py-2 text-xs font-bold text-(--brand) bg-white border border-(--line2) hover:bg-(--sand) rounded-(--radius) transition-colors flex items-center gap-1.5"
           >
             <Filter className="w-3.5 h-3.5" />
             <span>{showFilters ? 'Ocultar filtros' : 'Filtros'}</span>
@@ -111,7 +111,7 @@ export default function AdminWorkspace({
           <button
             type="button"
             onClick={onExportCSV}
-            className="px-3.5 py-2 text-xs font-bold text-(--green) bg-(--green-bg) border border-(--green-line) hover:bg-(--green-line) rounded-xl transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-3.5 py-2 text-xs font-bold text-(--green) bg-(--green-bg) border border-(--green-line) hover:bg-(--green-line) rounded-(--radius) transition-colors flex items-center gap-1.5"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Exportar CSV</span>
@@ -121,13 +121,13 @@ export default function AdminWorkspace({
 
       {/* Collapsible Filter Panel */}
       {showFilters && (
-        <div className="p-4 bg-white rounded-xl border border-(--line) shadow-xs grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs animate-fade-in">
+        <div className="p-4 bg-white rounded-(--radius) border border-(--line) grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs animate-fade-in">
           <div>
             <label className="block text-[11px] font-bold text-(--muted) mb-1">Filtrar por Etapa Activa:</label>
             <select
               value={stageFilter}
               onChange={(e) => setStageFilter(e.target.value)}
-              className="w-full p-2 rounded-lg border border-(--line2) bg-(--bg) text-(--ink)"
+              className="w-full p-2 rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink)"
             >
               <option value="all">Todas las etapas (1 a 6)</option>
               <option value="1">Etapa 1: Propuesta / Protocolo</option>
@@ -144,7 +144,7 @@ export default function AdminWorkspace({
             <select
               value={riskFilter}
               onChange={(e) => setRiskFilter(e.target.value)}
-              className="w-full p-2 rounded-lg border border-(--line2) bg-(--bg) text-(--ink)"
+              className="w-full p-2 rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink)"
             >
               <option value="all">Todos los niveles</option>
               <option value="Bajo">Riesgo Bajo</option>
@@ -157,7 +157,7 @@ export default function AdminWorkspace({
       )}
 
       {/* Projects Table Card */}
-      <section className="bg-white rounded-2xl border border-(--line) shadow-sm overflow-hidden">
+      <section className="bg-white rounded-(--radius) border border-(--line) overflow-hidden">
         {/* Table Header */}
         <div className="hidden lg:grid grid-cols-12 gap-3 p-3.5 px-5 bg-(--surface-subtle) border-b border-(--line) text-[11px] font-bold text-(--light) uppercase tracking-wider">
           <span className="col-span-5">Proyecto / Estudiante</span>

@@ -321,7 +321,7 @@ export default function App() {
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-6 right-6 z-50 max-w-md bg-(--ink) text-white px-4 py-3 rounded-2xl shadow-xl border border-(--ink) flex items-center gap-3 animate-fade-in-slide"
+          className="fixed bottom-6 right-6 z-50 max-w-md bg-(--ink) text-white px-4 py-3 rounded-(--radius) shadow-xl border border-(--ink) flex items-center gap-3 animate-fade-in-slide"
         >
           <span className="w-5 h-5 rounded-full bg-(--green) text-white flex items-center justify-center font-bold text-xs shrink-0">
             ✓

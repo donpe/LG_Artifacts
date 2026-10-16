@@ -59,7 +59,7 @@ export default function TutorWorkspace({
         </p>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h1 className="font-editorial font-bold text-2xl sm:text-3xl text-(--ink) tracking-tight">
+            <h1 className="font-editorial text-3xl sm:text-4xl text-(--brand) tracking-tight">
               Pendientes de revisión
             </h1>
             <p className="text-xs text-(--muted) mt-0.5">
@@ -74,7 +74,7 @@ export default function TutorWorkspace({
                 <select
                   value={demoTutorId}
                   onChange={(e) => onDemoTutorChange(e.target.value)}
-                  className="px-2 py-1 rounded-lg border border-(--line2) bg-white text-xs font-semibold text-(--ink)"
+                  className="px-2 py-1 rounded-(--radius) border border-(--line2) bg-white text-xs font-semibold text-(--ink)"
                 >
                   {tutors.map(t => (
                     <option key={t.id} value={t.id}>{t.name}</option>
@@ -92,7 +92,7 @@ export default function TutorWorkspace({
       {/* Master-Detail Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left Column: Queue List (5 cols) */}
-        <section className="lg:col-span-5 bg-white rounded-2xl border border-(--line) p-4 shadow-sm space-y-3">
+        <section className="lg:col-span-5 bg-white rounded-(--radius) border border-(--line) p-4 space-y-3">
           {/* Queue Header & Search */}
           <div className="space-y-2.5 pb-3 border-b border-(--line)">
             <div className="flex items-center justify-between">
@@ -111,7 +111,7 @@ export default function TutorWorkspace({
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar proyecto o estudiante..."
-                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-(--line2) bg-(--bg) text-(--ink) focus:bg-white focus:outline-hidden"
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-(--radius) border border-(--line2) bg-(--bg) text-(--ink) focus:bg-white focus:outline-hidden"
               />
             </div>
           </div>
@@ -132,9 +132,9 @@ export default function TutorWorkspace({
                   key={p.id}
                   type="button"
                   onClick={() => onSelectProject(p.id)}
-                  className={`w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 ${
+                  className={`w-full text-left p-3 rounded-(--radius) border transition-all flex items-start gap-3 ${
                     isSelected
-                      ? 'bg-(--surface-subtle) border-(--line) ring-2 ring-(--brand)/15 shadow-xs'
+                      ? 'bg-(--surface-subtle) border-(--line) ring-2 ring-(--brand)/15'
                       : 'bg-white border-(--line) hover:bg-(--surface-subtle)'
                   }`}
                   aria-pressed={isSelected}
@@ -166,7 +166,7 @@ export default function TutorWorkspace({
             })}
 
             {filteredProjects.length === 0 && (
-              <div className="p-6 text-center text-xs text-(--muted) border border-dashed border-(--line2) rounded-xl">
+              <div className="p-6 text-center text-xs text-(--muted) border border-dashed border-(--line2) rounded-(--radius)">
                 No se encontraron proyectos con los términos de búsqueda.
               </div>
             )}
@@ -174,7 +174,7 @@ export default function TutorWorkspace({
         </section>
 
         {/* Right Column: Review Detail Workspace (7 cols) */}
-        <section className="lg:col-span-7 bg-white rounded-2xl border border-(--line) p-5 sm:p-6 shadow-sm flex flex-col min-h-[580px] space-y-5">
+        <section className="lg:col-span-7 bg-white rounded-(--radius) border border-(--line) p-5 sm:p-6 flex flex-col min-h-[580px] space-y-5">
           {/* Submission Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-(--line)">
             <div className="space-y-1">
@@ -224,9 +224,9 @@ export default function TutorWorkspace({
             {/* TAB 1: EVIDENCIA */}
             {activeTab === 'Evidencia' && (
               <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl border border-(--line) bg-(--surface-subtle)">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-(--radius) border border-(--line) bg-(--surface-subtle)">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-(--accent-soft) text-(--accent) font-bold text-xs grid place-items-center shrink-0">
+                    <div className="w-10 h-10 rounded-(--radius) bg-(--accent-soft) text-(--accent) font-bold text-xs grid place-items-center shrink-0">
                       PDF
                     </div>
                     <div className="min-w-0">
@@ -243,14 +243,14 @@ export default function TutorWorkspace({
                     <button
                       type="button"
                       onClick={() => onOpenDrawer('Todas las evidencias')}
-                      className="px-3 py-1.5 text-xs font-semibold text-(--brand) bg-(--sand) hover:bg-(--hover) rounded-lg border border-(--line2) transition-colors"
+                      className="px-3 py-1.5 text-xs font-semibold text-(--brand) bg-(--sand) hover:bg-(--hover) rounded-(--radius) border border-(--line2) transition-colors"
                     >
                       Ver documento
                     </button>
                     <button
                       type="button"
                       onClick={() => onOpenDrawer('Todas las evidencias')}
-                      className="p-1.5 rounded-lg border border-(--line2) hover:bg-(--sand) text-(--muted)"
+                      className="p-1.5 rounded-(--radius) border border-(--line2) hover:bg-(--sand) text-(--muted)"
                       title="Descargar copia"
                     >
                       <Download className="w-4 h-4" />
@@ -258,7 +258,7 @@ export default function TutorWorkspace({
                   </div>
                 </div>
 
-                <div className="p-4 bg-(--surface-subtle) rounded-xl border border-(--line2) space-y-1">
+                <div className="p-4 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) space-y-1">
                   <h4 className="font-bold text-xs text-(--ink)">Revisión de la evidencia</h4>
                   <p className="text-[11px] text-(--muted) leading-relaxed">
                     Compara el archivo entregado con los criterios metodológicos de la etapa y las observaciones previas antes de asentar tu dictamen.
@@ -266,7 +266,7 @@ export default function TutorWorkspace({
                 </div>
 
                 {activeStage.id === 1 && (
-                  <div className="p-4 bg-(--amber-bg) rounded-xl border border-(--amber-line) space-y-2">
+                  <div className="p-4 bg-(--amber-bg) rounded-(--radius) border border-(--amber-line) space-y-2">
                     <div className="flex items-center justify-between">
                       <strong className="text-xs text-(--amber)">Auditoría Gate 0 (14 Criterios)</strong>
                       <span className="font-mono font-bold text-xs text-(--amber)">
@@ -308,7 +308,7 @@ export default function TutorWorkspace({
                       {(selectedProject.gate0Items || []).map((item) => (
                         <label
                           key={item.id}
-                          className={`p-2.5 rounded-xl border flex items-start gap-2.5 cursor-pointer transition-all ${
+                          className={`p-2.5 rounded-(--radius) border flex items-start gap-2.5 cursor-pointer transition-all ${
                             item.checked ? 'bg-(--green-bg)/40 border-(--green-line)' : 'bg-(--bg) border-(--line) hover:bg-white'
                           }`}
                         >
@@ -332,7 +332,7 @@ export default function TutorWorkspace({
                     </div>
                   </div>
                 ) : (
-                  <div className="p-6 bg-(--surface-subtle) rounded-xl border border-(--line2) text-center space-y-2">
+                  <div className="p-6 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) text-center space-y-2">
                     <h4 className="font-editorial font-bold text-sm text-(--ink)">
                       Criterios de Etapa #{activeStage.id}: {activeStage.name}
                     </h4>
@@ -364,12 +364,12 @@ export default function TutorWorkspace({
                   {(selectedProject.decisionLog || [])
                     .filter(log => log.action.includes('Observación') || log.action.includes('Cambios'))
                     .map((log) => (
-                      <div key={log.id} className="p-3 bg-(--surface-subtle) rounded-xl border border-(--line) space-y-1">
+                      <div key={log.id} className="p-3 bg-(--surface-subtle) rounded-(--radius) border border-(--line) space-y-1">
                         <div className="flex justify-between items-center text-xs">
                           <strong className="text-(--ink)">{log.action}</strong>
                           <span className="font-mono text-[10px] text-(--light)">{log.timestamp}</span>
                         </div>
-                        <p className="text-[11px] text-(--muted) leading-relaxed bg-white p-2 rounded-lg border border-(--line)">
+                        <p className="text-[11px] text-(--muted) leading-relaxed bg-white p-2 rounded-(--radius) border border-(--line)">
                           {log.notes}
                         </p>
                       </div>
@@ -382,7 +382,7 @@ export default function TutorWorkspace({
             {activeTab === 'Historial' && (
               <div className="space-y-2 max-h-[360px] overflow-y-auto">
                 {(selectedProject.decisionLog || []).map((log) => (
-                  <div key={log.id} className="p-2.5 bg-(--bg) rounded-xl border border-(--line) space-y-1">
+                  <div key={log.id} className="p-2.5 bg-(--bg) rounded-(--radius) border border-(--line) space-y-1">
                     <div className="flex justify-between text-xs">
                       <strong className="text-(--ink)">{log.action}</strong>
                       <span className="font-mono text-[10px] text-(--light)">{log.timestamp}</span>
@@ -407,7 +407,7 @@ export default function TutorWorkspace({
               onClick={() => onOpenDrawer('Solicitar cambios')}
               disabled={!stageActions?.requestChanges.allowed}
               title={stageActions?.requestChanges.reason}
-              className="px-4 py-2 text-xs font-bold rounded-xl bg-white text-(--brand) hover:bg-(--surface-subtle) border border-(--line2) transition-colors shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-xs font-bold rounded-(--radius) bg-white text-(--brand) hover:bg-(--surface-subtle) border border-(--line2) transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Solicitar cambios
             </button>
@@ -417,7 +417,7 @@ export default function TutorWorkspace({
               onClick={() => onOpenDrawer('Confirmar aprobación')}
               disabled={!stageActions?.approve.allowed}
               title={stageActions?.approve.reason}
-              className="px-4 py-2 text-xs font-bold rounded-xl bg-(--brand) text-white hover:bg-(--brand-hover) transition-colors shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-xs font-bold rounded-(--radius) bg-(--brand) text-white hover:bg-(--brand-hover) transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Aprobar etapa
             </button>
