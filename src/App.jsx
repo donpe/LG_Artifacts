@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { PILOT_PROJECTS, TUTORS } from './data/pilotData.js';
 import RoleSidebar from './components/layout/RoleSidebar.jsx';
 import TopbarCompact from './components/layout/TopbarCompact.jsx';
@@ -13,6 +13,7 @@ import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
 import { getStageActions } from './domain/stageMachine.js';
 import { describeRisk } from './domain/progressCalculator.js';
+import { loadDemoProjects, saveDemoProjects, clearDemoProjects } from './data/demoStorage.js';
 
 /**
  * App — Contenedor Principal de la Plataforma de Seguimiento Académico
@@ -27,7 +28,11 @@ export default function App() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // 2. Estado de proyectos y selección
-  const [rawProjects, setProjects] = useState(PILOT_PROJECTS);
+  // Se parte de lo guardado en el navegador (si existe) y se guarda cada cambio (demoStorage.js).
+  const [rawProjects, setProjects] = useState(() => loadDemoProjects(PILOT_PROJECTS));
+  useEffect(() => {
+    saveDemoProjects(rawProjects);
+  }, [rawProjects]);
   // El riesgo no se guarda: se calcula siempre a partir de etapas y compromisos (progressCalculator.js).
   const projects = useMemo(
     () => rawProjects.map(p => {
@@ -286,6 +291,15 @@ export default function App() {
     showToast(`Etapa #${activeStage.id} "${activeStage.name.split('(')[0]}" aprobada formalmente.`);
   };
 
+  // Manejador: Reiniciar la demo a los datos semilla de pilotData.js
+  const handleResetDemo = () => {
+    if (!window.confirm('¿Reiniciar la demo? Se perderán las entregas, observaciones y aprobaciones hechas en este navegador.')) return;
+    clearDemoProjects();
+    setProjects(PILOT_PROJECTS);
+    handleSelectProject(role === 'tutor' ? (PILOT_PROJECTS.find(p => p.tutorId === demoTutorId)?.id || 'PRJ-01') : 'PRJ-01');
+    showToast('Demo reiniciada con los datos originales.');
+  };
+
   // Manejador: Exportación a CSV
   const handleExportCSV = () => {
     const csvContent = exportProjectToCSV(currentProject);
@@ -345,6 +359,7 @@ export default function App() {
           onToggleMobileMenu={() => setIsMobileNavOpen(!isMobileNavOpen)}
           onOpenProjectInfo={() => handleOpenDrawer('Ficha académica completa')}
           onExportCSV={handleExportCSV}
+          onResetDemo={handleResetDemo}
         />
 
         {/* Lienzo de Trabajo Dinámico según Rol */}
