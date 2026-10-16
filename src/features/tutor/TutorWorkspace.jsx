@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Download } from 'lucide-react';
 import StatusBadge from '../../components/StatusBadge.jsx';
+import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
  * TutorWorkspace — Bandeja Maestro-Detalle de Revisión para Tutores (Academic Flow 2.0)
@@ -54,7 +55,7 @@ export default function TutorWorkspace({
       {/* Eyebrow & View Header */}
       <div>
         <p className="text-[10px] uppercase font-bold tracking-widest text-[#887668] mb-1">
-          ESPACIO DEL TUTOR ({tutorName}) &bull; COHORTE 2026-I
+          ESPACIO DEL TUTOR ({tutorName}) &bull; COHORTE 2026-1
         </p>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
@@ -118,7 +119,7 @@ export default function TutorWorkspace({
           {/* Queue Items Scrollable List */}
           <div className="space-y-2 max-h-[580px] overflow-y-auto pr-1">
             {filteredProjects.map((p) => {
-              const currentSt = p.stages.find(s => s.status === 'en_revision' || s.status === 'observado') || p.stages[0];
+              const currentSt = getCurrentStage(p.stages);
               const isSelected = p.id === selectedProject.id;
               const initials = p.student
                 .split(' ')

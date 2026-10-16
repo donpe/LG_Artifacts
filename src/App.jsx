@@ -12,7 +12,7 @@ import TutorReviewModal from './features/review/TutorReviewModal.jsx';
 import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
 import { getStageActions } from './domain/stageMachine.js';
-import { describeRisk } from './domain/progressCalculator.js';
+import { describeRisk, getCurrentStage } from './domain/progressCalculator.js';
 import { loadDemoProjects, saveDemoProjects, clearDemoProjects } from './data/demoStorage.js';
 
 /**
@@ -116,8 +116,7 @@ export default function App() {
     setSelectedProjectId(projectId);
     const proj = projects.find(p => p.id === projectId);
     if (proj) {
-      const firstActive = proj.stages.find(s => s.status === 'en_revision' || s.status === 'observado');
-      setActiveStageId(firstActive ? firstActive.id : 1);
+      setActiveStageId(getCurrentStage(proj.stages).id);
     }
   };
 

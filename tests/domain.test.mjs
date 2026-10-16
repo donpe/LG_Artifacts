@@ -144,4 +144,12 @@ assert.ok(sampleCSV.includes('G0-01'), 'Incluye códigos Gate 0');
 assert.ok(sampleCSV.includes('6 etapas'), 'Menciona las 6 etapas académicas');
 console.log('     ✓ Exportación CSV validada con UTF-8 BOM y mitigación de inyección.');
 
+// --- 5. Datos del piloto (Fase 1): deben cubrir todos los casos de la demo ---
+console.log('  5. Verificando variedad de los datos del piloto...');
+assert.equal(PILOT_PROJECTS.length, 15, 'El piloto tiene 15 proyectos');
+const levels = new Set(PILOT_PROJECTS.map(p => calculateRiskLevel(p)));
+['Alto', 'Medio', 'Bajo', 'Completado'].forEach(l => assert.ok(levels.has(l), `Hay al menos un proyecto con riesgo ${l}`));
+['TUT-01', 'TUT-02', 'TUT-03'].forEach(t => assert.equal(PILOT_PROJECTS.filter(p => p.tutorId === t).length, 5, `${t} tiene 5 proyectos`));
+console.log('     ✓ Datos con riesgos Alto, Medio, Bajo y Completado, 5 proyectos por tutor.');
+
 console.log('✅ TODAS LAS PRUEBAS UNITARIAS DE DOMINIO PASARON SATISFACTORIAMENTE (100% OK).\n');

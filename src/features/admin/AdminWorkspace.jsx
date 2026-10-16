@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Download, ArrowRight, BarChart3 } from 'lucide-react';
 import StatusBadge from '../../components/StatusBadge.jsx';
+import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
  * AdminWorkspace — Panel de Supervisión y Cohorte para Administradores (Academic Flow 2.0)
@@ -31,7 +32,7 @@ export default function AdminWorkspace({
       const matchText = (p.title + ' ' + p.student + ' ' + p.institutionalId + ' ' + p.tutor).toLowerCase();
       const matchSearch = matchText.includes(searchTerm.toLowerCase());
 
-      const activeSt = p.stages.find(s => s.status === 'en_revision' || s.status === 'observado') || p.stages[0];
+      const activeSt = getCurrentStage(p.stages);
       const matchStage = stageFilter === 'all' || String(activeSt.id) === stageFilter;
       const matchRisk = riskFilter === 'all' || p.riskLevel === riskFilter;
 
@@ -77,7 +78,7 @@ export default function AdminWorkspace({
           tutores asignados
         </div>
         <div className="px-3.5 py-2 bg-white border border-[#E8E1D5] rounded-xl text-xs text-[#716459] shadow-xs">
-          Cohorte <strong className="font-editorial font-bold text-sm text-[#6E432F] ml-1">2026-I</strong>
+          Cohorte <strong className="font-editorial font-bold text-sm text-[#6E432F] ml-1">2026-1</strong>
         </div>
         <div className="px-3.5 py-2 bg-white border border-[#E8E1D5] rounded-xl text-xs text-[#716459] shadow-xs">
           Avance promedio: <strong className="font-editorial font-bold text-sm text-[#146C4F] ml-1">{avgProgress}%</strong>
@@ -168,7 +169,7 @@ export default function AdminWorkspace({
         {/* Table Rows */}
         <div className="divide-y divide-[#E8E1D5]">
           {filteredProjects.map((p) => {
-            const activeSt = p.stages.find(s => s.status === 'en_revision' || s.status === 'observado') || p.stages[0];
+            const activeSt = getCurrentStage(p.stages);
             return (
               <div
                 key={p.id}
