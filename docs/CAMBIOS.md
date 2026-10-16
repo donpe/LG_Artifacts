@@ -444,3 +444,35 @@ sobre cualquier pastilla ("En revisión", "Riesgo Alto"). Barra lateral → *Ayu
 
 **Cómo comprobarlo.** Rol *Estudiante* (Mateo Restrepo) → clic en la Etapa 4: el riel dice "Bloqueada · viendo"
 y la tarjeta explica por qué, con *Ir a mi etapa actual (Etapa 1)*.
+
+### 3.4 Recorrido guiado por rol — `feat/recorrido-guiado-por-rol`
+
+**Problema.** Aun sabiendo qué hace cada rol, al entrar a su pantalla no era obvio dónde mirar
+primero ni dónde estaban las acciones importantes.
+
+**Cambio.**
+- Nuevo `src/features/onboarding/GuidedTour.jsx`: oscurece la pantalla, resalta un elemento con un marco
+  cian y muestra una tarjeta con *Anterior / Siguiente / Saltar recorrido* (Escape también cierra).
+  La tarjeta se ubica debajo o encima del elemento según el espacio.
+- Nuevo `src/data/tourSteps.js` con los pasos de cada rol:
+  - **Estudiante (4):** riel de etapas → tu siguiente paso → compromisos y observaciones → cambiar de rol.
+  - **Tutor (4):** bandeja → *Ver como* → pestañas de revisión → botones de decisión.
+  - **Coordinación (3):** indicadores → buscar y filtrar → tabla con semáforo.
+- Los elementos señalados llevan un atributo `data-tour="…"` en `StudentWorkspace`, `TutorWorkspace`,
+  `AdminWorkspace` y `TopbarCompact`.
+- El recorrido se abre **la primera vez que se entra a cada rol** (desde la bienvenida o el selector) y
+  desde la nueva opción **Ver recorrido** de la barra lateral. *Reiniciar demo* lo vuelve a habilitar.
+
+**Detalle técnico.** El oscurecido se arma con cuatro paneles alrededor del elemento, no con una sombra
+gigante, porque esta última no se dibuja de forma fiable en todos los navegadores.
+
+**Limitación conocida.** Si el elemento es muy alto (por ejemplo, el riel de etapas en pantallas bajas),
+la tarjeta puede tapar su parte inferior.
+
+**Archivos.** `src/features/onboarding/GuidedTour.jsx` (nuevo), `src/data/tourSteps.js` (nuevo), `src/App.jsx`,
+`src/components/layout/RoleSidebar.jsx`, `src/components/layout/TopbarCompact.jsx`,
+`src/features/student/StudentWorkspace.jsx`, `src/features/tutor/TutorWorkspace.jsx`,
+`src/features/admin/AdminWorkspace.jsx`.
+
+**Cómo comprobarlo.** Ventana privada → bienvenida → *Entrar como estudiante*: arranca el recorrido de 4 pasos.
+Luego cambiar a *Tutor* en el selector: arranca el recorrido del tutor. *Ver recorrido* en la barra lateral lo repite.
