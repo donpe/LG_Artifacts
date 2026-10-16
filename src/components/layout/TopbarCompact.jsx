@@ -100,7 +100,7 @@ export default function TopbarCompact({
         </button>
 
         {/* Role Selector Dropdown */}
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative" ref={dropdownRef} data-tour="selector-rol">
           <button
             type="button"
             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}

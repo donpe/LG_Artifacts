@@ -69,7 +69,7 @@ export default function AdminWorkspace({
       </div>
 
       {/* Overview Strip */}
-      <div className="flex flex-wrap gap-2.5 items-center">
+      <div data-tour="indicadores" className="flex flex-wrap gap-2.5 items-center">
         <div className="px-3.5 py-2 bg-white border border-(--line) rounded-(--radius) text-xs text-(--light)">
           <strong className="font-editorial font-bold text-sm text-(--brand) mr-1">{totalProjects}</strong>
           proyectos del piloto
@@ -87,7 +87,7 @@ export default function AdminWorkspace({
       </div>
 
       {/* Admin Tools Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      <div data-tour="filtros" className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1 max-w-md">
           <Search className="w-4 h-4 text-(--light) absolute left-3 top-2.5" />
           <input
@@ -158,7 +158,7 @@ export default function AdminWorkspace({
       )}
 
       {/* Projects Table Card */}
-      <section className="bg-white rounded-(--radius) border border-(--line) overflow-hidden">
+      <section data-tour="tabla" className="bg-white rounded-(--radius) border border-(--line) overflow-hidden">
         {/* Table Header */}
         <div className="hidden lg:grid grid-cols-12 gap-3 p-3.5 px-5 bg-(--surface-subtle) border-b border-(--line) text-[11px] font-bold text-(--light) uppercase tracking-wider">
           <span className="col-span-5">Proyecto / Estudiante</span>

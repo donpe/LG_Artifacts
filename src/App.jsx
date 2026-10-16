@@ -12,6 +12,7 @@ import { getStageActions } from './domain/stageMachine.js';
 import { describeRisk, getCurrentStage } from './domain/progressCalculator.js';
 import { loadDemoProjects, saveDemoProjects, clearDemoProjects, hasSeen, markSeen, clearSeenFlags } from './data/demoStorage.js';
 import WelcomeScreen from './features/onboarding/WelcomeScreen.jsx';
+import GuidedTour from './features/onboarding/GuidedTour.jsx';
 
 /**
  * App — Contenedor Principal de la Plataforma de Seguimiento Académico
@@ -27,6 +28,12 @@ export default function App() {
 
   // Pantalla "¿Cómo funciona?": se muestra la primera vez en cada navegador (Fase 3).
   const [showWelcome, setShowWelcome] = useState(() => !hasSeen('bienvenida'));
+  // Recorrido guiado: rol cuyo recorrido está abierto (o null). Se abre la primera vez en cada rol.
+  const [tourRole, setTourRole] = useState(null);
+  const closeTour = () => {
+    if (tourRole) markSeen(`recorrido-${tourRole}`);
+    setTourRole(null);
+  };
 
   // 2. Estado de proyectos y selección
   // Se parte de lo guardado en el navegador (si existe) y se guarda cada cambio (demoStorage.js).
@@ -69,6 +76,7 @@ export default function App() {
   // Cambio de rol con sincronización de navegación por defecto
   const handleRoleChange = (newRole) => {
     setRole(newRole);
+    if (!hasSeen(`recorrido-${newRole}`)) setTourRole(newRole);
     if (newRole === 'estudiante') setActiveNav('Mi proyecto');
     else if (newRole === 'tutor') {
       setActiveNav('Pendientes de revisión');
@@ -357,6 +365,7 @@ export default function App() {
         onCloseMobile={() => setIsMobileNavOpen(false)}
         onOpenDrawer={handleOpenDrawer}
         onShowWelcome={() => setShowWelcome(true)}
+        onStartTour={() => setTourRole(role)}
         pendingReviewCount={pendingReviewCount}
         profileName={role === 'tutor' ? demoTutor.name : role === 'estudiante' ? currentProject.student : undefined}
       />
@@ -448,6 +457,9 @@ export default function App() {
         onOpenDrawer={handleOpenDrawer}
         stageActions={stageActions}
       />
+
+      {/* 4. Recorrido guiado del rol actual (Fase 3) */}
+      {tourRole === role && <GuidedTour key={tourRole} role={tourRole} onClose={closeTour} />}
     </div>
   );
 }

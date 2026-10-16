@@ -79,7 +79,7 @@ export default function StudentWorkspace({
       </div>
 
       {/* Project Bar & 6-Stage Track */}
-      <section className="bg-white rounded-(--radius) border border-(--line) p-5 sm:p-6 space-y-5">
+      <section data-tour="riel-etapas" className="bg-white rounded-(--radius) border border-(--line) p-5 sm:p-6 space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <h2 className="font-editorial font-bold text-xl sm:text-2xl text-(--ink) tracking-tight leading-snug">
             {project.title}
@@ -180,7 +180,7 @@ export default function StudentWorkspace({
         {/* Left Column (7 cols): Action Card & Evidence */}
         <div className="lg:col-span-7 space-y-5">
           {/* Action Card: "Tu Siguiente Paso" */}
-          <section className="bg-gradient-to-br from-(--surface-subtle) to-(--surface-subtle) border border-(--line) rounded-(--radius) p-6 flex items-start gap-4">
+          <section data-tour="siguiente-paso" className="bg-gradient-to-br from-(--surface-subtle) to-(--surface-subtle) border border-(--line) rounded-(--radius) p-6 flex items-start gap-4">
             <div className="w-11 h-11 rounded-(--radius) bg-(--line) text-(--brand) grid place-items-center shrink-0">
               <FileText className="w-5 h-5" />
             </div>
@@ -307,7 +307,7 @@ export default function StudentWorkspace({
         {/* Right Column (5 cols): Commitments & Context Links */}
         <div className="lg:col-span-5 space-y-5">
           {/* Commitments & Latest Observation Surface */}
-          <section className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-3">
+          <section data-tour="compromiso" className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-(--line)">
               <h3 className="font-editorial font-bold text-sm text-(--ink)">
                 Próximo <Term id="compromiso">compromiso</Term>

@@ -70,7 +70,7 @@ export default function TutorWorkspace({
           <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
             {/* Modo demo: elegir qué tutor se simula. Cada tutor solo ve sus proyectos asignados. */}
             {tutors.length > 0 && (
-              <label className="flex items-center gap-1.5 text-xs text-(--muted)">
+              <label data-tour="ver-como" className="flex items-center gap-1.5 text-xs text-(--muted)">
                 <span>Ver como:</span>
                 <select
                   value={demoTutorId}
@@ -93,7 +93,7 @@ export default function TutorWorkspace({
       {/* Master-Detail Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left Column: Queue List (5 cols) */}
-        <section className="lg:col-span-5 bg-white rounded-(--radius) border border-(--line) p-4 space-y-3">
+        <section data-tour="bandeja" className="lg:col-span-5 bg-white rounded-(--radius) border border-(--line) p-4 space-y-3">
           {/* Queue Header & Search */}
           <div className="space-y-2.5 pb-3 border-b border-(--line)">
             <div className="flex items-center justify-between">
@@ -196,7 +196,7 @@ export default function TutorWorkspace({
           </div>
 
           {/* Tabbar */}
-          <div className="flex items-center gap-6 border-b border-(--line) text-xs font-semibold" role="tablist">
+          <div data-tour="pestanas" className="flex items-center gap-6 border-b border-(--line) text-xs font-semibold" role="tablist">
             {['Evidencia', 'Criterios', 'Observaciones', 'Historial'].map((tab) => (
               <button
                 key={tab}
@@ -396,7 +396,7 @@ export default function TutorWorkspace({
           </div>
 
           {/* Fixed Review Decision Buttons */}
-          <div className="pt-4 border-t border-(--line) flex flex-wrap items-center justify-end gap-3 mt-auto">
+          <div data-tour="decision" className="pt-4 border-t border-(--line) flex flex-wrap items-center justify-end gap-3 mt-auto">
             {/* Motivo visible cuando una acción está bloqueada por las reglas de stageMachine.js */}
             {stageActions && !stageActions.approve.allowed && (
               <p className="text-[11px] text-(--amber) mr-auto" role="note">
