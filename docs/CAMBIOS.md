@@ -31,7 +31,7 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 | Fase | Objetivo | Estado |
 |------|----------|--------|
 | 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
-| 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Lista para revisión |
+| 2 · Identidad visual | Paleta, tipografía y estructura visual de estilo institucional | Lista para revisión |
 | 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Lista para revisión |
 | 4 · Navegación y estructura | Menú con una pantalla por opción, direcciones propias, ficha del proyecto como página y decisiones en ventana | En curso |
 | 5 · Funcionalidad con valor | Compromisos, carga de archivos, exportación por cohorte, Supabase con inicio de sesión | Pendiente |
@@ -266,19 +266,18 @@ La suite E2E (`node verify-app.mjs`) no se ejecutó: necesita descargar el naveg
 
 ---
 
-## Fase 2 · Identidad visual inspirada en EAFIT
+## Fase 2 · Identidad visual
 
-Rama de integración: `fase-2/identidad-visual-eafit` (parte de `fase-1/victorias-tempranas`).
+Rama de integración: `fase-2/identidad-visual` (parte de `fase-1/victorias-tempranas`).
 
-**Referencia.** eafit.edu.co: azul marino `#000066`, azul vivo `#146AEF`, cian `#00A9E0`, mucho blanco y
-negro, tipografía **Inter** con títulos de peso alto, bloques sólidos de color, esquinas casi rectas y pie
-de página oscuro. Es una *inspiración*: no se usa el logo oficial ni se presenta como sitio de la
-universidad. Usar la marca requiere aprobación institucional.
+**Dirección visual.** Estilo institucional sobrio: azul marino `#000066`, azul vivo `#146AEF`, cian `#00A9E0`,
+mucho blanco y negro, tipografía **Inter** con títulos de peso alto, bloques sólidos de color, esquinas casi
+rectas y pie de página oscuro. No se usa ningún logo ni marca institucional.
 
-### 2.1 Paleta y tipografía — `feat/paleta-y-tipografia-inspiradas-en-eafit`
+### 2.1 Paleta y tipografía — `feat/paleta-y-tipografia`
 
-**Problema.** La interfaz tenía una estética cálida (crema, café, títulos serif Georgia) que no se
-relaciona con EAFIT. Además, los colores estaban escritos a mano en cada componente: **80 tonos distintos**
+**Problema.** La interfaz tenía una estética cálida (crema, café, títulos serif Georgia) poco
+institucional. Además, los colores estaban escritos a mano en cada componente: **80 tonos distintos**
 en 484 clases como `bg-[#6E432F]`, así que cambiar la identidad obligaba a tocar todos los archivos.
 
 **Cambio.**
@@ -304,7 +303,7 @@ en 484 clases como `bg-[#6E432F]`, así que cambiar la identidad obligaba a toca
 **Cómo comprobarlo.** `npm run dev`: la app se ve en azul marino, blanco y grises, con títulos en Inter.
 Para probar otra paleta basta con editar `src/styles/tokens.css`.
 
-### 2.2 Barra lateral, cabecera y pie — `feat/barra-lateral-cabecera-y-pie-estilo-eafit`
+### 2.2 Barra lateral, cabecera y pie — `feat/barra-lateral-cabecera-y-pie`
 
 **Problema.** Con la paleta nueva, la estructura seguía con la apariencia anterior: barra lateral
 clara, cabecera translúcida y pie blanco con textos internos ("Diseño Academic Flow 2.0 · Español nativo")
@@ -312,21 +311,21 @@ que no le dicen nada a un usuario.
 
 **Cambio.**
 - **Barra lateral** en azul marino (`--brand`) con texto blanco. La opción activa se marca con una
-  franja cian a la izquierda, como la navegación del sitio institucional. El contador de pendientes y
+  franja cian a la izquierda. El contador de pendientes y
   el avatar del perfil van en cian.
 - **Cabecera** blanca y sólida con una línea inferior azul marino (antes era translúcida).
 - **Pie de página** oscuro (`--footer-bg`) con un texto útil: "Prototipo de demostración con datos
   ficticios · 6 etapas · Gate 0 (14 criterios)".
 
 **Pendiente de decisión.** El nombre y emblema ("LG · Academic Flow") se mantienen. Cambiarlos es una
-decisión del dueño del proyecto; no se debe usar el logo de EAFIT sin aprobación institucional.
+decisión del dueño del proyecto; no se usa ningún logo institucional sin aprobación.
 
 **Archivos.** `src/components/layout/RoleSidebar.jsx`, `src/components/layout/TopbarCompact.jsx`, `src/App.jsx`.
 
 **Cómo comprobarlo.** `npm run dev`: barra lateral azul marino con la opción activa marcada en cian,
 cabecera blanca con línea azul y pie oscuro.
 
-### 2.3 Títulos, tarjetas y botones — `feat/titulos-tarjetas-y-botones-estilo-eafit`
+### 2.3 Títulos, tarjetas y botones — `feat/titulos-tarjetas-y-botones`
 
 **Problema.** Las tarjetas y botones tenían esquinas muy redondeadas (12–16 px) y sombras suaves, con un
 aire de aplicación genérica. Los títulos de página eran pequeños para el estilo institucional, que usa
@@ -361,7 +360,7 @@ Administrador en escritorio y en 375 px (sin desbordamiento horizontal).
 
 **Decisiones abiertas para el dueño del proyecto.**
 - Nombre y emblema de la plataforma ("LG · Academic Flow").
-- Si se pide permiso para usar la marca EAFIT. Mientras tanto, solo inspiración visual.
+- Si se usará algún logo o marca institucional (requiere aprobación). Mientras tanto, ninguno.
 - Las capturas de `screenshots/` y de la raíz son del diseño anterior. Se regeneran con
   `node verify-app.mjs` (requiere `npx playwright install chromium`).
 
@@ -369,7 +368,7 @@ Administrador en escritorio y en 375 px (sin desbordamiento horizontal).
 
 ## Fase 3 · Que se entienda sola
 
-Rama de integración: `fase-3/que-se-entienda-sola` (parte de `fase-2/identidad-visual-eafit`).
+Rama de integración: `fase-3/que-se-entienda-sola` (parte de `fase-2/identidad-visual`).
 
 **Objetivo.** Que alguien que nunca ha visto la plataforma (un tutor, la coordinación, el dueño del
 proyecto) entienda en pocos minutos para qué sirve y cómo se usa, sin que nadie se la explique.
@@ -543,3 +542,25 @@ al bajar, el menú se iba con la página y debajo quedaba el fondo gris.
 horizontal, pero sin romper el menú fijo.
 
 **Cómo comprobarlo.** Bajar hasta el final de cualquier pantalla: el menú azul ocupa siempre toda la altura.
+
+### 4.2 Fase 2 sin referencias a marcas — `docs/quitar-referencias-de-marca-en-fase-2`
+
+**Pedido.** La Fase 2 no debe mencionar a ninguna institución en particular: es una identidad visual de
+estilo institucional, no la de una marca concreta.
+
+**Cambio.**
+- Textos de la Fase 2 en este documento, comentarios de `src/styles/tokens.css`, `src/index.css`,
+  `src/components/layout/RoleSidebar.jsx`, `src/App.jsx` e `index.html` reescritos sin nombres de marca.
+- Ramas renombradas en el fork:
+
+  | Antes | Ahora |
+  |---|---|
+  | `fase-2/identidad-visual-…` | `fase-2/identidad-visual` |
+  | `feat/paleta-y-tipografia-inspiradas-en-…` | `feat/paleta-y-tipografia` |
+  | `feat/barra-lateral-cabecera-y-pie-estilo-…` | `feat/barra-lateral-cabecera-y-pie` |
+  | `feat/titulos-tarjetas-y-botones-estilo-…` | `feat/titulos-tarjetas-y-botones` |
+
+- Títulos y descripciones de los PR #8, #9 y #10 actualizados.
+
+**Límite.** Los mensajes de *merge* ya publicados en el historial de git conservan los nombres de rama
+anteriores; reescribir el historial rompería las ramas de las fases 3 y 4, así que no se tocó.

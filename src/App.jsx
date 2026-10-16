@@ -427,7 +427,7 @@ export default function App() {
         </main>
 
         {/* Pie de página institucional */}
-        {/* Pie oscuro, como el sitio institucional (Fase 2) */}
+        {/* Pie oscuro (Fase 2) */}
         <footer className="bg-(--footer-bg) py-5 px-6 text-center text-xs text-(--footer-ink)">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <p>
