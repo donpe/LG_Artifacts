@@ -149,8 +149,13 @@ export default function TutorWorkspace({
                     <small className="block text-[11px] text-[#746A62] truncate">
                       {p.student} &bull; Etapa {currentSt.id} &bull; {currentSt.name.split('(')[0]}
                     </small>
-                    <div className="pt-0.5">
+                    <div className="pt-0.5 flex flex-wrap gap-1.5">
                       <StatusBadge type="stage" value={currentSt.status} />
+                      {p.riskLevel !== 'Bajo' && (
+                        <span title={p.riskReason}>
+                          <StatusBadge type="risk" value={p.riskLevel} />
+                        </span>
+                      )}
                     </div>
                   </div>
 

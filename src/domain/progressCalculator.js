@@ -16,27 +16,40 @@ export function calculateProgress(stages = []) {
   };
 }
 
-export function calculateRiskLevel(project = {}) {
+/**
+ * Semáforo de riesgo académico con su motivo (Fase 1 · feat/calcular-riesgo-automaticamente).
+ * Orden de prioridad:
+ *   1. Alto       → hay compromisos pendientes con fecha límite vencida.
+ *   2. Medio      → la etapa activa tiene cambios solicitados (observado).
+ *   3. Completado → las 6 etapas están aprobadas.
+ *   4. Bajo       → avance normal.
+ * `today` se puede inyectar para pruebas (formato AAAA-MM-DD).
+ */
+export function describeRisk(project = {}, today = new Date().toISOString().split('T')[0]) {
   const stages = project.stages || [];
-  const activeStage = stages.find(s => s.status === 'en_revision' || s.status === 'observado');
-
-  if (!activeStage) {
-    const isCompleted = stages.every(s => s.status === 'aprobado');
-    return isCompleted ? 'Completado' : 'Bajo';
-  }
-
-  if (activeStage.status === 'observado') {
-    return 'Medio';
-  }
-
-  // Si tiene compromisos vencidos
   const commitments = project.commitments || [];
-  const today = new Date().toISOString().split('T')[0];
-  const hasOverdue = commitments.some(c => c.status === 'pendiente' && c.dueDate < today);
 
-  if (hasOverdue) {
-    return 'Alto';
+  const overdue = commitments.filter(c => c.status === 'pendiente' && c.dueDate < today);
+  if (overdue.length > 0) {
+    return {
+      level: 'Alto',
+      reason: overdue.length === 1
+        ? `Compromiso vencido desde ${overdue[0].dueDate}: ${overdue[0].description}`
+        : `${overdue.length} compromisos vencidos.`
+    };
   }
 
-  return 'Bajo';
+  if (stages.some(s => s.status === 'observado')) {
+    return { level: 'Medio', reason: 'El tutor solicitó cambios y hay correcciones pendientes.' };
+  }
+
+  if (stages.length > 0 && stages.every(s => s.status === 'aprobado')) {
+    return { level: 'Completado', reason: 'Las 6 etapas están aprobadas.' };
+  }
+
+  return { level: 'Bajo', reason: 'Avance sin alertas.' };
+}
+
+export function calculateRiskLevel(project = {}, today) {
+  return describeRisk(project, today).level;
 }

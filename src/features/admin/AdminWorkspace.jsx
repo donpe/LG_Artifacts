@@ -149,6 +149,7 @@ export default function AdminWorkspace({
               <option value="Bajo">Riesgo Bajo</option>
               <option value="Medio">Riesgo Medio</option>
               <option value="Alto">Riesgo Alto</option>
+              <option value="Completado">Completado</option>
             </select>
           </div>
         </div>
@@ -202,8 +203,12 @@ export default function AdminWorkspace({
                 </div>
 
                 {/* Column 4: Status Badge & Chevron */}
-                <div className="lg:col-span-2 flex items-center justify-between lg:justify-end gap-2 pt-1 lg:pt-0">
+                <div className="lg:col-span-2 flex flex-wrap items-center justify-between lg:justify-end gap-2 pt-1 lg:pt-0">
                   <StatusBadge type="stage" value={activeSt.status} />
+                  {/* Semáforo calculado en App.jsx con describeRisk(); el motivo aparece al pasar el cursor */}
+                  <span title={p.riskReason}>
+                    <StatusBadge type="risk" value={p.riskLevel} />
+                  </span>
                   <ArrowRight className="w-4 h-4 text-[#8F8881] shrink-0" />
                 </div>
               </div>

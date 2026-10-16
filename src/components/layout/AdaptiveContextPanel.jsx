@@ -251,7 +251,9 @@ export default function AdaptiveContextPanel({
               </div>
               <div className="flex justify-between items-center pt-1">
                 <span>Nivel de Riesgo:</span>
-                <StatusBadge type="risk" value={project.riskLevel} />
+                <span title={project.riskReason}>
+                  <StatusBadge type="risk" value={project.riskLevel} />
+                </span>
               </div>
             </div>
           </div>
