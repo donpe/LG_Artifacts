@@ -32,7 +32,7 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 |------|----------|--------|
 | 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
 | 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Lista para revisión |
-| 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | En curso |
+| 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Lista para revisión |
 | 4 · Funcionalidad con valor | Compromisos, carga de archivos, tablero de coordinación, exportación por cohorte | Pendiente |
 
 ---
@@ -476,3 +476,37 @@ la tarjeta puede tapar su parte inferior.
 
 **Cómo comprobarlo.** Ventana privada → bienvenida → *Entrar como estudiante*: arranca el recorrido de 4 pasos.
 Luego cambiar a *Tutor* en el selector: arranca el recorrido del tutor. *Ver recorrido* en la barra lateral lo repite.
+
+### 3.5 Guion de demostración — `docs/guion-de-demostracion-y-cierre-fase-3`
+
+**Cambio.** Nuevo `docs/GUION_DEMO.md`: recorrido de unos 3 minutos para presentar la plataforma
+(bienvenida → coordinación → tutor aprueba → tutor pide cambios → estudiante corrige → exportar), con
+qué hacer y qué decir en cada paso, usando casos reales de los datos del piloto. Enlazado desde el `README.md`.
+
+**Verificación.** El flujo completo del guion se ejecutó en el navegador: Dra. Elena Ramos aprueba la
+Etapa 1 de Diego Morales (pasa a Etapa 2), el Dr. Carlos Gutiérrez solicita cambios a Mateo Restrepo
+(*Cambios solicitados*) y Mateo entrega una nueva versión (vuelve a *En revisión*, con 3 evidencias).
+
+---
+
+### Resumen de la Fase 3
+
+| # | Cambio | PR en el fork |
+|---|--------|---------------|
+| 3.1 | Pantalla "¿Cómo funciona?" | [#11](https://github.com/donpe/LG_Artifacts/pull/11) |
+| 3.2 | Glosario y ayudas de términos | [#12](https://github.com/donpe/LG_Artifacts/pull/12) |
+| 3.3 | Mensajes claros según el estado de la etapa | [#13](https://github.com/donpe/LG_Artifacts/pull/13) |
+| 3.4 | Recorrido guiado por rol | [#14](https://github.com/donpe/LG_Artifacts/pull/14) |
+| 3.5 | Guion de demostración | [#15](https://github.com/donpe/LG_Artifacts/pull/15) |
+
+**Verificación.** Lint y pruebas en verde, build correcto y guion completo ejecutado en el navegador.
+
+**Pendiente observado (para la Fase 4 o para decidir con el dueño del proyecto).**
+- Al aprobar una etapa, la siguiente pasa directo a *En revisión* sin entrega del estudiante (regla
+  original). Con los mensajes nuevos, el estudiante lee "Tu entrega está en revisión del tutor" sin haber
+  entregado. Propuesta: que la siguiente etapa quede *Por entregar*.
+- El rol elegido no se recuerda al recargar la página (siempre vuelve a *Tutor*).
+- Las marcas de tiempo nuevas de la bitácora usan un formato distinto al de los datos semilla
+  (`16/10/26, 16:08` frente a `16/10/2026 16:08`).
+- El recorrido no se abre solo para el rol inicial si se recarga la página sin pasar por la bienvenida
+  (se puede abrir con *Ver recorrido*).
