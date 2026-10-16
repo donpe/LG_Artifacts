@@ -1,5 +1,6 @@
 import React from 'react';
 import { FileText, Clock, Layers, ChevronRight, Download, Upload } from 'lucide-react';
+import Term from '../../components/Term.jsx';
 import StatusBadge from '../../components/StatusBadge.jsx';
 
 /**
@@ -236,7 +237,7 @@ export default function StudentWorkspace({
           <section className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-(--line)">
               <h3 className="font-editorial font-bold text-sm text-(--ink)">
-                Evidencia actual &bull; Etapa #{activeStage.id}
+                <Term id="evidencia">Evidencia</Term> actual &bull; Etapa #{activeStage.id}
               </h3>
               <button
                 type="button"
@@ -283,7 +284,7 @@ export default function StudentWorkspace({
           <section className="bg-white rounded-(--radius) border border-(--line) p-5 space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-(--line)">
               <h3 className="font-editorial font-bold text-sm text-(--ink)">
-                Próximo compromiso
+                Próximo <Term id="compromiso">compromiso</Term>
               </h3>
               <Clock className="w-4 h-4 text-(--light)" />
             </div>
@@ -359,7 +360,7 @@ export default function StudentWorkspace({
             >
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-(--light)" />
-                <span>Historial de decisiones / Bitácora</span>
+                <span>Historial de decisiones / <Term id="bitacora">Bitácora</Term></span>
               </div>
               <ChevronRight className="w-4 h-4 text-(--light)" />
             </button>

@@ -397,3 +397,24 @@ escondido en un desplegable.
 **Cómo comprobarlo.** Abrir la demo en una ventana privada (o tras ↺ *Reiniciar demo*): aparece la
 pantalla de bienvenida. *Entrar como tutor* lleva a la bandeja. *¿Cómo funciona?* en la barra lateral
 vuelve a mostrarla.
+
+### 3.2 Glosario y ayudas de términos — `feat/glosario-y-ayudas-de-terminos`
+
+**Problema.** La interfaz usa términos propios (Gate 0, Fase 0, evidencia, bitácora, compromiso,
+"Cambios solicitados", riesgo) sin explicarlos. El panel *Ayuda contextual* mostraba una lista técnica
+("Cálculo exacto: (etapas aprobadas / 6) × 100", "Trazabilidad inmutable") pensada para desarrolladores.
+
+**Cambio.**
+- Nuevo `src/data/glossary.js` con 11 definiciones cortas en lenguaje simple.
+- Nuevo componente `src/components/Term.jsx`: la palabra aparece con subrayado punteado y, al pasar el
+  cursor **o al enfocarla con el teclado**, muestra la definición en un recuadro azul marino.
+  Se usa en *Gate 0* (tutor), *Evidencia*, *compromiso* y *Bitácora* (estudiante) y *riesgo* (coordinación).
+- `StatusBadge`: cada pastilla de estado o de riesgo muestra su significado al pasar el cursor.
+- *Ayuda contextual* (barra lateral) ahora muestra el **glosario completo**.
+
+**Archivos.** `src/data/glossary.js` (nuevo), `src/components/Term.jsx` (nuevo), `src/components/StatusBadge.jsx`,
+`src/components/layout/AdaptiveContextPanel.jsx`, `src/features/tutor/TutorWorkspace.jsx`,
+`src/features/student/StudentWorkspace.jsx`, `src/features/admin/AdminWorkspace.jsx`.
+
+**Cómo comprobarlo.** Rol *Tutor*: pasar el cursor sobre "Gate 0" en *Auditoría Gate 0*. Pasar el cursor
+sobre cualquier pastilla ("En revisión", "Riesgo Alto"). Barra lateral → *Ayuda contextual* → glosario.

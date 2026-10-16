@@ -1,4 +1,5 @@
 import React from 'react';
+import { GLOSSARY } from '../data/glossary.js';
 
 /**
  * StatusBadge — Insignia visual unificada con contrastes WCAG 2.2 AA auditados
@@ -8,7 +9,26 @@ import React from 'react';
  * - Cambios solicitados: --red / --red-bg (6.01:1)
  * - Pendiente / Bloqueado: --pending / --pending-bg
  */
-export default function StatusBadge({ type = 'stage', value, className = '' }) {
+export default function StatusBadge(props) {
+  // Fase 3: cada pastilla muestra su significado al pasar el cursor (glosario).
+  const hint = props.type === 'risk'
+    ? GLOSSARY.riesgo.definition
+    : (GLOSSARY[STATUS_KEYS[props.value]]?.definition);
+  return (
+    <span title={hint} className="inline-flex">
+      <BadgeBody {...props} />
+    </span>
+  );
+}
+
+const STATUS_KEYS = {
+  aprobado: 'aprobado', Aprobado: 'aprobado',
+  en_revision: 'en_revision', 'En revisión': 'en_revision',
+  observado: 'observado', 'Cambios solicitados': 'observado',
+  pendiente: 'pendiente', Pendiente: 'pendiente'
+};
+
+function BadgeBody({ type = 'stage', value, className = '' }) {
   if (type === 'stage') {
     switch (value) {
       case 'aprobado':
