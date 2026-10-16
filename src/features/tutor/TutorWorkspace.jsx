@@ -14,7 +14,8 @@ export default function TutorWorkspace({
   gate0Analysis,
   onToggleGateItem,
   onOpenDrawer,
-  tutorName = 'Carlos G.'
+  tutorName = 'Carlos G.',
+  stageActions
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('Evidencia'); // 'Evidencia' | 'Criterios' | 'Observaciones' | 'Historial'
@@ -322,13 +323,15 @@ export default function TutorWorkspace({
               <div className="space-y-3">
                 <div className="flex justify-between items-center pb-2 border-b border-[#E8E1D5]">
                   <strong className="text-xs text-[#1C1917]">Historial de Observaciones</strong>
-                  <button
-                    type="button"
-                    onClick={() => onOpenDrawer('Solicitar cambios')}
-                    className="text-[11px] font-bold text-[#6E432F] hover:underline"
-                  >
-                    + Registrar nueva observación
-                  </button>
+                  {stageActions?.requestChanges.allowed && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenDrawer('Solicitar cambios')}
+                      className="text-[11px] font-bold text-[#6E432F] hover:underline"
+                    >
+                      + Registrar nueva observación
+                    </button>
+                  )}
                 </div>
 
                 <div className="space-y-2 max-h-[360px] overflow-y-auto">
@@ -367,10 +370,18 @@ export default function TutorWorkspace({
 
           {/* Fixed Review Decision Buttons */}
           <div className="pt-4 border-t border-[#E8E1D5] flex flex-wrap items-center justify-end gap-3 mt-auto">
+            {/* Motivo visible cuando una acción está bloqueada por las reglas de stageMachine.js */}
+            {stageActions && !stageActions.approve.allowed && (
+              <p className="text-[11px] text-[#8A4B08] mr-auto" role="note">
+                {stageActions.approve.reason}
+              </p>
+            )}
             <button
               type="button"
               onClick={() => onOpenDrawer('Solicitar cambios')}
-              className="px-4 py-2 text-xs font-bold rounded-xl bg-white text-[#6E432F] hover:bg-[#FCF7F1] border border-[#DACABD] transition-colors shadow-xs"
+              disabled={!stageActions?.requestChanges.allowed}
+              title={stageActions?.requestChanges.reason}
+              className="px-4 py-2 text-xs font-bold rounded-xl bg-white text-[#6E432F] hover:bg-[#FCF7F1] border border-[#DACABD] transition-colors shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Solicitar cambios
             </button>
@@ -378,7 +389,9 @@ export default function TutorWorkspace({
             <button
               type="button"
               onClick={() => onOpenDrawer('Confirmar aprobación')}
-              className="px-4 py-2 text-xs font-bold rounded-xl bg-[#6E432F] text-white hover:bg-[#553323] transition-colors shadow-xs"
+              disabled={!stageActions?.approve.allowed}
+              title={stageActions?.approve.reason}
+              className="px-4 py-2 text-xs font-bold rounded-xl bg-[#6E432F] text-white hover:bg-[#553323] transition-colors shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Aprobar etapa
             </button>

@@ -11,7 +11,8 @@ export default function StudentWorkspace({
   activeStage,
   onSelectStage,
   onOpenDrawer,
-  onUploadEvidence
+  onUploadEvidence,
+  stageActions
 }) {
   const approvedCount = (project.stages || []).filter(s => s.status === 'aprobado').length;
   const progressPct = Math.round((approvedCount / 6) * 100);
@@ -202,15 +203,20 @@ export default function StudentWorkspace({
                     <FileText className="w-4 h-4" />
                     <span>Revisar observaciones</span>
                   </button>
-                ) : (
+                ) : stageActions?.upload.allowed ? (
                   <button
                     type="button"
                     onClick={onUploadEvidence}
                     className="px-4 py-2 bg-[#6E432F] text-white text-xs font-bold rounded-xl hover:bg-[#553323] transition-colors shadow-xs flex items-center gap-1.5"
                   >
                     <Upload className="w-4 h-4" />
-                    <span>{activeStage.status === 'aprobado' ? 'Subir versión complementaria' : 'Subir nueva evidencia'}</span>
+                    <span>Subir nueva evidencia</span>
                   </button>
+                ) : (
+                  // Bloqueado por reglas de etapa (stageMachine.js): se explica en lugar de ocultar.
+                  <p className="text-[11px] text-[#8A4B08] self-center" role="note">
+                    {stageActions?.upload.reason}
+                  </p>
                 )}
 
                 {activeStage.id === 1 && (
