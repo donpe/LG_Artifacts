@@ -65,6 +65,13 @@ export default function StatusBadge({ type = 'stage', value, className = '' }) {
             <span>Riesgo Alto</span>
           </span>
         );
+      case 'Completado':
+        return (
+          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#EFF6FF] text-[#1D4ED8] border border-[#93C5FD]/60 ${className}`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8]"></span>
+            <span>Completado</span>
+          </span>
+        );
       case 'Medio':
         return (
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#FFFBEB] text-[#8A4B08] border border-[#FCD34D]/60 ${className}`}>

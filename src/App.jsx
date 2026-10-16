@@ -12,6 +12,7 @@ import TutorReviewModal from './features/review/TutorReviewModal.jsx';
 import { exportProjectToCSV, downloadCSV } from './domain/csvExporter.js';
 import { validateGate0 } from './domain/gate0Validator.js';
 import { getStageActions } from './domain/stageMachine.js';
+import { describeRisk } from './domain/progressCalculator.js';
 
 /**
  * App — Contenedor Principal de la Plataforma de Seguimiento Académico
@@ -26,7 +27,15 @@ export default function App() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // 2. Estado de proyectos y selección
-  const [projects, setProjects] = useState(PILOT_PROJECTS);
+  const [rawProjects, setProjects] = useState(PILOT_PROJECTS);
+  // El riesgo no se guarda: se calcula siempre a partir de etapas y compromisos (progressCalculator.js).
+  const projects = useMemo(
+    () => rawProjects.map(p => {
+      const risk = describeRisk(p);
+      return { ...p, riskLevel: risk.level, riskReason: risk.reason };
+    }),
+    [rawProjects]
+  );
   const [selectedProjectId, setSelectedProjectId] = useState('PRJ-01');
   const [activeStageId, setActiveStageId] = useState(1);
 
@@ -224,7 +233,6 @@ export default function App() {
         return {
           ...p,
           stages: updatedStages,
-          riskLevel: 'Medio',
           decisionLog: [newLog, ...(p.decisionLog || [])]
         };
       })
@@ -270,7 +278,6 @@ export default function App() {
         return {
           ...p,
           stages: updatedStages,
-          riskLevel: 'Bajo',
           decisionLog: [newLog, ...(p.decisionLog || [])]
         };
       })

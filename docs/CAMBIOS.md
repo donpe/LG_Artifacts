@@ -113,3 +113,31 @@ el filtro debe venir de la base de datos (las políticas RLS de Supabase ya est�
 
 **Cómo comprobarlo.** Rol *Tutor* → *Ver como: Dra. Sofía Mendoza*: la bandeja muestra 5 proyectos y el
 perfil de la barra lateral dice "Dra. Sofía Mendoza".
+
+### 1.4 Semáforo de riesgo calculado automáticamente — `feat/calcular-riesgo-automaticamente`
+
+**Problema.** El nivel de riesgo se guardaba como un dato fijo en cada proyecto y `App.jsx` lo
+sobrescribía a mano (`'Medio'` al observar, `'Bajo'` al aprobar). La función `calculateRiskLevel`
+existía, pero no se usaba. Además, el riesgo no se veía en la tabla de coordinación ni en la bandeja
+del tutor.
+
+**Cambio.**
+- Nueva `describeRisk()` en `src/domain/progressCalculator.js`, que devuelve el nivel **y el motivo**:
+  1. **Alto**: hay compromisos pendientes vencidos.
+  2. **Medio**: el tutor solicitó cambios (etapa observada).
+  3. **Completado**: las 6 etapas están aprobadas.
+  4. **Bajo**: avance sin alertas.
+- `calculateRiskLevel()` ahora usa `describeRisk()`. El vencido tiene prioridad sobre el observado.
+- `App.jsx` ya no guarda el riesgo: lo calcula para cada proyecto (`riskLevel`, `riskReason`).
+- El semáforo se ve en la tabla de coordinación, en la bandeja del tutor (solo si no es *Bajo*)
+  y en la ficha del panel lateral. El motivo aparece al pasar el cursor.
+- Nuevo estado visual *Completado* y su opción en el filtro de coordinación.
+- Pruebas nuevas en `tests/domain.test.mjs`.
+
+**Archivos.** `src/domain/progressCalculator.js`, `src/App.jsx`, `src/components/StatusBadge.jsx`,
+`src/features/admin/AdminWorkspace.jsx`, `src/features/tutor/TutorWorkspace.jsx`,
+`src/components/layout/AdaptiveContextPanel.jsx`, `tests/domain.test.mjs`.
+
+**Cómo comprobarlo.** Rol *Administrador*: la tabla muestra el riesgo de cada proyecto (el de Jorge
+Benavides aparece en *Medio*). Rol *Tutor*: al solicitar cambios en un proyecto, su riesgo pasa a *Medio*.
+Con los datos variados de la sección 1.6 aparecen también casos *Alto* y *Completado*.

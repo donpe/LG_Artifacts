@@ -41,6 +41,12 @@ console.log('     ✓ Progreso exacto validado para 0%, 17%, 50% y 100%.');
 // Test calculateRiskLevel
 assert.equal(calculateRiskLevel({ stages: [{ status: 'observado' }] }), 'Medio', 'Riesgo Medio si hay etapa observada');
 assert.equal(calculateRiskLevel({ stages: [{ status: 'aprobado' }], commitments: [] }), 'Completado', 'Riesgo Completado si todo aprobado');
+const overdueProject = {
+  stages: [{ status: 'observado' }],
+  commitments: [{ status: 'pendiente', dueDate: '2026-10-01', description: 'Entrega' }]
+};
+assert.equal(calculateRiskLevel(overdueProject, '2026-10-16'), 'Alto', 'Compromiso vencido tiene prioridad: riesgo Alto');
+assert.equal(calculateRiskLevel({ stages: [{ status: 'en_revision' }], commitments: [] }), 'Bajo', 'Sin alertas: riesgo Bajo');
 console.log('     ✓ Cálculo de nivel de riesgo validado.');
 
 // --- 2. Reglas de Máquina de Estados ---
