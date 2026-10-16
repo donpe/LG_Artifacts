@@ -1,5 +1,6 @@
 import React from 'react';
-import { Home, Layers, FileText, Clock, Inbox, Users, BarChart3, HelpCircle, Compass, Route } from 'lucide-react';
+import { HelpCircle, Compass, Route } from 'lucide-react';
+import { NAV_ITEMS } from '../../routing/navigation.js';
 
 /**
  * RoleSidebar — Barra lateral fija / off-canvas por rol.
@@ -18,26 +19,10 @@ export default function RoleSidebar({
   pendingReviewCount = 3,
   profileName
 }) {
-  const navConfigs = {
-    estudiante: [
-      { id: 'Mi proyecto', label: 'Mi proyecto', icon: Home },
-      { id: 'Etapas', label: 'Etapas', icon: Layers },
-      { id: 'Evidencias', label: 'Evidencias', icon: FileText },
-      { id: 'Bitácora', label: 'Bitácora', icon: Clock }
-    ],
-    tutor: [
-      { id: 'Pendientes de revisión', label: 'Pendientes de revisión', icon: Inbox, count: pendingReviewCount },
-      { id: 'Proyectos asignados', label: 'Proyectos asignados', icon: Layers },
-      { id: 'Seguimiento', label: 'Seguimiento', icon: Clock }
-    ],
-    admin: [
-      { id: 'Proyectos', label: 'Proyectos', icon: Layers },
-      { id: 'Asignaciones', label: 'Asignaciones', icon: Users },
-      { id: 'Seguimiento general', label: 'Seguimiento general', icon: BarChart3 }
-    ]
-  };
-
-  const currentNav = navConfigs[role] || navConfigs.estudiante;
+  const currentNav = (NAV_ITEMS[role] || NAV_ITEMS.estudiante).map(item => ({
+    ...item,
+    count: item.showPendingCount ? pendingReviewCount : undefined
+  }));
 
   const roleMeta = {
     estudiante: { initial: 'E', name: 'Estudiante demo', roleLabel: 'Modo demostración' },
