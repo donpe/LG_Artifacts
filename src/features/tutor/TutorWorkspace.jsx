@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Download } from 'lucide-react';
 import StatusBadge from '../../components/StatusBadge.jsx';
+import Term from '../../components/Term.jsx';
 import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
@@ -268,7 +269,7 @@ export default function TutorWorkspace({
                 {activeStage.id === 1 && (
                   <div className="p-4 bg-(--amber-bg) rounded-(--radius) border border-(--amber-line) space-y-2">
                     <div className="flex items-center justify-between">
-                      <strong className="text-xs text-(--amber)">Auditoría Gate 0 (14 Criterios)</strong>
+                      <strong className="text-xs text-(--amber)">Auditoría <Term id="gate0">Gate 0</Term> (14 criterios)</strong>
                       <span className="font-mono font-bold text-xs text-(--amber)">
                         {gate0Analysis.completedCount}/14 Conformes
                       </span>
@@ -293,7 +294,7 @@ export default function TutorWorkspace({
                 {activeStage.id === 1 ? (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between pb-2 border-b border-(--line)">
-                      <span className="font-bold text-xs text-(--ink)">Criterios Gate 0 (Etapa 1)</span>
+                      <span className="font-bold text-xs text-(--ink)">Criterios <Term id="gate0">Gate 0</Term> (Etapa 1)</span>
                       <button
                         type="button"
                         onClick={() => onOpenDrawer('Criterios Gate 0 (14)')}

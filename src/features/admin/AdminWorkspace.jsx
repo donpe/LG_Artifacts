@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Download, ArrowRight, BarChart3 } from 'lucide-react';
 import StatusBadge from '../../components/StatusBadge.jsx';
+import Term from '../../components/Term.jsx';
 import { getCurrentStage } from '../../domain/progressCalculator.js';
 
 /**
@@ -140,7 +141,7 @@ export default function AdminWorkspace({
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold text-(--muted) mb-1">Filtrar por Riesgo Académico:</label>
+            <label className="block text-[11px] font-bold text-(--muted) mb-1">Filtrar por <Term id="riesgo">riesgo</Term> académico:</label>
             <select
               value={riskFilter}
               onChange={(e) => setRiskFilter(e.target.value)}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { GLOSSARY } from '../../data/glossary.js';
 import StatusBadge from '../StatusBadge.jsx';
 
 /**
@@ -468,18 +469,18 @@ export default function AdaptiveContextPanel({
       <div className="space-y-3 text-xs text-(--muted) leading-relaxed">
         <h4 className="font-editorial font-bold text-base text-(--ink)">{title}</h4>
         <p>
-          Este panel contextual permite consultar especificaciones, bitácoras y realizar acciones de decisión académica sin perder de vista la evidencia central.
+          Términos que usa la plataforma. También puedes pasar el cursor sobre las palabras subrayadas
+          o sobre las pastillas de estado para ver su significado.
         </p>
-        <div className="p-3 bg-(--surface-subtle) rounded-(--radius) border border-(--line2) space-y-1">
-          <strong className="text-(--ink) block">Reglas Académicas Preservadas:</strong>
-          <ul className="list-disc list-inside space-y-0.5 text-[11px]">
-            <li>6 etapas académicas estrictas.</li>
-            <li>Gate 0 (14 criterios) verificado por tutor humano.</li>
-            <li>Fase 0 (17 actividades) guía metodológica.</li>
-            <li>Cálculo exacto: (etapas aprobadas / 6) &times; 100.</li>
-            <li>Trazabilidad inmutable de decisiones.</li>
-          </ul>
-        </div>
+        {/* Glosario completo (src/data/glossary.js) — Fase 3 */}
+        <dl className="divide-y divide-(--line) border border-(--line) rounded-(--radius) bg-white">
+          {Object.entries(GLOSSARY).map(([key, entry]) => (
+            <div key={key} className="p-3">
+              <dt className="font-bold text-(--brand) text-xs">{entry.term}</dt>
+              <dd className="text-[11px] text-(--muted) mt-0.5">{entry.definition}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     );
   };
