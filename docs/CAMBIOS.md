@@ -581,3 +581,36 @@ etapa 6), o un archivo inventado.
 `src/features/tutor/TutorWorkspace.jsx`, `tests/domain.test.mjs`.
 
 **Cómo comprobarlo.** Rol *Estudiante* → clic en la Etapa 6: *Evidencia actual* dice que aún no hay entregas.
+
+### 4.4 Rutas con dirección propia — `feat/rutas-con-direccion-propia`
+
+**Problema.** Toda la app vivía en una sola dirección. El botón *Atrás* del navegador sacaba de la app,
+no se podía compartir el enlace a un proyecto o etapa y al recargar se perdía el rol, el tutor simulado
+y el proyecto abierto (siempre volvía a *Tutor*).
+
+**Cambio.**
+- Nuevo `src/routing/hashRoute.js`: enrutador mínimo hecho a mano (sin librerías) con `parseHash`,
+  `buildHash` y el hook `useHashRoute()`. Formato de las direcciones:
+
+  | Ejemplo | Qué abre |
+  |---|---|
+  | `#/tutor/por-revisar?tutor=TUT-02&proyecto=PRJ-05` | Bandeja de la Dra. Elena Ramos con el proyecto de Diego Morales |
+  | `#/estudiante/mi-proyecto?proyecto=PRJ-01&etapa=3` | Vista del estudiante de Mateo Restrepo, mirando la Etapa 3 |
+  | `#/coordinacion/proyectos` | Tabla de la cohorte |
+
+  Se usa `#` porque GitHub Pages solo sirve archivos estáticos.
+- `App.jsx` ya no guarda en estado el rol, la sección, el tutor simulado, el proyecto ni la etapa: los
+  lee de la dirección. Cada acción (cambiar de rol, de proyecto, de etapa o de tutor) cambia la dirección.
+  Si falta un dato, se completa sin crear historial, para que la dirección siempre se pueda compartir.
+- Al cambiar de rol se mantiene el mismo proyecto (y el tutor simulado pasa a ser el de ese proyecto).
+- Nuevo `src/routing/navigation.js` con las opciones del menú por rol: una sola fuente para el menú y la
+  ruta de navegación de la cabecera.
+- La bienvenida no se muestra si se llega por un enlace directo a una pantalla.
+- Pruebas nuevas para leer y reconstruir direcciones.
+
+**Archivos.** `src/routing/hashRoute.js` (nuevo), `src/routing/navigation.js` (nuevo), `src/App.jsx`,
+`src/components/layout/RoleSidebar.jsx`, `tests/domain.test.mjs`.
+
+**Cómo comprobarlo.** Abrir `#/tutor/por-revisar?tutor=TUT-02&proyecto=PRJ-05`: aparece la Dra. Elena Ramos
+con el proyecto de Diego. Cambiar a *Estudiante*, hacer clic en una etapa y usar *Atrás* del navegador:
+se vuelve paso a paso. Recargar en cualquier punto mantiene la pantalla.

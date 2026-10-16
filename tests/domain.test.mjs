@@ -5,6 +5,7 @@ import { validateGate0 } from '../src/domain/gate0Validator.js';
 import { sanitizeCSVValue, exportProjectToCSV } from '../src/domain/csvExporter.js';
 import { PILOT_PROJECTS } from '../src/data/pilotData.js';
 import { getLatestEvidence } from '../src/domain/evidence.js';
+import { parseHash, buildHash } from '../src/routing/hashRoute.js';
 
 console.log('🧪 Iniciando pruebas unitarias de lógica de dominio (Academic Tracking)...');
 
@@ -163,5 +164,16 @@ const evs = [
 assert.equal(getLatestEvidence(evs, 1).id, 'b', 'Devuelve la entrega más reciente de la etapa');
 assert.equal(getLatestEvidence(evs, 6), null, 'Una etapa sin entregas no muestra evidencias de otra etapa');
 console.log('     ✓ Cada etapa muestra solo sus propias entregas.');
+
+// --- 7. Rutas con dirección propia (Fase 4) ---
+console.log('  7. Verificando rutas...');
+const r1 = parseHash('#/tutor/por-revisar?tutor=TUT-02&proyecto=PRJ-05&etapa=1');
+assert.deepEqual([r1.role, r1.section, r1.tutorId, r1.projectId, r1.stageId], ['tutor', 'por-revisar', 'TUT-02', 'PRJ-05', 1]);
+const r2 = parseHash('#/coordinacion/proyecto/bitacora?proyecto=PRJ-07');
+assert.deepEqual([r2.role, r2.section, r2.tab, r2.projectId], ['admin', 'proyecto', 'bitacora', 'PRJ-07']);
+assert.equal(buildHash(r2), '#/coordinacion/proyecto/bitacora?proyecto=PRJ-07', 'La dirección se reconstruye igual');
+assert.equal(parseHash('#/desconocido').role, 'tutor', 'Una dirección inválida vuelve a la ruta por defecto');
+assert.equal(parseHash('#/estudiante/etapas?etapa=9').stageId, undefined, 'Etapas fuera de 1..6 se ignoran');
+console.log('     ✓ Las direcciones se leen y se reconstruyen correctamente.');
 
 console.log('✅ TODAS LAS PRUEBAS UNITARIAS DE DOMINIO PASARON SATISFACTORIAMENTE (100% OK).\n');
