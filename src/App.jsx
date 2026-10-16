@@ -399,13 +399,14 @@ export default function App() {
         </main>
 
         {/* Pie de página institucional */}
-        <footer className="border-t border-(--line) bg-white py-4 px-6 text-center text-xs text-(--light)">
+        {/* Pie oscuro, como el sitio institucional (Fase 2) */}
+        <footer className="bg-(--footer-bg) py-5 px-6 text-center text-xs text-(--footer-ink)">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="font-editorial">
-              Plataforma de Seguimiento Académico &bull; <strong>LG Artifacts</strong>
+            <p>
+              Plataforma de Seguimiento Académico &bull; <strong className="text-white">LG Artifacts</strong>
             </p>
-            <p className="text-[11px] text-(--light)">
-              Diseño Academic Flow 2.0 &bull; Gate 0 (14 Criterios) &bull; 6 Etapas Académicas &bull; Español nativo
+            <p className="text-[11px]">
+              Prototipo de demostración con datos ficticios &bull; 6 etapas &bull; Gate 0 (14 criterios)
             </p>
           </div>
         </footer>

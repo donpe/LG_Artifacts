@@ -302,3 +302,25 @@ en 484 clases como `bg-[#6E432F]`, así que cambiar la identidad obligaba a toca
 
 **Cómo comprobarlo.** `npm run dev`: la app se ve en azul marino, blanco y grises, con títulos en Inter.
 Para probar otra paleta basta con editar `src/styles/tokens.css`.
+
+### 2.2 Barra lateral, cabecera y pie — `feat/barra-lateral-cabecera-y-pie-estilo-eafit`
+
+**Problema.** Con la paleta nueva, la estructura seguía con la apariencia anterior: barra lateral
+clara, cabecera translúcida y pie blanco con textos internos ("Diseño Academic Flow 2.0 · Español nativo")
+que no le dicen nada a un usuario.
+
+**Cambio.**
+- **Barra lateral** en azul marino (`--brand`) con texto blanco. La opción activa se marca con una
+  franja cian a la izquierda, como la navegación del sitio institucional. El contador de pendientes y
+  el avatar del perfil van en cian.
+- **Cabecera** blanca y sólida con una línea inferior azul marino (antes era translúcida).
+- **Pie de página** oscuro (`--footer-bg`) con un texto útil: "Prototipo de demostración con datos
+  ficticios · 6 etapas · Gate 0 (14 criterios)".
+
+**Pendiente de decisión.** El nombre y emblema ("LG · Academic Flow") se mantienen. Cambiarlos es una
+decisión del dueño del proyecto; no se debe usar el logo de EAFIT sin aprobación institucional.
+
+**Archivos.** `src/components/layout/RoleSidebar.jsx`, `src/components/layout/TopbarCompact.jsx`, `src/App.jsx`.
+
+**Cómo comprobarlo.** `npm run dev`: barra lateral azul marino con la opción activa marcada en cian,
+cabecera blanca con línea azul y pie oscuro.
