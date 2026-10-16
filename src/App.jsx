@@ -341,7 +341,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-(--bg) text-(--ink) flex font-sans antialiased selection:bg-(--accent-soft) selection:text-(--brand) overflow-x-hidden">
+    <div className="min-h-screen bg-(--bg) text-(--ink) flex font-sans antialiased selection:bg-(--accent-soft) selection:text-(--brand) overflow-x-clip">
       {/* Toast Notification Container */}
       {toastMessage && (
         <div
@@ -371,7 +371,7 @@ export default function App() {
       />
 
       {/* 2. Área de Trabajo Principal */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-clip">
         {/* Cabecera Superior Minimalista */}
         <TopbarCompact
           activeNav={activeNav}

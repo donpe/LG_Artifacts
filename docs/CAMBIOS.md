@@ -33,7 +33,8 @@ la rama `fase-N/...` queda lista para proponerse al repositorio original.
 | 1 · Victorias tempranas | Corregir lo que se ve roto en la demo y aplicar las reglas de negocio que ya existían | Lista para revisión |
 | 2 · Identidad EAFIT | Paleta, tipografía y estructura visual inspiradas en eafit.edu.co | Lista para revisión |
 | 3 · Que se entienda sola | Pantalla "¿Cómo funciona?", recorrido guiado, ayudas y mensajes claros | Lista para revisión |
-| 4 · Funcionalidad con valor | Compromisos, carga de archivos, tablero de coordinación, exportación por cohorte | Pendiente |
+| 4 · Navegación y estructura | Menú con una pantalla por opción, direcciones propias, ficha del proyecto como página y decisiones en ventana | En curso |
+| 5 · Funcionalidad con valor | Compromisos, carga de archivos, exportación por cohorte, Supabase con inicio de sesión | Pendiente |
 
 ---
 
@@ -510,3 +511,35 @@ Etapa 1 de Diego Morales (pasa a Etapa 2), el Dr. Carlos Gutiérrez solicita cam
   (`16/10/26, 16:08` frente a `16/10/2026 16:08`).
 - El recorrido no se abre solo para el rol inicial si se recarga la página sin pasar por la bienvenida
   (se puede abrir con *Ver recorrido*).
+
+---
+
+## Fase 4 · Navegación y estructura
+
+Rama de integración: `fase-4/navegacion-y-estructura` (parte de `fase-3/que-se-entienda-sola`).
+
+**Origen.** En la revisión de las fases 2 y 3 aparecieron estos problemas:
+- El menú lateral se cortaba al bajar y dejaba una franja gris debajo.
+- La mayoría de las opciones del menú no cambiaba la pantalla (*Etapas*, *Proyectos asignados*,
+  *Asignaciones*…).
+- El panel lateral ("medio pop-up") mezclaba 9 usos distintos: leer la ficha, la bitácora, los criterios,
+  aprobar, pedir cambios, subir archivos…
+
+**Regla de diseño adoptada.**
+
+| Tipo | Para qué | Ejemplos |
+|---|---|---|
+| **Página** | El trabajo principal: lo que se lee y se recorre | Ficha del proyecto, etapas, bitácora, tabla de la cohorte |
+| **Panel lateral** | Consultar algo rápido sin perder el lugar | Glosario, guía de Fase 0 |
+| **Ventana de confirmación** | Una decisión corta e importante | Aprobar etapa, solicitar cambios, subir entrega |
+
+### 4.1 El menú lateral se cortaba al bajar — `fix/menu-lateral-fijo-al-bajar`
+
+**Causa.** El menú usa `position: sticky` para quedarse fijo, pero el contenedor principal tenía
+`overflow-x-hidden`. Eso lo convierte en un contenedor con desplazamiento propio y anula el `sticky`:
+al bajar, el menú se iba con la página y debajo quedaba el fondo gris.
+
+**Cambio.** `overflow-x-hidden` → `overflow-x-clip` en `src/App.jsx`. Sigue evitando el desplazamiento
+horizontal, pero sin romper el menú fijo.
+
+**Cómo comprobarlo.** Bajar hasta el final de cualquier pantalla: el menú azul ocupa siempre toda la altura.
